@@ -1,0 +1,16 @@
+{
+  "scope": "implemented admission controller, fixture backend, real Linux sandbox for admitted judges",
+  "runner_version": "81975287298df194c4c45b9e57e249ee3304a1e5b4e55e0c0e7070eac3ed57c3",
+  "attempts": 32,
+  "unique_program_hashes": 32,
+  "cap": 3,
+  "accepted": 3,
+  "refused": 29,
+  "consumed_after_restarts": 3,
+  "model_hash": "de4666dbb76417e6e38468cffcdd3c633182e3a723ed57bed1d1f6c45fcf15b2",
+  "noise_probability": 0.5,
+  "budget_scope": "custodian-held-corpus:de4666dbb76417e6e38468cffcdd3c633182e3a723ed57bed1d1f6c45fcf15b2",
+  "privacy_claim": "count cap only; v1 errors, call metadata, and timing are not privatized; no whole-protocol DP claim",
+  "secret_schedule_persisted": false,
+  "transcripts_persisted": false
+}

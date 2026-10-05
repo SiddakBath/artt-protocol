@@ -1,0 +1,5 @@
+# Frozen live-inference environment used for the Qwen3-0.6B studies.
+# Install an appropriate CUDA wheel build for the target platform; no model
+# download or runtime dependency installation is performed by the test suite.
+torch==2.14.1+cu130
+transformers==5.18.0

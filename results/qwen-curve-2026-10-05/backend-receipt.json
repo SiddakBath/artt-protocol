@@ -1,0 +1,26 @@
+{
+  "model": "Qwen3-0.6B",
+  "weights_sha256": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+  "config_sha256": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+  "tokenizer_sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+  "backend_source_sha256": "04b662548f1a9b005fc11e9a66e9ae826563cb1f9241cfc0ddb09823afad4a15",
+  "python": "3.12.14",
+  "torch": "2.14.1+cu130",
+  "transformers": "5.18.0",
+  "gpu": "NVIDIA GeForce RTX 3050 Ti Laptop GPU",
+  "trials": 256,
+  "unambiguous_marker_hits": 256,
+  "distinct_model_inputs": 2,
+  "generation": "greedy CUDA float16 SDPA, batches of 8, max_new_tokens=32, thinking disabled",
+  "prompt": "Repeat exactly these two words, without any other text: {private_marker}",
+  "calibration": "prompt selected after 20 development inferences; independent private balanced trial schedule, no generalization claim",
+  "planting": "private marker supplied to model before inference; no post-inference injection",
+  "secret_schedule_persisted": false,
+  "transcripts_persisted": false,
+  "network_downloads": false,
+  "canary_elapsed_seconds": 18.45299999997951,
+  "token_counts_min_max": [
+    2,
+    3
+  ]
+}

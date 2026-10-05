@@ -1,0 +1,11 @@
+{
+  "command": "$REPO = (Resolve-Path .).Path; $WSL_REPO = wsl -d Ubuntu -- wslpath -a $REPO; wsl -d Ubuntu -- bash -lc \"cd '$WSL_REPO' && PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3 -m pytest -q -p no:cacheprovider\"",
+  "passed": 71,
+  "failed": 0,
+  "elapsed_seconds": 52.86,
+  "exit_code": 0,
+  "exact_summary": "71 passed in 52.86s",
+  "coverage": "Mandatory Linux namespace/seccomp integration, budgets, schemas, public logs, exact finite channels and feedback-dependent utility",
+  "no_weaker_fallback": true,
+  "receipt_scope": "Trusted local tool result; not independent attestation"
+}

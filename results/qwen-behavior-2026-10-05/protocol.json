@@ -1,0 +1,330 @@
+{
+  "model": "Qwen3-0.6B",
+  "n": 64,
+  "generation": "greedy CUDA float16 SDPA, batch 8, max_new_tokens=64, thinking disabled",
+  "primary_rubric": "the first standalone YES or NO token, case insensitive, must match the public arithmetic answer; no matching token scores zero",
+  "secondary_rubric": "strip whitespace and uppercase; whole answer must equal expected YES or NO",
+  "scope": "arithmetic accuracy and formatting; no alignment or judge validity claim",
+  "items": [
+    {
+      "id": 100,
+      "prompt": "Is 100 + 2 equal to 102? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 101,
+      "prompt": "Is 101 + 2 equal to 104? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 102,
+      "prompt": "Is 102 + 2 equal to 104? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 103,
+      "prompt": "Is 103 + 2 equal to 106? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 104,
+      "prompt": "Is 104 + 2 equal to 106? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 105,
+      "prompt": "Is 105 + 2 equal to 108? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 106,
+      "prompt": "Is 106 + 2 equal to 108? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 107,
+      "prompt": "Is 107 + 2 equal to 110? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 108,
+      "prompt": "Is 108 + 2 equal to 110? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 109,
+      "prompt": "Is 109 + 2 equal to 112? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 110,
+      "prompt": "Is 110 + 2 equal to 112? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 111,
+      "prompt": "Is 111 + 2 equal to 114? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 112,
+      "prompt": "Is 112 + 2 equal to 114? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 113,
+      "prompt": "Is 113 + 2 equal to 116? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 114,
+      "prompt": "Is 114 + 2 equal to 116? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 115,
+      "prompt": "Is 115 + 2 equal to 118? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 116,
+      "prompt": "Is 116 + 2 equal to 118? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 117,
+      "prompt": "Is 117 + 2 equal to 120? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 118,
+      "prompt": "Is 118 + 2 equal to 120? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 119,
+      "prompt": "Is 119 + 2 equal to 122? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 120,
+      "prompt": "Is 120 + 2 equal to 122? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 121,
+      "prompt": "Is 121 + 2 equal to 124? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 122,
+      "prompt": "Is 122 + 2 equal to 124? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 123,
+      "prompt": "Is 123 + 2 equal to 126? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 124,
+      "prompt": "Is 124 + 2 equal to 126? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 125,
+      "prompt": "Is 125 + 2 equal to 128? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 126,
+      "prompt": "Is 126 + 2 equal to 128? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 127,
+      "prompt": "Is 127 + 2 equal to 130? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 128,
+      "prompt": "Is 128 + 2 equal to 130? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 129,
+      "prompt": "Is 129 + 2 equal to 132? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 130,
+      "prompt": "Is 130 + 2 equal to 132? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 131,
+      "prompt": "Is 131 + 2 equal to 134? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 132,
+      "prompt": "Is 132 + 2 equal to 134? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 133,
+      "prompt": "Is 133 + 2 equal to 136? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 134,
+      "prompt": "Is 134 + 2 equal to 136? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 135,
+      "prompt": "Is 135 + 2 equal to 138? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 136,
+      "prompt": "Is 136 + 2 equal to 138? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 137,
+      "prompt": "Is 137 + 2 equal to 140? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 138,
+      "prompt": "Is 138 + 2 equal to 140? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 139,
+      "prompt": "Is 139 + 2 equal to 142? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 140,
+      "prompt": "Is 140 + 2 equal to 142? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 141,
+      "prompt": "Is 141 + 2 equal to 144? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 142,
+      "prompt": "Is 142 + 2 equal to 144? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 143,
+      "prompt": "Is 143 + 2 equal to 146? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 144,
+      "prompt": "Is 144 + 2 equal to 146? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 145,
+      "prompt": "Is 145 + 2 equal to 148? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 146,
+      "prompt": "Is 146 + 2 equal to 148? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 147,
+      "prompt": "Is 147 + 2 equal to 150? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 148,
+      "prompt": "Is 148 + 2 equal to 150? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 149,
+      "prompt": "Is 149 + 2 equal to 152? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 150,
+      "prompt": "Is 150 + 2 equal to 152? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 151,
+      "prompt": "Is 151 + 2 equal to 154? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 152,
+      "prompt": "Is 152 + 2 equal to 154? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 153,
+      "prompt": "Is 153 + 2 equal to 156? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 154,
+      "prompt": "Is 154 + 2 equal to 156? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 155,
+      "prompt": "Is 155 + 2 equal to 158? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 156,
+      "prompt": "Is 156 + 2 equal to 158? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 157,
+      "prompt": "Is 157 + 2 equal to 160? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 158,
+      "prompt": "Is 158 + 2 equal to 160? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 159,
+      "prompt": "Is 159 + 2 equal to 162? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 160,
+      "prompt": "Is 160 + 2 equal to 162? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 161,
+      "prompt": "Is 161 + 2 equal to 164? Begin your answer with YES or NO.",
+      "expected": "NO"
+    },
+    {
+      "id": 162,
+      "prompt": "Is 162 + 2 equal to 164? Begin your answer with YES or NO.",
+      "expected": "YES"
+    },
+    {
+      "id": 163,
+      "prompt": "Is 163 + 2 equal to 166? Begin your answer with YES or NO.",
+      "expected": "NO"
+    }
+  ]
+}

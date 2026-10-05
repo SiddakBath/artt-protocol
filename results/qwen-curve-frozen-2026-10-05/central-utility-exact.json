@@ -1,0 +1,190 @@
+{
+  "scope": "exact rational-coin sampled geometric kernel on frozen real-model correctness count; no additional model inferences or filed executions",
+  "permutation_invariance": "sum of independent identically sampled binary scores depends only on their count, not their positions",
+  "input_receipt_sha256": "bf2d97832323bf77e17362ca9aedb0c7e39e28397e638e55a68e46b35d89a6ea",
+  "kernel_source_sha256": "1fc92385b942e09139d914d45dd3d62a6b27f8816af4df2ef55fd8cbe9bf6ad1",
+  "n": 32,
+  "model_exact_answer_accuracy": 0.0,
+  "transcripts_persisted": false,
+  "randomness": "OS rational coins, independent replications; no persisted seeds",
+  "rows": [
+    {
+      "q": 0.125,
+      "alpha": 0.3333333333333333,
+      "filings": 1,
+      "replications": 4096,
+      "predicted_mse": 0.09375,
+      "observed_mse": 0.092987060546875,
+      "monte_carlo_standard_error": 0.0033875687969035606,
+      "difference_in_standard_errors": -0.2252174048309726,
+      "epsilon_total_per_answer": 0.22314355131420976
+    },
+    {
+      "q": 0.125,
+      "alpha": 0.3333333333333333,
+      "filings": 3,
+      "replications": 4096,
+      "predicted_mse": 0.03125,
+      "observed_mse": 0.032135009765625,
+      "monte_carlo_standard_error": 0.0009266036531358507,
+      "difference_in_standard_errors": 0.9551114574499173,
+      "epsilon_total_per_answer": 0.6694306539426294
+    },
+    {
+      "q": 0.125,
+      "alpha": 0.3333333333333333,
+      "filings": 9,
+      "replications": 4096,
+      "predicted_mse": 0.010416666666666666,
+      "observed_mse": 0.010568312656732253,
+      "monte_carlo_standard_error": 0.0002495415957337265,
+      "difference_in_standard_errors": 0.6076982461368939,
+      "epsilon_total_per_answer": 2.008291961827888
+    },
+    {
+      "q": 0.125,
+      "alpha": 0.3333333333333333,
+      "filings": 31,
+      "replications": 4096,
+      "predicted_mse": 0.0030241935483870967,
+      "observed_mse": 0.002985054198710653,
+      "monte_carlo_standard_error": 7.167436534886876e-05,
+      "difference_in_standard_errors": -0.5460717996725374,
+      "epsilon_total_per_answer": 6.917450090740503
+    },
+    {
+      "q": 0.25,
+      "alpha": 0.3333333333333333,
+      "filings": 1,
+      "replications": 4096,
+      "predicted_mse": 0.0234375,
+      "observed_mse": 0.0245513916015625,
+      "monte_carlo_standard_error": 0.0009408162871011827,
+      "difference_in_standard_errors": 1.1839629232978015,
+      "epsilon_total_per_answer": 0.4054651081081644
+    },
+    {
+      "q": 0.25,
+      "alpha": 0.3333333333333333,
+      "filings": 3,
+      "replications": 4096,
+      "predicted_mse": 0.0078125,
+      "observed_mse": 0.007756127251519097,
+      "monte_carlo_standard_error": 0.00021585970595092274,
+      "difference_in_standard_errors": -0.2611545690408738,
+      "epsilon_total_per_answer": 1.2163953243244932
+    },
+    {
+      "q": 0.25,
+      "alpha": 0.3333333333333333,
+      "filings": 9,
+      "replications": 4096,
+      "predicted_mse": 0.0026041666666666665,
+      "observed_mse": 0.0025396464783468365,
+      "monte_carlo_standard_error": 6.241728861836836e-05,
+      "difference_in_standard_errors": -1.0336909812651294,
+      "epsilon_total_per_answer": 3.6491859729734797
+    },
+    {
+      "q": 0.25,
+      "alpha": 0.3333333333333333,
+      "filings": 31,
+      "replications": 4096,
+      "predicted_mse": 0.0007560483870967742,
+      "observed_mse": 0.0007536508042159859,
+      "monte_carlo_standard_error": 1.6765584787610368e-05,
+      "difference_in_standard_errors": -0.1430062184624802,
+      "epsilon_total_per_answer": 12.569418351353097
+    },
+    {
+      "q": 0.5,
+      "alpha": 0.3333333333333333,
+      "filings": 1,
+      "replications": 4096,
+      "predicted_mse": 0.005859375,
+      "observed_mse": 0.005751609802246094,
+      "monte_carlo_standard_error": 0.00020044788625130672,
+      "difference_in_standard_errors": -0.5376220212110305,
+      "epsilon_total_per_answer": 0.6931471805599453
+    },
+    {
+      "q": 0.5,
+      "alpha": 0.3333333333333333,
+      "filings": 3,
+      "replications": 4096,
+      "predicted_mse": 0.001953125,
+      "observed_mse": 0.0019270579020182292,
+      "monte_carlo_standard_error": 5.267132189381876e-05,
+      "difference_in_standard_errors": -0.4949011538825621,
+      "epsilon_total_per_answer": 2.0794415416798357
+    },
+    {
+      "q": 0.5,
+      "alpha": 0.3333333333333333,
+      "filings": 9,
+      "replications": 4096,
+      "predicted_mse": 0.0006510416666666666,
+      "observed_mse": 0.0006422819914641204,
+      "monte_carlo_standard_error": 1.614956164883315e-05,
+      "difference_in_standard_errors": -0.5424094717257624,
+      "epsilon_total_per_answer": 6.238324625039508
+    },
+    {
+      "q": 0.5,
+      "alpha": 0.3333333333333333,
+      "filings": 31,
+      "replications": 4096,
+      "predicted_mse": 0.00018901209677419354,
+      "observed_mse": 0.00018543755474745546,
+      "monte_carlo_standard_error": 4.24557364223591e-06,
+      "difference_in_standard_errors": -0.8419455950964427,
+      "epsilon_total_per_answer": 21.487562597358306
+    },
+    {
+      "q": 1.0,
+      "alpha": 0.3333333333333333,
+      "filings": 1,
+      "replications": 4096,
+      "predicted_mse": 0.00146484375,
+      "observed_mse": 0.001428365707397461,
+      "monte_carlo_standard_error": 5.391253450964925e-05,
+      "difference_in_standard_errors": -0.676615242342395,
+      "epsilon_total_per_answer": 1.0986122886681098
+    },
+    {
+      "q": 1.0,
+      "alpha": 0.3333333333333333,
+      "filings": 3,
+      "replications": 4096,
+      "predicted_mse": 0.00048828125,
+      "observed_mse": 0.0004962285359700521,
+      "monte_carlo_standard_error": 1.4072729535748676e-05,
+      "difference_in_standard_errors": 0.5647295323813185,
+      "epsilon_total_per_answer": 3.295836866004329
+    },
+    {
+      "q": 1.0,
+      "alpha": 0.3333333333333333,
+      "filings": 9,
+      "replications": 4096,
+      "predicted_mse": 0.00016276041666666666,
+      "observed_mse": 0.0001610679390989704,
+      "monte_carlo_standard_error": 3.888276913213801e-06,
+      "difference_in_standard_errors": -0.4352770148506154,
+      "epsilon_total_per_answer": 9.887510598012987
+    },
+    {
+      "q": 1.0,
+      "alpha": 0.3333333333333333,
+      "filings": 31,
+      "replications": 4096,
+      "predicted_mse": 4.7253024193548386e-05,
+      "observed_mse": 4.777650307170062e-05,
+      "monte_carlo_standard_error": 1.1111826395145584e-06,
+      "difference_in_standard_errors": 0.4711006629665555,
+      "epsilon_total_per_answer": 34.056980948711406
+    }
+  ],
+  "privacy_scope": "ideal count output and hidden metadata; not v1 terminal/timing privacy",
+  "supersedes": "central-utility-kernel.json used finite-precision inverse-CDF noise and is only a development simulation"
+}

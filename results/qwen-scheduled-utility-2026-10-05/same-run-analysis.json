@@ -1,0 +1,68 @@
+{
+  "analysis_scope": "descriptive post-run contrast on the two preregistered public probe groups; primary utility is the all-item means",
+  "public_group_definition": "even index requests two words; odd index requests three words",
+  "same_256_honest_records": true,
+  "failures_excluded": false,
+  "group_sizes": [
+    128,
+    128
+  ],
+  "format_mean_estimates_unclipped": [
+    0.734375,
+    -0.0078125
+  ],
+  "format_mean_contrast": 0.7421875,
+  "contrast_noise_standard_error": 0.14433756729740643,
+  "normal_95_noise_interval": [
+    0.4592858680970834,
+    1.0250891319029165
+  ],
+  "confidence_scope": "independent categorical noise conditional on effective raw predicates, including defaults; normal approximation",
+  "source_freeze_verified": true,
+  "chains": [
+    {
+      "file": "abort-1.jsonl",
+      "entries": 256,
+      "sha256": "ac8bbb5d55f469a2cc7d5d059d277847bbadab719ecf808ac12422e04302ba34",
+      "last_entry_hash": "477cde03d1db685b08396baa66ebfd2cec7d1ae0787bd895a897f4f1f5ea497e"
+    },
+    {
+      "file": "abort-2.jsonl",
+      "entries": 256,
+      "sha256": "f92b1f752cd8c1cac3f51eb0bdbe513b968e2c22efa9ff7638757d089a8caef6",
+      "last_entry_hash": "827a516121be6b60c4984725de613725db677a685f0cee54b133f2360fe6542f"
+    },
+    {
+      "file": "budget-denials.jsonl",
+      "entries": 2,
+      "sha256": "a3e9c1f7ffd8fcbf999342553a25d3dda7eaf0c8ebeaf9871d3cb51aec3b38ca",
+      "last_entry_hash": "a06bbf93782c35b5d68f68652680fe79171ef8671374b6ff6e5b1ee826da0aec"
+    },
+    {
+      "file": "control-4.jsonl",
+      "entries": 256,
+      "sha256": "99a16589fe94212eb01556dad5d4dd6898e2e6d376e7e87fd6667821bf677092",
+      "last_entry_hash": "56e940c0ded99864cc2c6a8a3d6f3b6f3c00d5c61bd82650cadfb29ac23367e8"
+    },
+    {
+      "file": "honest-5.jsonl",
+      "entries": 256,
+      "sha256": "f5cb7e8d89c886d8807dcf871f2137030ab27a786bf0c22a1be24623cb49a0de",
+      "last_entry_hash": "5465d863ea6e08c559d03bab46d8ec05d7e58f751278133faad76085f63bc3da"
+    },
+    {
+      "file": "open-status.jsonl",
+      "entries": 256,
+      "sha256": "c05ac239734fc954d0384b892fd6c95a91775b39aacabf3ca90ed0e882b843cf",
+      "last_entry_hash": "677b27726986a5700f17ef433332a8d947efd4af99930bad03f66a0927ab9279"
+    },
+    {
+      "file": "timeout-3.jsonl",
+      "entries": 256,
+      "sha256": "8c5bf297bff4987b36aceed6a40ed73698a0e6c92d78b7292041a382084ddf17",
+      "last_entry_hash": "0421872b1bead649b2255d3adeb5ccd69c4e3d24dc76e05bd37eda0bb7aa8d2f"
+    }
+  ],
+  "total_entries": 1538,
+  "private_schedules_or_responses_written": false
+}

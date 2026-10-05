@@ -1,0 +1,252 @@
+{
+  "scope": "live Qwen inference after committed admission; mandatory Linux sandbox; whole-record fixed-slot v2 public interface",
+  "model": "Qwen3-0.6B",
+  "model_hash": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+  "runner_version": "2c04f9cfcb937186ae06aad2e89d5c41512547e588e49c109731e2a2f9bf4678",
+  "backend_receipt_hash": "82329c924fe899618940b65f8cd756e23423b7fcc8dd907ad886a6c677320f9d",
+  "trials_per_phase": 256,
+  "phases": [
+    {
+      "phase": "abort-1",
+      "trials": 256,
+      "public_released": 256,
+      "public_error_records": 0,
+      "status_decoder_correct": 128,
+      "status_decoder": "predeclared error=>1, otherwise=>0",
+      "score_decoder_correct": 125,
+      "score_recovery": 0.48828125,
+      "score_wilson_95": [
+        0.427675415913936,
+        0.549233593267042
+      ],
+      "score_decoder": "predeclared codeword 00 versus 11 likelihood vote, seed 7631 for ties",
+      "private_outcomes_for_synthetic_research_only": {
+        "timeout": 27,
+        "success": 113,
+        "runtime_exception": 116
+      },
+      "proposals_received_before_cutoff": 230,
+      "scheduled_period_seconds": 0.25,
+      "actual_publication_jitter_min_max_mean_seconds": [
+        0.003332263000004332,
+        0.3598081709999974,
+        0.05658496962890669
+      ],
+      "timing_classifier": {
+        "scope": "exploratory held-out classifier on actual OS publication jitter, not a proof of timing privacy",
+        "train": 128,
+        "test": 128,
+        "correct": 73,
+        "accuracy": 0.5703125,
+        "wilson_95": [
+          0.4837377469365458,
+          0.6527897223902828
+        ]
+      },
+      "log": "abort-1.jsonl",
+      "publisher_cpu": 0,
+      "worker_cpus": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "phase": "abort-2",
+      "trials": 256,
+      "public_released": 256,
+      "public_error_records": 0,
+      "status_decoder_correct": 128,
+      "status_decoder": "predeclared error=>1, otherwise=>0",
+      "score_decoder_correct": 132,
+      "score_recovery": 0.515625,
+      "score_wilson_95": [
+        0.4546277053336087,
+        0.5761602824250874
+      ],
+      "score_decoder": "predeclared codeword 00 versus 11 likelihood vote, seed 7631 for ties",
+      "private_outcomes_for_synthetic_research_only": {
+        "success": 128,
+        "runtime_exception": 128
+      },
+      "proposals_received_before_cutoff": 256,
+      "scheduled_period_seconds": 0.25,
+      "actual_publication_jitter_min_max_mean_seconds": [
+        0.003520368000010876,
+        0.24896201799998607,
+        0.014234280582030578
+      ],
+      "timing_classifier": {
+        "scope": "exploratory held-out classifier on actual OS publication jitter, not a proof of timing privacy",
+        "train": 128,
+        "test": 128,
+        "correct": 66,
+        "accuracy": 0.515625,
+        "wilson_95": [
+          0.42986091219393446,
+          0.6004785254342495
+        ]
+      },
+      "log": "abort-2.jsonl",
+      "publisher_cpu": 0,
+      "worker_cpus": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "phase": "timeout-3",
+      "trials": 256,
+      "public_released": 256,
+      "public_error_records": 0,
+      "status_decoder_correct": 128,
+      "status_decoder": "predeclared error=>1, otherwise=>0",
+      "score_decoder_correct": 130,
+      "score_recovery": 0.5078125,
+      "score_wilson_95": [
+        0.4469087669627319,
+        0.5684852269166163
+      ],
+      "score_decoder": "predeclared codeword 00 versus 11 likelihood vote, seed 7631 for ties",
+      "private_outcomes_for_synthetic_research_only": {
+        "success": 128,
+        "timeout": 128
+      },
+      "proposals_received_before_cutoff": 128,
+      "scheduled_period_seconds": 0.25,
+      "actual_publication_jitter_min_max_mean_seconds": [
+        0.0034529220000081295,
+        0.03852789799998391,
+        0.005801015578134949
+      ],
+      "timing_classifier": {
+        "scope": "exploratory held-out classifier on actual OS publication jitter, not a proof of timing privacy",
+        "train": 128,
+        "test": 128,
+        "correct": 61,
+        "accuracy": 0.4765625,
+        "wilson_95": [
+          0.3919872293426451,
+          0.5625036142150788
+        ]
+      },
+      "log": "timeout-3.jsonl",
+      "publisher_cpu": 0,
+      "worker_cpus": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "phase": "control-4",
+      "trials": 256,
+      "public_released": 256,
+      "public_error_records": 0,
+      "status_decoder_correct": 128,
+      "status_decoder": "predeclared error=>1, otherwise=>0",
+      "score_decoder_correct": 185,
+      "score_recovery": 0.72265625,
+      "score_wilson_95": [
+        0.6648301483971853,
+        0.7738986771642337
+      ],
+      "score_decoder": "predeclared codeword 00 versus 11 likelihood vote, seed 7631 for ties",
+      "private_outcomes_for_synthetic_research_only": {
+        "success": 256
+      },
+      "proposals_received_before_cutoff": 256,
+      "scheduled_period_seconds": 0.25,
+      "actual_publication_jitter_min_max_mean_seconds": [
+        0.0034722499999588763,
+        0.11793599999998605,
+        0.00884407374998153
+      ],
+      "timing_classifier": {
+        "scope": "exploratory held-out classifier on actual OS publication jitter, not a proof of timing privacy",
+        "train": 128,
+        "test": 128,
+        "correct": 67,
+        "accuracy": 0.5234375,
+        "wilson_95": [
+          0.43749638578492134,
+          0.6080127706573549
+        ]
+      },
+      "log": "control-4.jsonl",
+      "publisher_cpu": 0,
+      "worker_cpus": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    }
+  ],
+  "repeated_status_recovery": [
+    {
+      "filings_per_protected_item": 1,
+      "trials": 256,
+      "correct": 125,
+      "recovery": 0.48828125,
+      "wilson_95": [
+        0.427675415913936,
+        0.549233593267042
+      ],
+      "exact_theoretical_recovery": 0.5,
+      "proof": "successful raw 00 and fallback raw 00 induce identical independent kernels for any number of these filings"
+    },
+    {
+      "filings_per_protected_item": 2,
+      "trials": 256,
+      "correct": 137,
+      "recovery": 0.53515625,
+      "wilson_95": [
+        0.4739891850542932,
+        0.595283787402773
+      ],
+      "exact_theoretical_recovery": 0.5,
+      "proof": "successful raw 00 and fallback raw 00 induce identical independent kernels for any number of these filings"
+    },
+    {
+      "filings_per_protected_item": 3,
+      "trials": 256,
+      "correct": 136,
+      "recovery": 0.53125,
+      "wilson_95": [
+        0.47010954427831475,
+        0.5914664312390774
+      ],
+      "exact_theoretical_recovery": 0.5,
+      "proof": "successful raw 00 and fallback raw 00 induce identical independent kernels for any number of these filings"
+    }
+  ],
+  "status_corpus_admissions": 768,
+  "status_item_cap": 3,
+  "control_corpus_admissions": 256,
+  "item_cap_verified": true,
+  "epsilon_per_admitted_release": 2.1972245773362196,
+  "epsilon_per_status_item_three_filings_upper_bound": 6.591673732008658,
+  "positive_control_expected_optimal_recovery": 0.7222222222222222,
+  "claim": "pure DP for the declared fixed-slot public-record interface, conditioned on trusted isolation, publisher availability, clock and data-independent delivery; one protected canary context, maximum three admitted accesses",
+  "timing_limit": "real OS/fsync delivery jitter is measured, not proved secret-independent; raw physical timing and host side channels are outside that theorem",
+  "private_diagnostics": "only aggregate synthetic-ground-truth research results; service records contain no error, cutoff, call-count or jitter fields",
+  "secret_schedule_persisted": false,
+  "transcripts_persisted": false
+}

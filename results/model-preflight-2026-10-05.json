@@ -1,0 +1,25 @@
+{
+  "status": "offline-model-inference-verified",
+  "model": "Qwen3-0.6B",
+  "model_path": "$REPO/../research/adversarial-auditor-independence/models/Qwen3-0.6B",
+  "weights_sha256": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+  "config_sha256": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 3050 Ti Laptop GPU",
+  "python": "3.12.14",
+  "torch": "2.14.1+cu130",
+  "trials": 4,
+  "unambiguous_marker_hits": 0,
+  "ambiguous_or_missing": 4,
+  "new_token_counts": [
+    12,
+    13,
+    12,
+    13
+  ],
+  "elapsed_seconds": 26.889999999897555,
+  "generation": "greedy, max_new_tokens=48, enable_thinking=False; marker supplied before inference",
+  "scope": "trusted custodian backend preflight only, not a 256-trial curve or a judge sandbox evaluation",
+  "transcripts_persisted": false,
+  "network_downloads": false
+}

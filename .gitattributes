@@ -1,0 +1,6 @@
+/.build export-ignore
+
+# Results and archived snapshots contain hash-committed evidence.  Preserve
+# their bytes exactly across clones and git-archive extraction.
+/results/** -text
+/tests/vectors/minimal.tar -text

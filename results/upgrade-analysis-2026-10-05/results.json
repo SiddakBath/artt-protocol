@@ -1,0 +1,204 @@
+{
+  "runner_version": "5c1b8f4c50482f1cd326fdcb2c156e223412575b8d56088acc6d4e8504a686ba",
+  "model": "fixture for sandbox checks; exact noise-kernel analysis otherwise",
+  "variant_count": 32,
+  "unique_program_hashes": 32,
+  "unique_ast_hashes": 32,
+  "sandbox_runs": 64,
+  "program_hashes": [
+    "ddaf4d6c0bcda2f4ba2c8a1d904a0308c8014051593553a5663891a198c21747",
+    "276c532f0ee33c8c7b3effdd455d71b7e944729cd4e6b2c81b841a8f3059e8e9",
+    "17b28674dcae6813fcfff7158041168e8acfb119be81d9a560870ac6a1044709",
+    "35a6bfb289537aa902e73300e5c25512171f611ab8cb6948cc0970ed6d790f61",
+    "c155a40dc6ec0da5d76d742d30ef17578eedaedf6cd6aabd5336b91c16bccfc9",
+    "7affa70b0195ecc16cb58737f11dc53f3f978201888fe3954223710e822316eb",
+    "9eaa3b3b203519fabbf6f6d0b84133fad291e04b38bf853e70a4c46700522871",
+    "2469e1c1ed85435ad4e3adbe034f1d00fd065d31258bd2ad52f7c5c71092f0cf",
+    "afdc11755109b9eaf4d5ed0b85b4eebba7fe7970cbd73dc5a63b414bbdc49c2d",
+    "8f3d5097b837d5eb1f6947daf48c29942db0051c7c4173d880d7aa42956cc7f2",
+    "8aa223c4574c198972314c2eb64f5e329f668e642c95c28f68fe5a9d2dd50e62",
+    "fc77519a554429653aa1c3d216815e92b531bb069190dbfc01a31b59ce263ec4",
+    "1684fed2d35fe1558aca7dad67fe94a29cb1627387470bec2a5b37607e5752dd",
+    "4ec98328cf96f214455a95c663eaf49d48b9b016415d35571af45d8b416c6028",
+    "c905152c97bf68885025747b3956bd7a329df1ddbadbfe7231f18d4c4e90c790",
+    "46915358a0f2d2f720be3afbcd20710e71bc88b7a012ec38c0a7b86c592e91e7",
+    "5ace3f7c9715e752c2df3ac9e3e239e4d1761c45bfc3e3936d0051c678b7392a",
+    "dcf5d30eb740e2a6b2eaf45b4016ff619f27bc4f1a7505c65beb7fd9928065d7",
+    "81e54385463e74c9e04f63a5d2dff5243ba2626f0fcd3ca661c605c1fb264f73",
+    "85dc646ef8e4d2cf77852cace17b7dd423cec00e0f1e350e3beb7654920eb37e",
+    "87bc0f43e93dd6aa44a27ca089632a5be728195de6d95c4e19cb4a98856943ca",
+    "dca719d6f33c438ca9beb2377a1b0e7ce04203f5777f54f6da79e88d994db375",
+    "144cf5b0c5a1165c457b0adf89a7eac1bc77465f91d38876c26c28dedc7a44e2",
+    "b9942d87b3f133bf9f492289f22112a31a1dc5e763ee1058524faf023a9380df",
+    "e3b13a43155fc8d2f4d2a5a284fef42290a3f6154fd3019e361f13e30511c88a",
+    "d1f46efcb0f77137b3b467f542636f247b5967ad5a7fa61dd76f5c81fcba6e7a",
+    "7d20f3f62ef0b4ce35234a3e55370894893f5fb2a92def6a2311cbc313786e61",
+    "141d4b7fff7c42c7eb4ea49dd2fd46d034928c0da7c29a563b1f9bb25b443b40",
+    "398565244931cd98cc32acd79a94a26e993bdc550748e10924a732d516cce9d5",
+    "d80b0b019e0fd3281372289269c07de109667f222b5e30a297d0c5d4b909b260",
+    "ad7c2d71df194a61328a5d1ba1efdbc30d68611b13a3af6e0e732d8fa4bd2125",
+    "1cd62c825b61b6469db3713027238c3758b40ede4ee5403e0ba171fa94594e78"
+  ],
+  "noise_channel": [
+    {
+      "flip_probability": 0,
+      "axes": 1,
+      "capacity_bits_per_release": 2.0,
+      "maximal_leakage_bits_per_release": 2.0,
+      "epsilon_per_release": null,
+      "optimal_binary_accuracy": 1.0,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    },
+    {
+      "flip_probability": 0,
+      "axes": 2,
+      "capacity_bits_per_release": 4.0,
+      "maximal_leakage_bits_per_release": 4.0,
+      "epsilon_per_release": null,
+      "optimal_binary_accuracy": 1.0,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    },
+    {
+      "flip_probability": 0,
+      "axes": 4,
+      "capacity_bits_per_release": 8.0,
+      "maximal_leakage_bits_per_release": 8.0,
+      "epsilon_per_release": null,
+      "optimal_binary_accuracy": 1.0,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    },
+    {
+      "flip_probability": 0.25,
+      "axes": 1,
+      "capacity_bits_per_release": 0.792481250360578,
+      "maximal_leakage_bits_per_release": 1.584962500721156,
+      "epsilon_per_release": 2.1972245773362196,
+      "optimal_binary_accuracy": 0.8333333333333333,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    },
+    {
+      "flip_probability": 0.25,
+      "axes": 2,
+      "capacity_bits_per_release": 1.584962500721156,
+      "maximal_leakage_bits_per_release": 3.169925001442312,
+      "epsilon_per_release": 4.394449154672439,
+      "optimal_binary_accuracy": 0.8888888888888888,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    },
+    {
+      "flip_probability": 0.25,
+      "axes": 4,
+      "capacity_bits_per_release": 3.169925001442312,
+      "maximal_leakage_bits_per_release": 6.339850002884624,
+      "epsilon_per_release": 8.788898309344878,
+      "optimal_binary_accuracy": 0.9621913580246875,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    },
+    {
+      "flip_probability": 0.5,
+      "axes": 1,
+      "capacity_bits_per_release": 0.20751874963942196,
+      "maximal_leakage_bits_per_release": 1.0,
+      "epsilon_per_release": 1.0986122886681098,
+      "optimal_binary_accuracy": 0.6666666666666667,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    },
+    {
+      "flip_probability": 0.5,
+      "axes": 2,
+      "capacity_bits_per_release": 0.4150374992788439,
+      "maximal_leakage_bits_per_release": 2.0,
+      "epsilon_per_release": 2.1972245773362196,
+      "optimal_binary_accuracy": 0.7222222222222219,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    },
+    {
+      "flip_probability": 0.5,
+      "axes": 4,
+      "capacity_bits_per_release": 0.8300749985576878,
+      "maximal_leakage_bits_per_release": 4.0,
+      "epsilon_per_release": 4.394449154672439,
+      "optimal_binary_accuracy": 0.8024691358024698,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    },
+    {
+      "flip_probability": 0.75,
+      "axes": 1,
+      "capacity_bits_per_release": 0.0,
+      "maximal_leakage_bits_per_release": 0.0,
+      "epsilon_per_release": 0.0,
+      "optimal_binary_accuracy": 0.5,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    },
+    {
+      "flip_probability": 0.75,
+      "axes": 2,
+      "capacity_bits_per_release": 0.0,
+      "maximal_leakage_bits_per_release": 0.0,
+      "epsilon_per_release": 0.0,
+      "optimal_binary_accuracy": 0.5,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    },
+    {
+      "flip_probability": 0.75,
+      "axes": 4,
+      "capacity_bits_per_release": 0.0,
+      "maximal_leakage_bits_per_release": 0.0,
+      "epsilon_per_release": 0.0,
+      "optimal_binary_accuracy": 0.5,
+      "scope": "exact categorical channel, fixed metadata, no outcome or timing channel"
+    }
+  ],
+  "budget_comparison": [
+    {
+      "cap": 1,
+      "one_program_accepted": 1,
+      "per_program_aliases_accepted": 32,
+      "global_scope_aliases_accepted": 1,
+      "one_axis_global_scope_exact_recovery": 0.6666666666666666,
+      "two_axis_global_scope_exact_recovery": 0.7222222222222221,
+      "one_axis_alias_exact_recovery": 0.9926861689327473,
+      "two_axis_alias_exact_recovery": 0.9997265341885958,
+      "note": "counterfactual admission-policy calculation, not an implemented durable budget"
+    },
+    {
+      "cap": 3,
+      "one_program_accepted": 3,
+      "per_program_aliases_accepted": 96,
+      "global_scope_aliases_accepted": 3,
+      "one_axis_global_scope_exact_recovery": 0.7685185185185189,
+      "two_axis_global_scope_exact_recovery": 0.8525377229080943,
+      "one_axis_alias_exact_recovery": 0.9999885783453424,
+      "two_axis_alias_exact_recovery": 0.9999999989611996,
+      "note": "counterfactual admission-policy calculation, not an implemented durable budget"
+    },
+    {
+      "cap": 9,
+      "one_program_accepted": 9,
+      "per_program_aliases_accepted": 288,
+      "global_scope_aliases_accepted": 9,
+      "one_axis_global_scope_exact_recovery": 0.9010509941954962,
+      "two_axis_global_scope_exact_recovery": 0.9662201309182424,
+      "one_axis_alias_exact_recovery": 0.9999999999998757,
+      "two_axis_alias_exact_recovery": 0.9999999999996799,
+      "note": "counterfactual admission-policy calculation, not an implemented durable budget"
+    },
+    {
+      "cap": 31,
+      "one_program_accepted": 31,
+      "per_program_aliases_accepted": 992,
+      "global_scope_aliases_accepted": 31,
+      "one_axis_global_scope_exact_recovery": 0.9918659363650986,
+      "two_axis_global_scope_exact_recovery": 0.9996656350192483,
+      "one_axis_alias_exact_recovery": 0.9999999999994111,
+      "two_axis_alias_exact_recovery": 1.0,
+      "note": "counterfactual admission-policy calculation, not an implemented durable budget"
+    }
+  ],
+  "remaining_bypasses": [
+    "accepted-only caps do not charge failed secret-dependent runs",
+    "alternate ledgers or restored snapshots reset an unenforced counter",
+    "model revision hashes do not automatically identify a persistent secret across revisions"
+  ],
+  "not_claimed": "whole-public-protocol privacy or a production release budget"
+}

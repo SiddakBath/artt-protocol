@@ -1,0 +1,123 @@
+{
+  "runner_version": "81975287298df194c4c45b9e57e249ee3304a1e5b4e55e0c0e7070eac3ed57c3",
+  "scope": "actual mandatory Linux sandbox, fixture backend; constant v1c verdict; public terminal status is the attack",
+  "program_hash": "786858ea394e75ec8b3a2a50b4b67f57e0441db90cd1d50ab026f59e2080ccd8",
+  "model_hash": "de4666dbb76417e6e38468cffcdd3c633182e3a723ed57bed1d1f6c45fcf15b2",
+  "secret_schedule_persisted": false,
+  "transcripts_persisted": false,
+  "rows": [
+    {
+      "q": 1.0,
+      "trials": 256,
+      "correct": 256,
+      "recovery_rate": 1.0,
+      "wilson_95": [
+        0.9852156082782743,
+        1.0
+      ],
+      "theoretical_recovery": 1.0,
+      "accepted": 128,
+      "error": 128,
+      "log": "q-1.0.jsonl",
+      "pure_dp_epsilon": "infinite for any q>0: error has positive probability only for secret=1"
+    },
+    {
+      "q": 0.125,
+      "trials": 256,
+      "correct": 142,
+      "recovery_rate": 0.5546875,
+      "wilson_95": [
+        0.4934427673956734,
+        0.614315189759763
+      ],
+      "theoretical_recovery": 0.5625,
+      "accepted": 242,
+      "error": 14,
+      "log": "q-0.125.jsonl",
+      "pure_dp_epsilon": "infinite for any q>0: error has positive probability only for secret=1"
+    }
+  ],
+  "repeated_exact": [
+    {
+      "q": 0.125,
+      "filings": 1,
+      "recovery": 0.5625
+    },
+    {
+      "q": 0.125,
+      "filings": 3,
+      "recovery": 0.6650390625
+    },
+    {
+      "q": 0.125,
+      "filings": 9,
+      "recovery": 0.8496710993349552
+    },
+    {
+      "q": 0.125,
+      "filings": 31,
+      "recovery": 0.9920343788356096
+    },
+    {
+      "q": 0.25,
+      "filings": 1,
+      "recovery": 0.625
+    },
+    {
+      "q": 0.25,
+      "filings": 3,
+      "recovery": 0.7890625
+    },
+    {
+      "q": 0.25,
+      "filings": 9,
+      "recovery": 0.9624576568603516
+    },
+    {
+      "q": 0.25,
+      "filings": 31,
+      "recovery": 0.9999330317161862
+    },
+    {
+      "q": 0.5,
+      "filings": 1,
+      "recovery": 0.75
+    },
+    {
+      "q": 0.5,
+      "filings": 3,
+      "recovery": 0.9375
+    },
+    {
+      "q": 0.5,
+      "filings": 9,
+      "recovery": 0.9990234375
+    },
+    {
+      "q": 0.5,
+      "filings": 31,
+      "recovery": 0.9999999997671694
+    },
+    {
+      "q": 1,
+      "filings": 1,
+      "recovery": 1.0
+    },
+    {
+      "q": 1,
+      "filings": 3,
+      "recovery": 1.0
+    },
+    {
+      "q": 1,
+      "filings": 9,
+      "recovery": 1.0
+    },
+    {
+      "q": 1,
+      "filings": 31,
+      "recovery": 1.0
+    }
+  ],
+  "lesson": "hidden sampling lowers a single-run attack probability but cannot make an unnoised data-dependent status satisfy finite pure DP"
+}

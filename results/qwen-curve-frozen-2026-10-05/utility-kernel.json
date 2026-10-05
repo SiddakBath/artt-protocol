@@ -1,0 +1,315 @@
+{
+  "scope": "kernel simulation on frozen learned-model response correctness, not sandbox repetitions",
+  "items": [
+    {
+      "id": 0,
+      "prompt": "Answer with only YES or NO. Is 0 + 1 equal to 1?",
+      "expected": "YES"
+    },
+    {
+      "id": 1,
+      "prompt": "Answer with only YES or NO. Is 1 + 1 equal to 3?",
+      "expected": "NO"
+    },
+    {
+      "id": 2,
+      "prompt": "Answer with only YES or NO. Is 2 + 1 equal to 3?",
+      "expected": "YES"
+    },
+    {
+      "id": 3,
+      "prompt": "Answer with only YES or NO. Is 3 + 1 equal to 5?",
+      "expected": "NO"
+    },
+    {
+      "id": 4,
+      "prompt": "Answer with only YES or NO. Is 4 + 1 equal to 5?",
+      "expected": "YES"
+    },
+    {
+      "id": 5,
+      "prompt": "Answer with only YES or NO. Is 5 + 1 equal to 7?",
+      "expected": "NO"
+    },
+    {
+      "id": 6,
+      "prompt": "Answer with only YES or NO. Is 6 + 1 equal to 7?",
+      "expected": "YES"
+    },
+    {
+      "id": 7,
+      "prompt": "Answer with only YES or NO. Is 7 + 1 equal to 9?",
+      "expected": "NO"
+    },
+    {
+      "id": 8,
+      "prompt": "Answer with only YES or NO. Is 8 + 1 equal to 9?",
+      "expected": "YES"
+    },
+    {
+      "id": 9,
+      "prompt": "Answer with only YES or NO. Is 9 + 1 equal to 11?",
+      "expected": "NO"
+    },
+    {
+      "id": 10,
+      "prompt": "Answer with only YES or NO. Is 10 + 1 equal to 11?",
+      "expected": "YES"
+    },
+    {
+      "id": 11,
+      "prompt": "Answer with only YES or NO. Is 11 + 1 equal to 13?",
+      "expected": "NO"
+    },
+    {
+      "id": 12,
+      "prompt": "Answer with only YES or NO. Is 12 + 1 equal to 13?",
+      "expected": "YES"
+    },
+    {
+      "id": 13,
+      "prompt": "Answer with only YES or NO. Is 13 + 1 equal to 15?",
+      "expected": "NO"
+    },
+    {
+      "id": 14,
+      "prompt": "Answer with only YES or NO. Is 14 + 1 equal to 15?",
+      "expected": "YES"
+    },
+    {
+      "id": 15,
+      "prompt": "Answer with only YES or NO. Is 15 + 1 equal to 17?",
+      "expected": "NO"
+    },
+    {
+      "id": 16,
+      "prompt": "Answer with only YES or NO. Is 16 + 1 equal to 17?",
+      "expected": "YES"
+    },
+    {
+      "id": 17,
+      "prompt": "Answer with only YES or NO. Is 17 + 1 equal to 19?",
+      "expected": "NO"
+    },
+    {
+      "id": 18,
+      "prompt": "Answer with only YES or NO. Is 18 + 1 equal to 19?",
+      "expected": "YES"
+    },
+    {
+      "id": 19,
+      "prompt": "Answer with only YES or NO. Is 19 + 1 equal to 21?",
+      "expected": "NO"
+    },
+    {
+      "id": 20,
+      "prompt": "Answer with only YES or NO. Is 20 + 1 equal to 21?",
+      "expected": "YES"
+    },
+    {
+      "id": 21,
+      "prompt": "Answer with only YES or NO. Is 21 + 1 equal to 23?",
+      "expected": "NO"
+    },
+    {
+      "id": 22,
+      "prompt": "Answer with only YES or NO. Is 22 + 1 equal to 23?",
+      "expected": "YES"
+    },
+    {
+      "id": 23,
+      "prompt": "Answer with only YES or NO. Is 23 + 1 equal to 25?",
+      "expected": "NO"
+    },
+    {
+      "id": 24,
+      "prompt": "Answer with only YES or NO. Is 24 + 1 equal to 25?",
+      "expected": "YES"
+    },
+    {
+      "id": 25,
+      "prompt": "Answer with only YES or NO. Is 25 + 1 equal to 27?",
+      "expected": "NO"
+    },
+    {
+      "id": 26,
+      "prompt": "Answer with only YES or NO. Is 26 + 1 equal to 27?",
+      "expected": "YES"
+    },
+    {
+      "id": 27,
+      "prompt": "Answer with only YES or NO. Is 27 + 1 equal to 29?",
+      "expected": "NO"
+    },
+    {
+      "id": 28,
+      "prompt": "Answer with only YES or NO. Is 28 + 1 equal to 29?",
+      "expected": "YES"
+    },
+    {
+      "id": 29,
+      "prompt": "Answer with only YES or NO. Is 29 + 1 equal to 31?",
+      "expected": "NO"
+    },
+    {
+      "id": 30,
+      "prompt": "Answer with only YES or NO. Is 30 + 1 equal to 31?",
+      "expected": "YES"
+    },
+    {
+      "id": 31,
+      "prompt": "Answer with only YES or NO. Is 31 + 1 equal to 33?",
+      "expected": "NO"
+    }
+  ],
+  "rubric": "exact YES/NO match after strip and uppercase",
+  "n": 32,
+  "model_exact_answer_accuracy": 0.0,
+  "transcripts_persisted": false,
+  "rows": [
+    {
+      "q": 0.125,
+      "binary_flip_probability": 0.25,
+      "filings": 1,
+      "replications": 1024,
+      "observed_mse": 1.978759765625,
+      "monte_carlo_standard_error": 0.09151425691828519,
+      "predicted_mse": 1.9921875
+    },
+    {
+      "q": 0.125,
+      "binary_flip_probability": 0.25,
+      "filings": 3,
+      "replications": 1024,
+      "observed_mse": 0.6588270399305556,
+      "monte_carlo_standard_error": 0.029116662986068118,
+      "predicted_mse": 0.6640625
+    },
+    {
+      "q": 0.125,
+      "binary_flip_probability": 0.25,
+      "filings": 9,
+      "replications": 1024,
+      "observed_mse": 0.22957959587191354,
+      "monte_carlo_standard_error": 0.009051900354269386,
+      "predicted_mse": 0.22135416666666666
+    },
+    {
+      "q": 0.125,
+      "binary_flip_probability": 0.25,
+      "filings": 31,
+      "replications": 1024,
+      "observed_mse": 0.05852363260926119,
+      "monte_carlo_standard_error": 0.002776004840795409,
+      "predicted_mse": 0.06426411290322581
+    },
+    {
+      "q": 0.25,
+      "binary_flip_probability": 0.25,
+      "filings": 1,
+      "replications": 1024,
+      "observed_mse": 0.48187255859375,
+      "monte_carlo_standard_error": 0.020960580848988636,
+      "predicted_mse": 0.4921875
+    },
+    {
+      "q": 0.25,
+      "binary_flip_probability": 0.25,
+      "filings": 3,
+      "replications": 1024,
+      "observed_mse": 0.1485934787326389,
+      "monte_carlo_standard_error": 0.006792874818633382,
+      "predicted_mse": 0.1640625
+    },
+    {
+      "q": 0.25,
+      "binary_flip_probability": 0.25,
+      "filings": 9,
+      "replications": 1024,
+      "observed_mse": 0.056220160590277776,
+      "monte_carlo_standard_error": 0.002298286178636286,
+      "predicted_mse": 0.0546875
+    },
+    {
+      "q": 0.25,
+      "binary_flip_probability": 0.25,
+      "filings": 31,
+      "replications": 1024,
+      "observed_mse": 0.015345229070466964,
+      "monte_carlo_standard_error": 0.0006775746025402871,
+      "predicted_mse": 0.015877016129032258
+    },
+    {
+      "q": 0.5,
+      "binary_flip_probability": 0.25,
+      "filings": 1,
+      "replications": 1024,
+      "observed_mse": 0.11895751953125,
+      "monte_carlo_standard_error": 0.0054397309430092005,
+      "predicted_mse": 0.1171875
+    },
+    {
+      "q": 0.5,
+      "binary_flip_probability": 0.25,
+      "filings": 3,
+      "replications": 1024,
+      "observed_mse": 0.0404510498046875,
+      "monte_carlo_standard_error": 0.0017018488290714165,
+      "predicted_mse": 0.0390625
+    },
+    {
+      "q": 0.5,
+      "binary_flip_probability": 0.25,
+      "filings": 9,
+      "replications": 1024,
+      "observed_mse": 0.013081868489583334,
+      "monte_carlo_standard_error": 0.0005665583997122703,
+      "predicted_mse": 0.013020833333333334
+    },
+    {
+      "q": 0.5,
+      "binary_flip_probability": 0.25,
+      "filings": 31,
+      "replications": 1024,
+      "observed_mse": 0.003921159472351392,
+      "monte_carlo_standard_error": 0.00017531150404988702,
+      "predicted_mse": 0.003780241935483871
+    },
+    {
+      "q": 1.0,
+      "binary_flip_probability": 0.25,
+      "filings": 1,
+      "replications": 1024,
+      "observed_mse": 0.024181365966796875,
+      "monte_carlo_standard_error": 0.0011382433559551054,
+      "predicted_mse": 0.0234375
+    },
+    {
+      "q": 1.0,
+      "binary_flip_probability": 0.25,
+      "filings": 3,
+      "replications": 1024,
+      "observed_mse": 0.008054097493489584,
+      "monte_carlo_standard_error": 0.00033684881182871395,
+      "predicted_mse": 0.0078125
+    },
+    {
+      "q": 1.0,
+      "binary_flip_probability": 0.25,
+      "filings": 9,
+      "replications": 1024,
+      "observed_mse": 0.002869829719449267,
+      "monte_carlo_standard_error": 0.00012914398999625107,
+      "predicted_mse": 0.0026041666666666665
+    },
+    {
+      "q": 1.0,
+      "binary_flip_probability": 0.25,
+      "filings": 31,
+      "replications": 1024,
+      "observed_mse": 0.0008204576252154332,
+      "monte_carlo_standard_error": 3.526921203013218e-05,
+      "predicted_mse": 0.0007560483870967742
+    }
+  ]
+}

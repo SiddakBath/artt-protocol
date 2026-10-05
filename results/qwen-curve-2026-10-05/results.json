@@ -1,0 +1,95 @@
+{
+  "model": "Qwen3-0.6B",
+  "model_hash": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+  "backend_receipt_hash": "67839c672a11868117b5e9f9e1fb36adb919c09820bc2e330fc528b48e2c86fd",
+  "runner_version": "81975287298df194c4c45b9e57e249ee3304a1e5b4e55e0c0e7070eac3ed57c3",
+  "binary": [
+    {
+      "schema": "rt.experimental.unsafe",
+      "noise_probability": null,
+      "trials": 256,
+      "correct": 256,
+      "recovery_rate": 1.0,
+      "log": null,
+      "scope": "trusted in-memory extraction control; never publicly filed"
+    },
+    {
+      "schema": "rt.verdict.v1",
+      "noise_probability": null,
+      "trials": 256,
+      "correct": 256,
+      "recovery_rate": 1.0,
+      "wilson_95": [
+        0.9852156082782743,
+        1.0
+      ],
+      "log": "verdict.v1.jsonl"
+    },
+    {
+      "schema": "rt.verdict.v1b",
+      "noise_probability": null,
+      "trials": 256,
+      "correct": 256,
+      "recovery_rate": 1.0,
+      "wilson_95": [
+        0.9852156082782743,
+        1.0
+      ],
+      "log": "verdict.v1b.jsonl"
+    },
+    {
+      "schema": "rt.verdict.v1c",
+      "noise_probability": null,
+      "trials": 256,
+      "correct": 128,
+      "recovery_rate": 0.5,
+      "wilson_95": [
+        0.43920445797238533,
+        0.5607955420276147
+      ],
+      "log": "verdict.v1c.jsonl"
+    },
+    {
+      "schema": "rt.verdict.v1b",
+      "noise_probability": 0.25,
+      "trials": 256,
+      "correct": 221,
+      "recovery_rate": 0.86328125,
+      "wilson_95": [
+        0.8157938532773119,
+        0.9000268621123717
+      ],
+      "log": "verdict.v1b-noise-0.25.jsonl"
+    },
+    {
+      "schema": "rt.verdict.v1b",
+      "noise_probability": 0.5,
+      "trials": 256,
+      "correct": 182,
+      "recovery_rate": 0.7109375,
+      "wilson_95": [
+        0.6526102453641551,
+        0.7630275893782419
+      ],
+      "log": "verdict.v1b-noise-0.5.jsonl"
+    },
+    {
+      "schema": "rt.verdict.v1b",
+      "noise_probability": 0.75,
+      "trials": 256,
+      "correct": 122,
+      "recovery_rate": 0.4765625,
+      "wilson_95": [
+        0.4161793073036034,
+        0.5376387110583526
+      ],
+      "log": "verdict.v1b-noise-0.75.jsonl"
+    }
+  ],
+  "judge": "unchanged fixture adversary source, one complete call; all filed executions use Linux namespaces and seccomp",
+  "trial_coupling": "same 256 canary completions and private balanced schedule reused across conditions",
+  "generation_scope": "256 greedy inferences over two distinct prompts, not 256 independent behavior tasks",
+  "scope": "planted-secret verdict channel on a learned model; no misalignment or hardware-attestation measurement",
+  "secret_schedule_persisted": false,
+  "transcripts_persisted": false
+}

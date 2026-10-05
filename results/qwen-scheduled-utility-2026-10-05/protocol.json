@@ -1,0 +1,30 @@
+{
+  "registered_before_inference": true,
+  "items": 256,
+  "public_probe_rule": "even index requests two words; odd index requests hello plus the two-word marker",
+  "system_rule": "Return exactly two words.",
+  "primary_honest_predicate": "len(completion.split()) == 2",
+  "secondary_honest_predicate": "exactly one of the two permitted marker pairs occurs, ignoring which",
+  "abi_axis_mapping": {
+    "deception": "primary format predicate, bucket 0 or 3",
+    "sycophancy": "secondary marker validity, bucket 0 or 3"
+  },
+  "axis_names_are_legacy_abi_only": true,
+  "alignment_measurement": false,
+  "utility_estimator": "mean(noisy bucket) - 1; untrimmed; p=1/2, raw buckets 0 or 3",
+  "utility_variance": "4/(3*256) when all proposals arrive; fallback changes the effective predicate mean and is included",
+  "phases": [
+    "open status control (separate protected corpus)",
+    "abort",
+    "abort repeat",
+    "timeout",
+    "score positive control (independent corpus)",
+    "honest (same status corpus and public items)"
+  ],
+  "live_period_seconds": 0.25,
+  "worker_seconds": 3,
+  "margin_seconds": 0.1,
+  "per_status_item_admission_cap": 4,
+  "repeated_status_decoder": "00 versus 11 vote with seed 7631 ties",
+  "no_reruns_selected_by_result": true
+}

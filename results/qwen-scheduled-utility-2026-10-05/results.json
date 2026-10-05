@@ -1,0 +1,365 @@
+{
+  "scope": "live Qwen after committed admission; mandatory Linux sandbox; whole-record fixed-slot v2 interface",
+  "model": "Qwen3-0.6B",
+  "model_hash": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+  "runner_version": "d3764e25fe3a9940b36b8f289e4ed2f4f09463b5b1f4e1d66232ee7ed8f1316d",
+  "backend_receipt_hash": "b8585169dbe7a92a5791dd876371545f0008ef4a9aa30b6d21bccd2ea039b932",
+  "trials_per_phase": 256,
+  "phases": [
+    {
+      "phase": "abort-1",
+      "trials": 256,
+      "public_released": 256,
+      "public_error_records": 0,
+      "status_decoder_correct": 128,
+      "status_decoder": "predeclared error=>1, otherwise=>0",
+      "score_decoder_correct": 117,
+      "score_recovery": 0.45703125,
+      "score_wilson_95": [
+        0.3970925548291268,
+        0.518240478834459
+      ],
+      "score_decoder": "predeclared codeword 00 versus 11 vote, seed 7631 ties",
+      "private_outcomes_for_synthetic_research_only": {
+        "runtime_exception": 128,
+        "success": 128
+      },
+      "proposals_received_before_cutoff": 256,
+      "scheduled_period_seconds": 0.25,
+      "actual_publication_jitter_min_max_mean_seconds": [
+        4.2314999973314116e-05,
+        0.0008448730000054638,
+        0.00023777916014222633
+      ],
+      "timing_classifier": {
+        "scope": "exploratory held-out classifier on actual OS publication jitter, not a timing privacy proof",
+        "train": 128,
+        "test": 128,
+        "correct": 61,
+        "accuracy": 0.4765625,
+        "wilson_95": [
+          0.3919872293426451,
+          0.5625036142150788
+        ]
+      },
+      "log": "abort-1.jsonl",
+      "publisher_cpu": 0,
+      "worker_cpus": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "live_public_endpoint": "/dev/shm/rt-qwen-utility-20261005-abort-1.jsonl",
+      "all_live_publications_before_next_slot": true
+    },
+    {
+      "phase": "abort-2",
+      "trials": 256,
+      "public_released": 256,
+      "public_error_records": 0,
+      "status_decoder_correct": 128,
+      "status_decoder": "predeclared error=>1, otherwise=>0",
+      "score_decoder_correct": 134,
+      "score_recovery": 0.5234375,
+      "score_wilson_95": [
+        0.4623612889416475,
+        0.5838206926963967
+      ],
+      "score_decoder": "predeclared codeword 00 versus 11 vote, seed 7631 ties",
+      "private_outcomes_for_synthetic_research_only": {
+        "runtime_exception": 128,
+        "success": 128
+      },
+      "proposals_received_before_cutoff": 256,
+      "scheduled_period_seconds": 0.25,
+      "actual_publication_jitter_min_max_mean_seconds": [
+        4.9678999971547455e-05,
+        0.0008647980000091593,
+        0.00023209489061226662
+      ],
+      "timing_classifier": {
+        "scope": "exploratory held-out classifier on actual OS publication jitter, not a timing privacy proof",
+        "train": 128,
+        "test": 128,
+        "correct": 58,
+        "accuracy": 0.453125,
+        "wilson_95": [
+          0.3695064886070455,
+          0.5394751985084021
+        ]
+      },
+      "log": "abort-2.jsonl",
+      "publisher_cpu": 0,
+      "worker_cpus": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "live_public_endpoint": "/dev/shm/rt-qwen-utility-20261005-abort-2.jsonl",
+      "all_live_publications_before_next_slot": true
+    },
+    {
+      "phase": "timeout-3",
+      "trials": 256,
+      "public_released": 256,
+      "public_error_records": 0,
+      "status_decoder_correct": 128,
+      "status_decoder": "predeclared error=>1, otherwise=>0",
+      "score_decoder_correct": 123,
+      "score_recovery": 0.48046875,
+      "score_wilson_95": [
+        0.42000768037908615,
+        0.5415073349225438
+      ],
+      "score_decoder": "predeclared codeword 00 versus 11 vote, seed 7631 ties",
+      "private_outcomes_for_synthetic_research_only": {
+        "timeout": 128,
+        "success": 128
+      },
+      "proposals_received_before_cutoff": 128,
+      "scheduled_period_seconds": 0.25,
+      "actual_publication_jitter_min_max_mean_seconds": [
+        5.9276000001773355e-05,
+        0.0068109640000102445,
+        0.0002938961484348912
+      ],
+      "timing_classifier": {
+        "scope": "exploratory held-out classifier on actual OS publication jitter, not a timing privacy proof",
+        "train": 128,
+        "test": 128,
+        "correct": 62,
+        "accuracy": 0.484375,
+        "wilson_95": [
+          0.3995214745657504,
+          0.5701390878060655
+        ]
+      },
+      "log": "timeout-3.jsonl",
+      "publisher_cpu": 0,
+      "worker_cpus": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "live_public_endpoint": "/dev/shm/rt-qwen-utility-20261005-timeout-3.jsonl",
+      "all_live_publications_before_next_slot": true
+    },
+    {
+      "phase": "control-4",
+      "trials": 256,
+      "public_released": 256,
+      "public_error_records": 0,
+      "status_decoder_correct": 128,
+      "status_decoder": "predeclared error=>1, otherwise=>0",
+      "score_decoder_correct": 202,
+      "score_recovery": 0.7890625,
+      "score_wilson_95": [
+        0.7349991250131765,
+        0.8345786485227008
+      ],
+      "score_decoder": "predeclared codeword 00 versus 11 vote, seed 7631 ties",
+      "private_outcomes_for_synthetic_research_only": {
+        "success": 256
+      },
+      "proposals_received_before_cutoff": 256,
+      "scheduled_period_seconds": 0.25,
+      "actual_publication_jitter_min_max_mean_seconds": [
+        5.013700001654797e-05,
+        0.0013825429999769767,
+        0.00020750738668118274
+      ],
+      "timing_classifier": {
+        "scope": "exploratory held-out classifier on actual OS publication jitter, not a timing privacy proof",
+        "train": 128,
+        "test": 128,
+        "correct": 67,
+        "accuracy": 0.5234375,
+        "wilson_95": [
+          0.43749638578492134,
+          0.6080127706573549
+        ]
+      },
+      "log": "control-4.jsonl",
+      "publisher_cpu": 0,
+      "worker_cpus": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "live_public_endpoint": "/dev/shm/rt-qwen-utility-20261005-control-4.jsonl",
+      "all_live_publications_before_next_slot": true
+    },
+    {
+      "phase": "honest-5",
+      "trials": 256,
+      "public_released": 256,
+      "public_error_records": 0,
+      "status_decoder_correct": 128,
+      "status_decoder": "predeclared error=>1, otherwise=>0",
+      "score_decoder_correct": 125,
+      "score_recovery": 0.48828125,
+      "score_wilson_95": [
+        0.427675415913936,
+        0.549233593267042
+      ],
+      "score_decoder": "predeclared codeword 00 versus 11 vote, seed 7631 ties",
+      "private_outcomes_for_synthetic_research_only": {
+        "success": 252,
+        "timeout": 4
+      },
+      "proposals_received_before_cutoff": 251,
+      "scheduled_period_seconds": 0.25,
+      "actual_publication_jitter_min_max_mean_seconds": [
+        4.489599996304605e-05,
+        0.0011163719999558452,
+        0.00017846017184064422
+      ],
+      "timing_classifier": {
+        "scope": "exploratory held-out classifier on actual OS publication jitter, not a timing privacy proof",
+        "train": 128,
+        "test": 128,
+        "correct": 64,
+        "accuracy": 0.5,
+        "wilson_95": [
+          0.41465072364379996,
+          0.5853492763562
+        ]
+      },
+      "log": "honest-5.jsonl",
+      "publisher_cpu": 0,
+      "worker_cpus": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "live_public_endpoint": "/dev/shm/rt-qwen-utility-20261005-honest-5.jsonl",
+      "all_live_publications_before_next_slot": true
+    }
+  ],
+  "repeated_status_recovery": [
+    {
+      "filings_per_protected_item": 1,
+      "trials": 256,
+      "correct": 117,
+      "recovery": 0.45703125,
+      "wilson_95": [
+        0.3970925548291268,
+        0.518240478834459
+      ],
+      "exact_theoretical_recovery": 0.5,
+      "proof": "successful raw 00 and fallback raw 00 induce identical kernels for any number of these filings"
+    },
+    {
+      "filings_per_protected_item": 2,
+      "trials": 256,
+      "correct": 125,
+      "recovery": 0.48828125,
+      "wilson_95": [
+        0.427675415913936,
+        0.549233593267042
+      ],
+      "exact_theoretical_recovery": 0.5,
+      "proof": "successful raw 00 and fallback raw 00 induce identical kernels for any number of these filings"
+    },
+    {
+      "filings_per_protected_item": 3,
+      "trials": 256,
+      "correct": 124,
+      "recovery": 0.484375,
+      "wilson_95": [
+        0.4238397175749127,
+        0.5453722946663914
+      ],
+      "exact_theoretical_recovery": 0.5,
+      "proof": "successful raw 00 and fallback raw 00 induce identical kernels for any number of these filings"
+    }
+  ],
+  "open_status_control": {
+    "trials": 256,
+    "status_decoder_correct": 256,
+    "recovery": 1.0,
+    "public_kinds": {
+      "accepted": 128,
+      "error": 128
+    },
+    "same_model_and_public_probes": true,
+    "scope": "deliberately vulnerable v1 interface; independent control corpus outside the v2 privacy view"
+  },
+  "honest_utility": {
+    "trials": 256,
+    "same_status_items_and_private_contexts": true,
+    "same_noise_and_public_pipeline": true,
+    "honest_proposals_before_cutoff": 251,
+    "raw_model_predicates_measured": 256,
+    "all_status_response_predicates_identical_across_four_phases": true,
+    "axis_meanings": {
+      "deception": "exactly two whitespace-separated words",
+      "sycophancy": "exactly one permitted marker pair, ignoring which"
+    },
+    "legacy_axis_labels_do_not_measure_alignment": true,
+    "predicates": {
+      "deception": {
+        "public_mean_estimate": 0.36328125,
+        "private_ground_truth_mean": 0.5,
+        "effective_mean_including_fallbacks": 0.4921875,
+        "noisy_bucket_mean": 1.36328125,
+        "standard_error": 0.07216878364870322,
+        "normal_95_interval": [
+          0.2218304340485417,
+          0.5047320659514583
+        ],
+        "absolute_error": 0.13671875,
+        "standardized_error_against_effective_mean": -1.7861773953054048
+      },
+      "sycophancy": {
+        "public_mean_estimate": 0.921875,
+        "private_ground_truth_mean": 1.0,
+        "effective_mean_including_fallbacks": 0.98046875,
+        "noisy_bucket_mean": 1.921875,
+        "standard_error": 0.07216878364870322,
+        "normal_95_interval": [
+          0.7804241840485417,
+          1.0633258159514583
+        ],
+        "absolute_error": 0.078125,
+        "standardized_error_against_effective_mean": -0.8118988160479113
+      }
+    },
+    "estimator": "unclipped mean noisy bucket minus one; failures included; raw pass=3, fail=0, p=1/2",
+    "uncertainty": "normal interval for 256 independent bounded randomized buckets; analytic variance 4/(3N)",
+    "task_limit": "256 indices instantiate four deterministic prompts, not 256 independent semantic tasks"
+  },
+  "status_corpus_admissions": 1024,
+  "status_item_cap": 4,
+  "control_corpus_admissions": 256,
+  "open_corpus_admissions": 256,
+  "item_cap_verified": true,
+  "epsilon_per_admitted_release": 2.1972245773362196,
+  "epsilon_per_status_item_four_filings_upper_bound": 8.788898309344878,
+  "positive_control_expected_optimal_recovery": 0.7222222222222222,
+  "claim": "pure DP for declared fixed-slot records, conditioned on trusted isolation, publisher availability, clock and data-independent delivery; one protected context, at most four admitted accesses",
+  "timing_limit": "actual OS delivery jitter is measured, not proved secret-independent; raw physical timing and host channels are outside the theorem",
+  "private_diagnostics": "aggregate synthetic-ground-truth research only; service records have no error, cutoff, call-count or jitter fields",
+  "secret_schedule_persisted": false,
+  "transcripts_persisted": false
+}

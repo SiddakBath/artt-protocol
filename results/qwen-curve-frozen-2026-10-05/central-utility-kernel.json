@@ -1,0 +1,169 @@
+{
+  "scope": "actual sampled geometric kernel on 32 frozen learned-model correctness bits; no additional model inference or filed judge executions",
+  "n": 32,
+  "model_exact_answer_accuracy": 0.0,
+  "transcripts_persisted": false,
+  "randomness": "OS randomness, no persisted seed; analytical MSE is the reference",
+  "rows": [
+    {
+      "q": 0.125,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 1,
+      "replications": 2048,
+      "observed_mse": 0.095458984375,
+      "monte_carlo_standard_error": 0.004818554722641644,
+      "predicted_mse": 0.09375,
+      "epsilon_total_per_answer": 0.22314355131420976
+    },
+    {
+      "q": 0.125,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 3,
+      "replications": 2048,
+      "observed_mse": 0.030782063802083332,
+      "monte_carlo_standard_error": 0.001285611673221533,
+      "predicted_mse": 0.03125,
+      "epsilon_total_per_answer": 0.6694306539426294
+    },
+    {
+      "q": 0.125,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 9,
+      "replications": 2048,
+      "observed_mse": 0.01113062729070216,
+      "monte_carlo_standard_error": 0.000385144569234415,
+      "predicted_mse": 0.010416666666666666,
+      "epsilon_total_per_answer": 2.008291961827888
+    },
+    {
+      "q": 0.125,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 31,
+      "replications": 2048,
+      "observed_mse": 0.0030390871427061652,
+      "monte_carlo_standard_error": 9.711344664646714e-05,
+      "predicted_mse": 0.0030241935483870967,
+      "epsilon_total_per_answer": 6.917450090740503
+    },
+    {
+      "q": 0.25,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 1,
+      "replications": 2048,
+      "observed_mse": 0.02294921875,
+      "monte_carlo_standard_error": 0.0011217170325622649,
+      "predicted_mse": 0.0234375,
+      "epsilon_total_per_answer": 0.4054651081081644
+    },
+    {
+      "q": 0.25,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 3,
+      "replications": 2048,
+      "observed_mse": 0.007786220974392361,
+      "monte_carlo_standard_error": 0.0003055416831738915,
+      "predicted_mse": 0.0078125,
+      "epsilon_total_per_answer": 1.2163953243244932
+    },
+    {
+      "q": 0.25,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 9,
+      "replications": 2048,
+      "observed_mse": 0.002754493995949074,
+      "monte_carlo_standard_error": 9.102640618179271e-05,
+      "predicted_mse": 0.0026041666666666665,
+      "epsilon_total_per_answer": 3.6491859729734797
+    },
+    {
+      "q": 0.25,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 31,
+      "replications": 2048,
+      "observed_mse": 0.0007308102547192053,
+      "monte_carlo_standard_error": 2.287853720030983e-05,
+      "predicted_mse": 0.0007560483870967742,
+      "epsilon_total_per_answer": 12.569418351353097
+    },
+    {
+      "q": 0.5,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 1,
+      "replications": 2048,
+      "observed_mse": 0.0061492919921875,
+      "monte_carlo_standard_error": 0.0003183062440064762,
+      "predicted_mse": 0.005859375,
+      "epsilon_total_per_answer": 0.6931471805599453
+    },
+    {
+      "q": 0.5,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 3,
+      "replications": 2048,
+      "observed_mse": 0.0019887288411458335,
+      "monte_carlo_standard_error": 7.663992014339253e-05,
+      "predicted_mse": 0.001953125,
+      "epsilon_total_per_answer": 2.0794415416798357
+    },
+    {
+      "q": 0.5,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 9,
+      "replications": 2048,
+      "observed_mse": 0.0006304375919294946,
+      "monte_carlo_standard_error": 2.1223937914380933e-05,
+      "predicted_mse": 0.0006510416666666666,
+      "epsilon_total_per_answer": 6.238324625039508
+    },
+    {
+      "q": 0.5,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 31,
+      "replications": 2048,
+      "observed_mse": 0.00018824598171460392,
+      "monte_carlo_standard_error": 6.0080171805928875e-06,
+      "predicted_mse": 0.00018901209677419354,
+      "epsilon_total_per_answer": 21.487562597358306
+    },
+    {
+      "q": 1.0,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 1,
+      "replications": 2048,
+      "observed_mse": 0.0016198158264160156,
+      "monte_carlo_standard_error": 9.194006287698142e-05,
+      "predicted_mse": 0.00146484375,
+      "epsilon_total_per_answer": 1.0986122886681098
+    },
+    {
+      "q": 1.0,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 3,
+      "replications": 2048,
+      "observed_mse": 0.0004849433898925781,
+      "monte_carlo_standard_error": 1.8671796996149054e-05,
+      "predicted_mse": 0.00048828125,
+      "epsilon_total_per_answer": 3.295836866004329
+    },
+    {
+      "q": 1.0,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 9,
+      "replications": 2048,
+      "observed_mse": 0.00015760939798237366,
+      "monte_carlo_standard_error": 4.953275147167316e-06,
+      "predicted_mse": 0.00016276041666666666,
+      "epsilon_total_per_answer": 9.887510598012987
+    },
+    {
+      "q": 1.0,
+      "geometric_alpha": 0.3333333333333333,
+      "filings": 31,
+      "replications": 2048,
+      "observed_mse": 4.8220095599727254e-05,
+      "monte_carlo_standard_error": 1.603018327402034e-06,
+      "predicted_mse": 4.7253024193548386e-05,
+      "epsilon_total_per_answer": 34.056980948711406
+    }
+  ]
+}

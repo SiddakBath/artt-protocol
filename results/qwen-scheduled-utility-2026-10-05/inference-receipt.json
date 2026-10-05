@@ -1,0 +1,14 @@
+{
+  "model_inferences": 1536,
+  "unambiguous_marker_hits": 1536,
+  "expected_inferences": 1536,
+  "inference_seconds_min_max_mean": [
+    0.125,
+    2.343000000109896,
+    0.21560807291856085
+  ],
+  "all_inference_after_admission": true,
+  "source_freeze_verified": true,
+  "transcripts_persisted": false,
+  "secret_schedule_persisted": false
+}

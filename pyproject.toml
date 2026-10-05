@@ -1,0 +1,18 @@
+[project]
+name = "right-to-test"
+version = "0.1.0"
+description = "Software-only public evaluation filing and verdict-channel experiments"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+rt-run = "rt.runner:main"
+rt-verify = "rt.verify:main"
+
+[tool.setuptools]
+packages = ["rt"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-ra"
