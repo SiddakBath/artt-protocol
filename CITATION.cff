@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "A Right to Test: Public Evaluation Under Output Confidentiality"
-version: "0.1.1"
+version: "0.1.2"
 date-released: 2026-10-06
 license: Apache-2.0
-doi: 10.5281/zenodo.23180547
+doi: 10.5281/zenodo.23180546
 type: software
 authors:
   - given-names: "Siddak"

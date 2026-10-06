@@ -2,10 +2,10 @@
 
 ARTT is a proposed way for people outside an AI lab to file an evaluation for a
 custodian-held model. The evaluation runs in a sealed environment beside the
-model. The custodian keeps the weights, prompts, raw responses, and private
-execution details confidential. The filer and public receive only a small,
-declared result record. That makes it possible to learn something from an
-evaluation without publishing the model or its raw outputs.
+model. The custodian keeps the weights, raw responses and private execution
+details confidential; the filed method is public. The filer and public receive
+only a small, declared result record. That makes it possible to learn something
+from an evaluation without publishing the model or its raw outputs.
 
 ## What exists and what is new
 
@@ -39,9 +39,10 @@ separate work.
 
 Every filing, refusal, and result goes on a public hash-chained ledger. The
 ledger is required because it lets anyone check that a filing was made, whether
-it was run or refused, and that records were not later altered or removed. The
-privacy guarantee does not depend on the ledger: hash chaining is postprocessing
-of the declared records.
+it was run or refused, and that no published record has been altered. External
+witnesses, which would also detect dropped filings or rollback, are future work.
+The privacy guarantee does not depend on the ledger: hash chaining is
+postprocessing of the declared records.
 
 ## Why the release needs protection
 
@@ -69,9 +70,10 @@ proposal for one planted secret and failed for the other. With the status channe
 open, a decoder recovered the secret in 256/256 trials even though the score did
 not change. With the ARTT release protocol, status recovery fell to 128/256,
 including deliberate timeouts. A score decoder obtained 124/256 across three
-closed attacks and 202/256 when its score channel was deliberately opened. On
-the same protected contexts, an honest evaluator retained an aggregate formatting
-signal, including every fallback.
+closed attacks. A judge deliberately writing a one-bit secret into the released
+score obtained 202/256 through the one noisy, logged, budget-capped score bit
+per filing. On the same protected contexts, an honest evaluator retained an
+aggregate formatting signal, including every fallback.
 
 Earlier fixture experiments show the same lesson. Four or two free score axes
 can carry a planted secret in all 256 trials. A runner-fixed verdict removes

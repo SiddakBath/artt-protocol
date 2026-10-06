@@ -1,5 +1,7 @@
 # Executed results: 5 October 2026
 
+This file covers the fixture-only run of 5 October 2026 (paper Appendix A). The Qwen results in the main text are in results/qwen-scheduled-utility-2026-10-05, which implements the shared admission cap.
+
 Backend: **fixture only**, no learned model. Python 3.12.3; Linux
 6.6.87.2-microsoft-standard-WSL2. Every sandbox trial used Linux namespaces and seccomp. Runner
 source version: `5c1b8f4c50482f1cd326fdcb2c156e223412575b8d56088acc6d4e8504a686ba`. Model/fixture identity:
