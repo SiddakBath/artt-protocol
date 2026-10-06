@@ -7,6 +7,17 @@ execution details confidential. The filer and public receive only a small,
 declared result record. That makes it possible to learn something from an
 evaluation without publishing the model or its raw outputs.
 
+## What exists and what is new
+
+Most model evaluation today is arranged by the developer, invited evaluators, or
+government institutes under negotiated access. Sealed pilots such as OpenMined
+and AVERI show that confidential evaluation can work in those settings. ARTT
+adds a public way to file an evaluation: anyone can submit a declared procedure,
+refusals are visible, and each released result is bounded. The same release
+controls can protect work done through existing arrangements too. Broader
+participation has helped security through bug bounties and open benchmarks; ARTT
+aims to make that kind of coverage possible when model outputs must stay sealed.
+
 ## What is filed and what is released
 
 An evaluation is the whole procedure: its code, prompts or task environment,
@@ -26,10 +37,11 @@ not establish that a filed evaluation is scientifically valid. It protects the
 release interface around an evaluation; evaluation design and validation remain
 separate work.
 
-The prototype writes results to a public hash-chained ledger. ARTT recommends
-such a ledger because it can make filings and refusals visible, but it is not a
-core requirement of the release mechanism or its privacy guarantee. A deployment
-can use another declared public or authorized-observer interface instead.
+Every filing, refusal, and result goes on a public hash-chained ledger. The
+ledger is required because it lets anyone check that a filing was made, whether
+it was run or refused, and that records were not later altered or removed. The
+privacy guarantee does not depend on the ledger: hash chaining is postprocessing
+of the declared records.
 
 ## Why the release needs protection
 
@@ -75,6 +87,11 @@ telemetry, physical timing, ledger rollback, or shared-queue effects without an
 additional locality argument. The paper gives a bounded release protocol and an
 end-to-end attack and repair for a defined task. It does not claim to solve
 model-wide secrecy, hardware custody, or semantic alignment evaluation.
+
+Whether custodians adopt public filing, and which models and evaluations they
+admit, are policy questions. The paper shows that the release side can be made
+safe for the defined task; it does not settle the institutional choices needed
+for broad participation.
 
 The goal is practical: let people file tests, make the evaluation method
 inspectable, publish a useful protected result, and measure what that result can
