@@ -8,7 +8,7 @@ Today, the most powerful AI models are mostly tested by the labs that build them
 
 ## Public verdicts can be made leak-resistant
 
-Our release protocol publishes one fixed-shape, noised record per run on a fixed schedule, with the budget charged before the model is touched. On Qwen3-0.6B, it holds a planted secret to chance: 128/256 from run status and 124/256 from scores. An honest evaluator can still tell two model behaviors apart. This matters because without the protocol, the verdict leaks: a judge whose score never changes recovers the secret in 256/256 trials just from whether runs succeed or fail. A judge that deliberately writes a one-bit secret into the released score is confined to one noisy, logged, budget-capped bit per filing (202/256).
+Our release protocol publishes one fixed-shape, noised record per run on a fixed schedule, with the budget charged before the model is touched. On Qwen3-0.6B, it holds the status attack to chance: 128/256 from run status and 124/256 from scores. An honest evaluator can still tell two model behaviors apart. This matters because without the protocol, the verdict leaks: a judge whose score never changes recovers the secret in 256/256 trials just from whether runs succeed or fail. A judge that deliberately writes a one-bit secret into the released score is confined to one noisy, logged, budget-capped bit per filing (202/256).
 
 ARTT requires every filing, refusal, and released result to appear in a public hash-chained ledger. This makes the process checkable, while the privacy guarantee remains a property of the protected records rather than the ledger itself.
 
