@@ -1,4 +1,31 @@
+# Source archives exclude local build products and generated paper PDFs.
 /.build export-ignore
+/dist export-ignore
+/scratch export-ignore
+/.venv export-ignore
+/.pytest_cache export-ignore
+**/__pycache__ export-ignore
+*.pyc export-ignore
+*.pyo export-ignore
+*.egg-info export-ignore
+*.pdf export-ignore
+*.aux export-ignore
+*.bbl export-ignore
+*.bcf export-ignore
+*.blg export-ignore
+*.fdb_latexmk export-ignore
+*.fls export-ignore
+*.log export-ignore
+*.out export-ignore
+*.run.xml export-ignore
+*.synctex.gz export-ignore
+*.toc export-ignore
+**/.DS_Store export-ignore
+**/Thumbs.db export-ignore
+**/desktop.ini export-ignore
+/models export-ignore
+/secrets export-ignore
+/.env export-ignore
 
 # Results and archived snapshots contain hash-committed evidence.  Preserve
 # their bytes exactly across clones and git-archive extraction.

@@ -1,0 +1,13 @@
+{
+  "scope": "offline live-harness planting and tie guesses; zero admissions; no model or kernel",
+  "trials": 10000,
+  "bits": 16,
+  "tie_seed": 7631,
+  "secret_rng": "random.SystemRandom",
+  "tie_rng": "random.Random(TIE_SEED + trial)",
+  "mean_correct_bits": 7.9705,
+  "stderr_bits": 0.020110778685618672,
+  "expected_correct_bits": 8.0,
+  "z_score": -1.4668750753592277,
+  "tool_sha256": "b8d12eb207ce8be560450d2cc9fa828a747e3787dee7973fb55a44a6695a4495"
+}

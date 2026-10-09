@@ -14,52 +14,168 @@
 }
 \setlength{\columnsep}{0.25in}
 \setlength{\emergencystretch}{2em}
+\setcounter{dbltopnumber}{2}
+\renewcommand{\dbltopfraction}{0.9}
 \newtheorem{theorem}{Theorem}
 \title{A Right to Test:\\Public Evaluation Under Output Confidentiality}
 \author{Siddak Bath}
-\date{6 October 2026}
+\date{9 October 2026}
 \begin{document}
+\raggedbottom
 \maketitle
 
 \begin{abstract}
-Frontier AI models are evaluated mostly by their developers or by partners with special access. A public right to test would let anyone submit an evaluation that runs inside a sealed environment and publishes only a small verdict. Trusted hardware and cryptography already control who sees the weights and prompts in such evaluations, but the published verdict remains a channel out of the seal. An adversarial evaluator can encode the model's private outputs in it, even through whether the run succeeded or failed. We build such a system on Qwen3-0.6B and show the attack works. A judge whose published score never changes still recovers a planted secret in 256 of 256 trials, just from accepted versus error status. We then close the channel with a filing-and-release protocol we call ARTT (A Right To Test). The budget is charged before any model access, failures are replaced by a fixed fallback, real and fallback results get the same noise, and every run publishes one record of the same shape on a fixed schedule. The status attack drops to chance (128/256 from status, 124/256 from scores). A judge built to write a one-bit secret straight into the released score is confined to one noisy, logged, budget-capped bit per filing (202/256). An honest evaluator can still tell two model behaviors apart (difference 0.742, interval 0.459 to 1.025). We prove a privacy bound for the published records under stated assumptions. The Limitations section sets out the remaining questions about hardware custody, physical timing and semantic alignment evaluation.
+Frontier AI models are evaluated mostly by their developers or partners with special access. A public right to test would let anyone submit an evaluation that runs beside a sealed model and publishes only a small verdict. But even that verdict can carry private outputs out of the seal, including through whether a run succeeds or fails. On Qwen3-0.6B, an evaluator whose score never changes recovers a planted secret in all 256 trials through run status alone. ARTT (A Right To Test) closes this status channel by charging the budget before access and publishing one record of the same shape per scheduled slot, with successes and failures passing through the same noise. For this attack, their record distributions are exactly equal, so no number of filings improves recovery beyond chance; observed status recovery is 128/256. A judge built to write the secret straight into the score is confined to one noisy, logged, budget-capped record per filing (202/256). We prove a privacy bound of $\epsilon=2\ln3$ per two-axis record at $p=1/2$ under stated trust and delivery assumptions. An honest evaluator can still tell two response formats apart (difference 0.742, conservative 95\% interval 0.233 to 1.252). Code, public chains and a no-GPU fixture demo support reproduction. Hardware custody, physical timing and semantic-evaluation coverage remain open.
 \end{abstract}
+
+\begin{figure*}[!t]
+\centering
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  >=Latex,
+  box/.style={draw, rounded corners=2.5pt, align=center, inner sep=4pt, thick,
+              minimum height=0.95cm, minimum width=2.50cm},
+  pub/.style={box, fill=blue!8},
+  priv/.style={box, fill=orange!12},
+  seal/.style={draw=orange!70!black, dashed, line width=0.9pt, rounded corners=5pt,
+               fill=orange!4, inner xsep=12pt, inner ysep=10pt},
+  arr/.style={->, line width=0.8pt, draw=black},
+  lab/.style={font=\footnotesize\itshape, text=black!70, inner sep=1pt}
+]
+\node[pub]  (submitter) at (0, 0)          {Submitter\\bundle + method card};
+\node[priv] (budget)    at (4.90, 0)       {Custodian-owned\\budget};
+\node[priv] (judge)     at (9.00, 0)       {Filed judge /\\private workers};
+\node[priv] (publisher) at (13.25, 0)      {Publisher\\same fresh noise\\fixed slots};
+\node[pub]  (log)       at (18.70, 0)      {Public\\hash-chained log};
+\node[priv] (model)    at (9.00, 2.55)     {Private\\model};
+\coordinate (sealtop) at ([yshift=0.60cm]model.north);
+\node[priv] (fallback) at (13.25, -2.30)   {Fallback\\raw $(0,0)$};
+\node[pub]  (refuse)   at (0, -4.10)       {Preflight\\refusals};
+\begin{scope}[on background layer]
+  \node[seal, fit=(budget)(sealtop)(judge)(fallback)(publisher)] (seal) {};
+  \node[font=\footnotesize\itshape, text=black!55, anchor=south west, inner sep=0pt]
+    at ([xshift=6pt, yshift=8pt]seal.south -| budget.west)
+    {sealed runner (private; custodian)};
+\end{scope}
+\draw[arr] (submitter.east) -- (budget.west);
+\draw[arr] (budget.east) -- (judge.west);
+\draw[arr] (judge.east) -- (publisher.west);
+\draw[arr] (publisher.east) -- (log.west);
+\coordinate (mD) at ($(judge.east)!0.5!(publisher.west)$);
+\node[lab, anchor=south] at ([yshift=3pt]mD) {verdict};
+\coordinate (mA) at ($(submitter.east)!0.5!(seal.west)$);
+\coordinate (mF) at ($(seal.east)!0.5!(log.west)$);
+\node[lab, anchor=south] at ([yshift=3pt]mA) {file};
+\node[lab, anchor=south] at ([yshift=3pt]mF) {record / slot};
+\draw[arr] ([xshift=-0.25cm]judge.north) -- ([xshift=-0.25cm]model.south);
+\draw[arr] ([xshift=0.25cm]model.south) -- ([xshift=0.25cm]judge.north);
+\path ([xshift=-0.25cm]judge.north) -- coordinate[midway] (loopL) ([xshift=-0.25cm]model.south);
+\path ([xshift=0.25cm]judge.north) -- coordinate[midway] (loopR) ([xshift=0.25cm]model.south);
+\node[lab, anchor=east] at ([xshift=-6pt]loopL) {request};
+\node[lab, anchor=west] at ([xshift=6pt]loopR) {completions};
+\draw[arr] (judge.south) |- (fallback.west);
+\draw[arr] (fallback.north) -- (publisher.south);
+\path (judge.south |- fallback.west) -- coordinate[midway] (mE) (fallback.west);
+\node[lab, anchor=south] at ([yshift=3pt]mE) {on failure};
+\path (fallback.north) -- coordinate[midway] (mFb) (publisher.south);
+\node[lab, anchor=west] at ([xshift=6pt]mFb) {fallback};
+\draw[arr] (submitter.south) -- (refuse.north);
+\draw[arr] (refuse.east) -- (refuse.east -| log.south) -- (log.south);
+\path (refuse.east) -- coordinate[midway] (mRef) (refuse.east -| log.south);
+\node[lab, anchor=south] at ([yshift=3pt]mRef) {refusal entry};
+\coordinate (figc) at ($(submitter.west)!0.5!(log.east)$);
+\node[anchor=north] at ([yshift=-0.35cm]figc |- refuse.south) {
+  \begin{tikzpicture}[baseline, font=\footnotesize,
+    box/.style={draw, rounded corners=2pt, inner sep=2.5pt, thick,
+                minimum height=0.34cm, minimum width=0.85cm},
+    pub/.style={box, fill=blue!8},
+    priv/.style={box, fill=orange!12}]
+    \node[pub] (lp) {};
+    \node[right=0.10cm of lp, anchor=west] (lt) {public};
+    \node[priv, right=0.95cm of lt] (li) {};
+    \node[right=0.10cm of li, anchor=west] {private (inside seal)};
+  \end{tikzpicture}
+};
+\end{tikzpicture}%
+}
+\caption{Parties and public exits. The submitter files a bundle into the custodian-owned budget. Inside the sealed runner, the filed judge sends requests to the private model, receives completions, and proposes a raw verdict to the publisher; timeouts and errors map to the fixed fallback $(0,0)$ instead. The publisher applies the same fresh noise to either value and writes one fixed-shape record per slot to the public hash-chained log. Preflight refusals enter the same log separately.}
+\label{fig:architecture}
+\end{figure*}
+
 \section{Introduction}
 
-A sealed evaluation is only as private as what it publishes. Attestable Audits and the AVERI double-blind pilot use trusted execution environments to protect model weights and evaluation prompts; TRUCE studies private benchmarking through confidential computing and cryptography; ZkAudit uses zero-knowledge proofs to enable audits without revealing model weights and data~\cite{attestable,averi,truce,zkaudit}. These systems address confidentiality of evaluation inputs, models, or computation. To our reading, they do not analyze whether a malicious submitter can encode sealed model outputs in the verdict or run status recorded in the public log. On Qwen3-0.6B, a small open-weight stand-in, a judge whose score never changes recovered a planted secret in 256/256 trials through run status alone. Our release protocol reduces this attack to chance, at 128/256 from status and 124/256 from scores.
+A sealed evaluation is only as private as what it publishes. Existing systems protect model weights, prompts or computation~\cite{attestable,averi,truce,zkaudit}, but a malicious evaluator can encode private model outputs in a public score or run status. On Qwen3-0.6B, a small open-weight stand-in, a judge whose score never changes recovered a planted secret in 256/256 trials through accepted-versus-error status alone. ARTT repairs that exit by charging access before execution, mapping failures to a fixed fallback, applying trusted noise to both real and fallback verdicts, and publishing one fixed-shape record at predetermined slots. The status attack falls to chance: 128/256 from status and 124/256 from scores. The remaining score channel is an explicit, budgeted tradeoff.
 
-Recent events make sealed public evaluation more than a lab convenience. In mid-2026, according to Australia's Prime Minister, an OpenAI agent used during internal research gained unauthorized access to an Australian government Medicare statistics portal and accessed public and non-public files, prompting a national response~\cite{medicare}. Separately, OpenAI and collaborators have reported scheming-like covert behavior in controlled evaluations of frontier models~\cite{scheming}, and OpenAI has begun publishing model-misalignment reports~\cite{misalignment}. When models powerful enough to reshape institutions can both fail in surprising ways and be evaluated mostly behind closed doors, the public interest is in verifiable evaluation outcomes that outsiders can run and check, not only summaries chosen by the developer. ARTT provides a filing-and-release protocol for that setting. A right to test is a design aspiration, not a legal claim.
+Recent events make sealed public evaluation more than a lab convenience. In mid-2026, according to Australia's Prime Minister, an OpenAI agent used during internal research gained unauthorized access to an Australian government Medicare statistics portal and accessed public and non-public files, prompting a national response~\cite{medicare}. OpenAI and collaborators have also reported scheming-like covert behavior in controlled evaluations of frontier models~\cite{scheming}, and OpenAI has begun publishing model-misalignment reports~\cite{misalignment}. Models with broad institutional consequences need verifiable evaluation outcomes that outsiders can run and check, alongside developers' own reports. A right to test is a design aspiration, not a legal claim.
 
-Today, evaluation access is arranged by developers, invited evaluators, and government institutes under negotiated terms. Sealed pilots, including OpenMined and AVERI, show how confidential evaluation can serve those arrangements~\cite{openmined,averi}. ARTT adds a public filing interface: anyone may file a declared evaluation, refusals appear in the required public ledger, and every released result is bounded by the protocol. The same release controls can also protect evaluations run under existing access arrangements. Open participation has widened coverage in security through bug bounties and open benchmarks; in this setting, the aim is to make broader participation compatible with sealed model outputs.
+Today, access is arranged by developers, invited evaluators and government institutes under negotiated terms. Sealed pilots, including OpenMined and AVERI, show how confidential evaluation can serve those arrangements~\cite{openmined,averi}. ARTT adds a public filing interface: anyone may file a declared evaluation, refusals appear in the required public ledger, and each released result is protected by the protocol. The same controls can serve existing access arrangements. Open participation has widened coverage through bug bounties and open benchmarks; here the aim is to make broader participation compatible with sealed model outputs.
 
-ARTT matters most where public API access is not enough: unreleased or internal models, and evaluations whose raw outputs must stay sealed. Developers gain credible results from public methods without exposing weights or raw outputs. As in other sealed-evaluation systems, the custodian is trusted to run the committed model; hardware attestation or independent custody would remove that assumption, and the release protocol does not depend on who holds custody.
-
-ARTT separates the evaluation from its public release. The custodian keeps the target model's weights and raw outputs confidential; a submitted evaluation runs beside the model under declared resources, and the public sees only a protected result record. The protocol governs that record and other observable release fields. It does not decide which evaluations are scientifically valid or which models a custodian must make available.
+ARTT matters most for unreleased or internal models whose raw outputs must stay private. A submitted evaluation runs beside the custodian-held model under declared resources; the public receives its method and a protected result record. The custodian is trusted to run the committed model, with independent custody or hardware attestation left to deployment. The release protocol does not decide which evaluations are scientifically valid or which models a custodian must offer.
 
 This paper makes four contributions:
 \begin{enumerate}
-\item An end-to-end leakage analysis of the public exit. On Qwen3-0.6B, a small open-weight stand-in, a judge whose published verdict never changes still recovers a planted secret in 256/256 trials from accepted versus error status alone.
-\item A repair of the whole exit. The budget is charged before model access, every failure maps to the fixed fallback $(0,0)$, real and fallback values receive the same fresh noise, each slot publishes one fixed-shape record, and refusals are logged inside the same accounting. Status recovery falls to 128/256 and score recovery to 124/256, while a judge that writes the secret into the released score is confined to one noisy bit per filing (202/256; Table~\ref{tab:whole}). Honest utility on the same runs covers literal format checks only (Table~\ref{tab:sameutility}).
-\item A public filing interface with a required hash-chained ledger of every filing, release and refusal: anyone may file a judge, the judge is network-denied, the method is public, and the transcript is withheld.
-\item A privacy bound for the declared records under explicit trust and delivery assumptions, with an exact utility, leakage and filings analysis for a sampled count mechanism.
+\item An end-to-end analysis and live demonstration of leakage through the public exit, including a status attack whose proposed verdict is constant.
+\item A repair that gives exact status equality for the constant-score attack by putting every post-access outcome behind one noisy, fixed-shape scheduled release, with non-refundable admission accounting. Learned-model controls test the status repair and remaining score channel (Table~\ref{tab:whole}); honest literal-format utility uses the same contexts (Table~\ref{tab:sameutility}).
+\item A public filing interface with network-denied judges, public methods, withheld transcripts and a required hash-chained ledger of filings, releases and refusals.
+\item A whole-record privacy bound under explicit trust and delivery assumptions, together with a scheduled experiment measuring score recovery and Shannon information as admissions increase (Figure~\ref{fig:lead}).
 \end{enumerate}
 
-Several ingredients are not new. Sealed execution, verdict-only or bounded outputs and hash-bound logs come from prior sealed-evaluation systems~\cite{attestable,doubleblind,averi,truce,zkaudit,south}, and fixed-time execution with default values was introduced as a covert-channel defense for private query systems~\cite{haeberlen}. Our contribution is to combine these at the public exit of a sealed AI evaluation, account for every field a reader sees, and measure the result against a live attack.
+Section~\ref{sec:threat-model} defines the private input, attacker and public view; Section~\ref{sec:protocol} walks through the attack and repair. Section~\ref{sec:privacy} derives the guarantee before Section~\ref{sec:experiments} presents the experiments. Earlier schema studies and an alternative count mechanism are collected in Appendices~\ref{sec:fixture} and~\ref{app:count}.
 
+Sealed execution, bounded outputs and hash-bound logs come from prior systems~\cite{attestable,doubleblind,averi,truce,zkaudit,south}; fixed-time execution with defaults was introduced as a covert-channel defense for private query systems~\cite{haeberlen}. Our contribution combines these at the public exit of sealed AI evaluation, accounts for every field a reader sees, and measures the attack and repair with a language model in the loop.
 
 \section{Related work}
 
 \paragraph{Sealed-access substrates.} Several systems already let an outside party evaluate a model without seeing its weights, and let a developer run an evaluation without seeing its prompts. Schnabl, Hugenroth, Marino and Beresford's Attestable Audits run audit code inside trusted execution environments; their prototype evaluates a quantized Llama-3.1 on standard benchmarks, including LLM-as-a-judge tasks~\cite{attestable}. OpenMined, with Anthropic and the UK AI Safety Institute, ran an H100 GPU-enclave pilot in 2024 using GPT-2 as a proxy model~\cite{openmined}. Trask and collaborators' Double Blind Evals extends that design with confidential CPU and GPU enclaves and PySyft code approval, and the AVERI pilot used it to evaluate Gemini 2.5 Flash-Lite on confidential AILuminate prompts~\cite{doubleblind,averi}. Rajore, Chandran and colleagues' TRUCE keeps benchmarks private through confidential computing or secure multiparty computation~\cite{truce}. Bucknall, Trager and Osborne frame the underlying requirement as mutual privacy between developer and evaluator~\cite{bucknall}. On the cryptographic side, South and colleagues prove evaluation metrics over private weights with zkSNARKs, Waiwitlikhit and colleagues' ZkAudit proves audit functions over committed weights and data, and Sun, Li and Zhang's zkLLM proves inference for models with up to 13 billion parameters~\cite{zkaudit,south,zkllm}.
 
-\paragraph{What they publish.} Each system ends in a small public or shared result. Attestable Audits publishes an aggregate result bound to model and audit hashes in a transparency log. Double Blind Evals returns bounded aggregate metrics, while in the executed AVERI pilot AVERI decrypted the outputs, graded them and gave the developer a confidential report. TRUCE reveals only the benchmark results, South and colleagues publish verifiable metric attestations, and ZkAudit releases the output of the audit function with a proof.
+\paragraph{What they publish.} Each system ends in a small public or shared result. Attestable Audits publishes an aggregate result bound to model and audit hashes in a transparency log. Double Blind Evals returns bounded aggregate metrics, while in the executed AVERI pilot AVERI decrypted the outputs, graded them and gave the developer a confidential report. TRUCE reveals only the benchmark results, South and colleagues publish verifiable metric attestations, and ZkAudit releases the output of the audit function with a proof. Table~\ref{tab:related} records, for each design, what is sealed, what a reader receives, and how it treats run status and timing. ``Not analyzed'' means the cited text does not treat that field as a channel. It is not a claim that we found a leak in their implementation.
+
+\begin{table*}[t]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.16\textwidth}>{\raggedright\arraybackslash}p{0.22\textwidth}>{\raggedright\arraybackslash}p{0.24\textwidth}>{\raggedright\arraybackslash}p{0.16\textwidth}>{\raggedright\arraybackslash}p{0.16\textwidth}@{}}
+\toprule
+System & What it seals & What it publishes & Run-status treatment & Physical timing\\
+\midrule
+Attestable Audits & Weights and the audit execution, in a TEE & Aggregate result bound to model and audit hashes & Not analyzed & Not analyzed\\
+Double Blind Evals & Weights and prompts, in enclaves & Bounded aggregate metrics & Not analyzed & Not analyzed\\
+AVERI pilot & The same enclave substrate & A confidential graded report to the developer & Not analyzed & Not analyzed\\
+TRUCE & Benchmark items, via confidential computing or MPC & Benchmark results & Not analyzed & Not analyzed\\
+South et al. & Private weights, under a zkSNARK & Verifiable metric attestations & Not analyzed & Not a host release\\
+ZkAudit & Committed weights and data & Audit-function output and a proof & Not analyzed & Not a host release\\
+zkLLM & The proved inference & Proved inference output & Not analyzed & Not a host release\\
+Haeberlen et al. & Query answers under differential privacy & Noisy answers; timeouts become defaults & Closed for that query API & Closed for fixed-time microqueries\\
+ARTT (this paper) & Raw model outputs, from the public record & One noisy fixed-shape record per slot, plus refusal codes & Suppressed at declared slots & No; remains open\\
+\bottomrule
+\end{tabular}
+\caption{Related designs, by what they keep private, what a reader receives, and how they treat the run-status and physical-timing channels. ARTT suppresses run-status information at the declared slot interface; physical timing remains open.}
+\label{tab:related}
+\end{table*}
 
 \paragraph{The exit left open.} These works focus on who sees which assets and on whether the result was computed correctly. Attestable Audits also requires stateless runs to prevent covert channels between audits, and lists prompt-based model exfiltration during user interaction as a residual gap~\cite{attestable}. To our reading, none analyzes the published result, the run status and the log metadata as a single channel that adversarial evaluation code can steer. A correctly computed and correctly attested verdict can still carry private bits if the code that chose it was hostile.
 
-\paragraph{Where this paper sits.} We take sealed execution as given and study that exit. Our software sandbox stands in for a hardware or cryptographic seal; it adds no confidentiality guarantee of its own against the host operator. Haeberlen, Pierce and Narayan showed that adversarial queries to differentially private query systems leak through timing, shared state and privacy-budget channels, and closed them with budgets fixed before execution, fixed-time microqueries and default values~\cite{haeberlen}. ARTT builds on their defense of charging budgets in advance and substituting defaults for failed or timed-out queries. Our contribution is showing that current sealed AI-evaluation designs leave this exit open, demonstrating the attack and its repair end to end with a language model in the loop, and treating the complete public record, including shape, schedule and the refusal entries of a required ledger, as the release. Lampson's confinement problem motivates controlling every public exit~\cite{lampson}, while termination behavior can leak more than a single bit~\cite{askarov}. The Ladder and the reusable holdout address adaptive feedback in evaluation~\cite{blumhardt,dwork}. Structured access frames controlled arm's-length use of AI systems~\cite{shevlane}, and Casper and colleagues show why audit conclusions depend on access~\cite{casper}. Xie and Li's OCELOT budgets cumulative inference leakage across an LLM agent's releases with a trusted verifier~\cite{ocelot}, a related concern in a different setting. The privacy analysis uses established tools, including subsampling amplification by Balle, Barthe and Gaboardi and geometric-mechanism optimality by Ghosh, Roughgarden and Sundararajan~\cite{balle,ghosh}.
+\paragraph{Where this paper sits.} We take sealed execution as given and study that exit. Our software sandbox stands in for a hardware or cryptographic seal; it adds no confidentiality guarantee of its own against the host operator. Haeberlen, Pierce and Narayan showed that adversarial queries to differentially private query systems leak through timing, shared state and privacy-budget channels, and closed them with budgets fixed before execution, fixed-time microqueries and default values~\cite{haeberlen}. ARTT builds on their defense of charging budgets in advance and substituting defaults for failed or timed-out queries. Under this threat model, any sealed evaluation that publishes judge-controlled run status or error codes outside the protected verdict is exposed to this attack. Closing that path requires placing failure inside the protected release. Our contribution demonstrates the attack and its repair end to end with a language model in the loop, and treats the complete public record, including shape, schedule and the refusal entries of a required ledger, as the release. Lampson's confinement problem motivates controlling every public exit~\cite{lampson}, while termination behavior can leak more than a single bit~\cite{askarov}. The Ladder and the reusable holdout address adaptive feedback in evaluation~\cite{blumhardt,dwork}. Structured access frames controlled arm's-length use of AI systems~\cite{shevlane}, and Casper and colleagues show why audit conclusions depend on access~\cite{casper}. Xie and Li's OCELOT budgets cumulative inference leakage across an LLM agent's releases with a trusted verifier~\cite{ocelot}, a related concern in a different setting. The privacy analysis uses established tools, including subsampling amplification by Balle, Barthe and Gaboardi and geometric-mechanism optimality by Ghosh, Roughgarden and Sundararajan~\cite{balle,ghosh}.
 
-\section{Threat model and non-goals}
+\section{Threat model and terminology}\label{sec:threat-model}
 
-The adversary is the submitter of a judge program. It sees model completions and wants a public reader to recover a planted secret that the honest rubric ignores. The custodian owns the model backend, and the reader sees the committed method and public log but not the transcript. Code review of filed judges, as in the Double Blind Evals approval step, cannot replace this. Review does not scale to open filing, and leakage can hide in small data-dependent changes. An honest judge with an input-dependent crash leaks through status in the same way. ARTT makes the release safe whatever the judge does; review remains a useful extra layer.
+The adversary is the submitter of a judge program. It sees model completions and wants a public reader to recover a planted secret that the honest rubric ignores. The custodian owns the model backend, and the reader sees the committed method and public log but not the transcript. Code review of filed judges, as in the Double Blind Evals approval step, cannot replace this. Review does not scale to open filing, and leakage can hide in small data-dependent changes. An honest judge with an input-dependent crash leaks through status in the same way. ARTT suppresses that status signal whatever the judge does and makes score leakage an explicit property of the release; review remains a useful extra layer.
+
+\subsection{What is private and what is public}
+The protected item is a custodian-selected model input. In the leakage experiments it contains a canary: a planted secret whose identity is deliberately irrelevant to the honest rubric. Its item identity is known to the custodian; the experiments do not identify which internalized fact a query accesses. The judge can read the resulting completion, choose a raw score proposal, fail, or delay. It cannot choose another private context or publish directly. The trusted custodian processes private execution; the trusted publisher receives the proposal or fallback and publishes the noisy record. The public sees the filed method and release ledger, including permitted refusal codes, but no raw completion or private error report. Physical observations beyond that interface are treated in Section~\ref{sec:timing-limitations}.
+
+\begin{center}\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.25\linewidth}>{\raggedright\arraybackslash}p{0.68\linewidth}@{}}\toprule
+Term & Meaning in this paper\\\midrule
+Judge / proposal & Filed evaluator program / its private raw verdict.\\
+Axis / bucket & One score dimension / one of its four categories.\\
+Fallback & Trusted raw $(0,0)$ after a post-access failure; it receives noise too.\\
+Admission / cap & Charged authorization for one judge execution / maximum shared count for a declared item or corpus.\\
+Slot / epoch & Preannounced release opportunity / origin of its schedule.\\
+Cutoff & Deadline for a proposal; a miss changes the raw value, not the slot.\\
+Noise probability $p$ & Probability that a raw bucket changes to another category.\\
+\bottomrule\end{tabular}
+\end{center}
 
 
 The Linux kernel, trusted runtime, bootstrap and custodian runner are trusted for the isolation experiment. The operator of the WSL host is not excluded technically from memory or file access; reciprocal confidentiality against that operator is an ideal for later hardware work. In our experiments the author acted as both custodian and submitter. An arbitrary root/hypervisor, kernel exploit or modified runner can invalidate the isolation. Source hashes in the log are not hardware quotes.
@@ -84,129 +200,56 @@ Custodian forges model identity & Software identity commitments only & No hardwa
 Availability and custodian participation require institutional commitments beyond this code. Table~\ref{tab:threats} summarizes the implemented controls and their boundaries.
 
 
-\section{Design}
+\section{ARTT protocol}\label{sec:protocol}
 
-An ARTT bundle contains a manifest, judge code, optional local judge assets and a public method card. Its identity is a sorted ustar archive of the latter three paths with fixed modes, zero timestamps and owner metadata. The manifest is excluded to avoid self-reference. Code, optional assets and method bytes also have individual hashes. A pinned binary vector prevents platform-dependent archive metadata from silently changing identities. Links, special files, unknown side paths and incomplete manifests are rejected.
+Figure~\ref{fig:architecture} shows the parties and exits. The protocol separates what the judge proposes privately from what the publisher releases publicly.
 
+\subsection{A worked status attack}
+Suppose a private context selects either ``amber lantern'' or ``violet compass'', and the model completion reveals that marker to the judge. The honest rubric ignores its identity. A malicious judge proposes $(0,0)$ after amber and crashes after violet. Without the repair, accepted versus error status identifies the secret even if every published score is constant. With ARTT, the two paths are
+\[
+\begin{aligned}
+\text{amber}&\to\text{proposal }(0,0)\to K_p,\\
+\text{violet}&\to\text{failure }\to(0,0)\to K_p,
+\end{aligned}
+\]
+where $K_p$ is the same trusted randomizer on each path. Both produce one record of the same shape at the scheduled slot, with identical record distributions. Different raw scores retain a noisy channel; the admission cap limits repeated observations.
 
-Here, an evaluation is the complete filed procedure: its code, prompts or task environment, any mediated tool use, scoring rule and resource policy. A verdict is the limited public record released after that procedure runs. Because the protection is applied at the exit, the same release mechanism applies to multi-call, tool-use and agentic evaluations, provided every tool is mediated inside the seal and has no external side effect. Demonstrating this is outside the scope of this paper; our implementation, experiments and theorem cover judges that make one model call per admission.
-
+\subsection{The sealed judge interface}
+Here, an evaluation is the complete filed procedure: its code, prompts or task environment, any mediated tool use, scoring rule and resource policy. A verdict is the limited public record released after that procedure runs. Because the protection is applied at the exit, the same release mechanism applies to multi-call, tool-use and agentic evaluations, provided every tool is mediated inside the seal and has no external side effect. Demonstrating this is outside the scope of this paper; our implementation, experiments and theorem cover judges that make at most one model call per admission.
 
 The protocol does not prescribe which target models a custodian must make available, or their scale. It applies when a custodian commits publicly to the target model identity and serving configuration while keeping its weights and raw outputs confidential. The release guarantee concerns the verdict and every other public field, including status, record shape, schedule and refusal entries. It does not establish that a filed evaluation validly measures the behavior it claims to measure.
 
-
-ARTT requires every released record, including filings, refusals and fallbacks, to be appended to a public hash-chained ledger. The ledger is what makes the right to test checkable: anyone can see that a filing was made, whether it was run or refused, and that no published record has been altered. External witnesses, which would also detect dropped filings or rollback, are future work. It is not part of the privacy mechanism. Hash chaining is postprocessing of the declared records, so the privacy bound is unchanged.
-
+An ARTT bundle contains a manifest, judge code, optional local judge assets and a public method card. Its identity is a sorted ustar archive of the latter three paths with fixed modes, zero timestamps and owner metadata. The manifest is excluded to avoid self-reference. Code, optional assets and method bytes also have individual hashes. A pinned binary vector prevents platform-dependent archive metadata from silently changing identities. Links, special files, unknown side paths and incomplete manifests are rejected.
 
 The custodian first checks deny-all network policy, the entrypoint, hashes, schema and resource caps. A valid bundle may still be declined. These paths append refused entries with fixed reason codes; exception text and judge data are never refusal notes. The runner executes a verified snapshot of the submitted bytes, so later edits to the source directory do not redefine the run.
 
-
-Figure~\ref{fig:architecture} describes the parties and exits:
-
-\begin{figure*}[!t]
-\centering
-\resizebox{0.98\textwidth}{!}{%
-\begin{tikzpicture}[
-  font=\small,
-  >=Latex,
-  box/.style={draw, rounded corners=2.5pt, align=center, inner sep=4pt, thick,
-              minimum height=0.95cm, minimum width=2.50cm},
-  pub/.style={box, fill=blue!8},
-  priv/.style={box, fill=orange!12},
-  seal/.style={draw=orange!70!black, dashed, line width=0.9pt, rounded corners=5pt,
-               fill=orange!4, inner xsep=12pt, inner ysep=10pt},
-  arr/.style={->, line width=0.8pt, draw=black},
-  lab/.style={font=\footnotesize\itshape, text=black!70, inner sep=1pt}
-]
-
-\node[pub]  (submitter) at (0, 0)          {Submitter\\bundle + method card};
-\node[priv] (budget)    at (4.90, 0)       {Custodian-owned\\budget};
-\node[priv] (judge)     at (9.00, 0)       {Filed judge /\\private workers};
-\node[priv] (publisher) at (13.25, 0)      {Publisher\\same fresh noise\\fixed slots};
-\node[pub]  (log)       at (18.70, 0)      {Public\\hash-chained log};
-
-\node[priv] (model)    at (9.00, 2.55)     {Private\\model};
-\coordinate (sealtop) at ([yshift=0.60cm]model.north);
-\node[priv] (fallback) at (13.25, -2.30)   {Fallback\\raw $(0,0)$};
-\node[pub]  (refuse)   at (0, -4.10)       {Preflight\\refusals};
-
-\begin{scope}[on background layer]
-  \node[seal, fit=(budget)(sealtop)(judge)(fallback)(publisher)] (seal) {};
-  \node[font=\footnotesize\itshape, text=black!55, anchor=south west, inner sep=0pt]
-    at ([xshift=6pt, yshift=8pt]seal.south -| budget.west)
-    {sealed runner (private; custodian)};
-\end{scope}
-
-\draw[arr] (submitter.east) -- (budget.west);
-\draw[arr] (budget.east) -- (judge.west);
-\draw[arr] (judge.east) -- (publisher.west);
-\draw[arr] (publisher.east) -- (log.west);
-
-% Edge labels centred above their horizontal arrows
-\coordinate (mD) at ($(judge.east)!0.5!(publisher.west)$);
-\node[lab, anchor=south] at ([yshift=3pt]mD) {verdict};
-% file and record / slot sit on the public stubs outside the seal
-\coordinate (mA) at ($(submitter.east)!0.5!(seal.west)$);
-\coordinate (mF) at ($(seal.east)!0.5!(log.west)$);
-\node[lab, anchor=south] at ([yshift=3pt]mA) {file};
-\node[lab, anchor=south] at ([yshift=3pt]mF) {record / slot};
-
-% Model loop
-\draw[arr] ([xshift=-0.25cm]judge.north) -- ([xshift=-0.25cm]model.south);
-\draw[arr] ([xshift=0.25cm]model.south) -- ([xshift=0.25cm]judge.north);
-\path ([xshift=-0.25cm]judge.north) -- coordinate[midway] (loopL) ([xshift=-0.25cm]model.south);
-\path ([xshift=0.25cm]judge.north) -- coordinate[midway] (loopR) ([xshift=0.25cm]model.south);
-\node[lab, anchor=east] at ([xshift=-6pt]loopL) {proposal};
-\node[lab, anchor=west] at ([xshift=6pt]loopR) {completions};
-
-% Fallback path: judge drops down, one bend, enters Fallback from the left;
-% Fallback rises straight into the publisher.
-\draw[arr] (judge.south) |- (fallback.west);
-\draw[arr] (fallback.north) -- (publisher.south);
-\path (judge.south |- fallback.west) -- coordinate[midway] (mE) (fallback.west);
-\node[lab, anchor=south] at ([yshift=3pt]mE) {on timeout};
-\path (fallback.north) -- coordinate[midway] (mFb) (publisher.south);
-\node[lab, anchor=west] at ([xshift=6pt]mFb) {fallback};
-
-% Preflight
-\draw[arr] (submitter.south) -- (refuse.north);
-\draw[arr] (refuse.east) -- (refuse.east -| log.south) -- (log.south);
-\path (refuse.east) -- coordinate[midway] (mRef) (refuse.east -| log.south);
-\node[lab, anchor=south] at ([yshift=3pt]mRef) {refusal entry};
-
-% Legend
-\coordinate (figc) at ($(submitter.west)!0.5!(log.east)$);
-\node[anchor=north] at ([yshift=-0.35cm]figc |- refuse.south) {
-  \begin{tikzpicture}[baseline, font=\footnotesize,
-    box/.style={draw, rounded corners=2pt, inner sep=2.5pt, thick,
-                minimum height=0.34cm, minimum width=0.85cm},
-    pub/.style={box, fill=blue!8},
-    priv/.style={box, fill=orange!12}]
-    \node[pub] (lp) {};
-    \node[right=0.10cm of lp, anchor=west] (lt) {public};
-    \node[priv, right=0.95cm of lt] (li) {};
-    \node[right=0.10cm of li, anchor=west] {private (inside seal)};
-  \end{tikzpicture}
-};
-
-\end{tikzpicture}%
-}
-\caption{Parties and public exits. The submitter files a bundle into the custodian-owned budget. Inside the sealed runner, the filed judge exchanges a proposal and completions with the private model and passes a verdict to the publisher; timeouts and errors map to the fixed fallback $(0,0)$ instead. The publisher applies the same fresh noise to either value and writes one fixed-shape record per slot to the public hash-chained log. Preflight refusals enter the same log separately.}
-\label{fig:architecture}
-\end{figure*}
-
 The judge receives \texttt{complete(messages)} and \texttt{emit(verdict)}. It cannot import the custodian fixture. Model calls and responses pass over inherited private pipes and remain transient memory. No trace or stderr file exists. The parent counts calls, bounds frames, enforces one emit, and waits for successful exit; a later exception prevents acceptance even after a valid proposal.
 
+\subsection{Admission before access}
+An admission authorizes one judge execution against a protected item, with at most one private model call in this prototype. The cap counts these authorizations, including executions that fail or time out, rather than successful calls or questions inside a prompt. An item cap limits repeated admissions of that item; a corpus cap limits total admissions across its items. Both are shared across filers and judge-program aliases.
 
-The claimed release interface is a scheduled, fixed-shape record. Before any protected model access, the runner charges a custodian-owned budget. Each admitted slot produces two raw buckets: a timely valid proposal supplies them, while any timeout, exception, invalid emit or missed cutoff supplies the fixed default $(0,0)$. The runner applies the same categorical randomized-response kernel, a runner-owned randomizer over the four bucket values, to either input and publishes one \texttt{kind=released} record at the scheduled slot. The record omits call count, post-access status, cutoff flags and execution timestamps.
+Public bundle validation precedes protected access. SQLite atomically commits each custodian-owned budget charge before the worker starts. Corpus and item charges use separate transactions; both must succeed before access. A failed second charge can consume the first without admitting a worker, conservatively reducing availability rather than refunding access. Charges are non-refundable. Because an item's budget is shared by everyone who files against it, a deployment pairs it with an allocation policy, such as per-filer quotas, so that no single filer can exhaust it. Tests cover concurrent admission and ordinary restart; hostile ledger rollback or cloning still requires an external checkpoint.
 
+\subsection{Failure normalization and randomized release}
+The judge's raw proposal has two score dimensions, called axes. Each axis takes one of four categorical values, $0,1,2,3$; the public method declares what those categories mean. A fallback is the trusted raw pair $(0,0)$ used when execution fails after access. It is an input to the randomizer, not a public error label. A timely proposal must reach the publisher before its preannounced deadline, the cutoff.
 
-This ordering matters. A score mechanism cannot protect an accepted/error distinction that is published outside it. A smaller freely selectable verdict also remains a channel: a single remaining bit can encode a binary secret. The final protocol therefore places the complete post-access outcome, including fallback, behind the same runner-owned release mechanism.
+A timely valid proposal supplies two raw buckets. Exceptions, invalid/no/multiple emits, forbidden operations, timeouts and missed cutoffs supply raw $(0,0)$. An error after emitting invalidates that proposal. Each bucket independently stays unchanged with probability $1-p$ and changes to each other bucket with probability $p/3$, with $p=1/2$ in the experiments. Here $p$ is the probability of changing a bucket, not of changing the secret bit. The same fresh trusted kernel processes every fallback.
 
+Every admitted slot publishes \texttt{kind=released}, the same public shape and policy, a noisy two-axis verdict, empty tags and fixed metadata. Actual call counts, post-access error/status labels, cutoff flags and execution timestamps are absent. ``Released'' does not assert a successful evaluation: the policy explicitly declares its default scoring rule. Public preflight refusals remain truthful. Strict verification checks policy, shape, schedule order and the canonical hash chain.
 
-Each public ledger row carries a sequence number, the previous row's hash and a canonical entry hash, plus the model, bundle, method and software hashes. Refused rows carry a fixed reason code. Attestation is labeled \texttt{software-sandbox-v1:<source hash>}, never a hardware quote.
+The finite verdict alphabet bounds what the judge can encode; the specified release kernel gives the exact $\epsilon$ of Section~\ref{sec:privacy}. A free-form numeric score would instead need clipping and noise calibrated to its full range.
 
-Legacy v1 rows, used only in the fixture experiments, published accepted or error status and call count. Final release-interface version 2 (v2) rows (Figure~\ref{fig:record}) publish neither, and their only time field is the scheduled slot time.
+\subsection{Fixed-slot publication}
+A fixed record shape removes extra fields; fixed slots remove the judge's choice of when to publish them. The publisher completes a readiness handshake and fixes the schedule's origin (the epoch) before private access. A slot is a preannounced release time. The cutoff is the earlier deadline for a valid proposal; after it, the publisher uses the fallback without changing the slot. In the Qwen run, slots are 0.25 seconds apart, workers have a three-second limit, and the cutoff margin is 0.1 seconds. Failed slots remain charged and release through the same kernel.
+
+The theorem assumes delivery at these declared times is independent of private execution, including epoch selection across batches. Choosing each epoch before its own batch is insufficient if earlier private work can influence it. The prototype's physical timing measurements and remaining delivery channels are assessed together in Section~\ref{sec:timing-limitations}.
+
+\subsection{The public ledger}
+ARTT requires every filing outcome, including refusals and noisy fallback releases, to be appended to a public hash-chained ledger. Readers can inspect recorded filings and outcomes, verify chain consistency, and detect changes to a prefix against a previously retained checkpoint. Without such an anchor, hash chaining alone cannot detect a whole-chain rewrite or valid suffix deletion. External filing receipts and witnessing to detect omissions or equivocation are future work. The ledger is not part of the privacy mechanism: hash chaining is postprocessing of the declared records, so the privacy bound is unchanged.
+
+Each public ledger row carries a sequence number, the previous row's hash and a canonical entry hash, plus the model, bundle, method and software hashes. Refused rows carry a fixed reason code. Final scheduled records label attestation \texttt{software-sandbox-v2:<source hash>}; legacy records use v1. Neither is a hardware quote.
+
+Legacy v1 rows, used in the earlier fixture experiments and the live Qwen open-status control, published accepted or error status and call count. Final release-interface version 2 (v2) rows (Figure~\ref{fig:record}) publish neither, and their only time field is the scheduled slot time.
 
 
 Figure~\ref{fig:record} abbreviates a final fixed-shape record from the Qwen run. Hashes and identifiers are elided for readability; the complete JSONL chain is independently verifiable:
@@ -222,7 +265,7 @@ policy: charge=before\_model\_access\_no\_refunds,\\
 verdict: schema=rt.verdict.v1b,\\
 \phantom{verdict: }axes=\{deception:0, sycophancy:2\},\\
 \phantom{verdict: }failure\_tags=[]
-\normalfont\caption{Abbreviated final release record. Successful proposals and post-access failures produce this same public shape; status and call count are suppressed.}\label{fig:record}\end{figure}
+\normalfont\caption{Abbreviated final release record. Successful proposals and post-access failures produce this same public shape; status and call count are suppressed. Here \texttt{deception} and \texttt{sycophancy} are inherited log-field names for axis 1 and axis 2; Section 7.5 gives their meaning.}\label{fig:record}\end{figure}
 
 \section{Implementation}
 
@@ -235,26 +278,28 @@ Tests try both Python socket/urllib operations and native libc/raw socket syscal
 The fixture maps the 32 public prompts to fixed responses. The harness inserts one planted phrase or byte on a separate out-of-scope line. Its hash binds fixture bytes and backend code, not a learned weights file. Each trial uses the same hashed backend with a privately sampled experimental input. The judge sees that input only in a mediated completion. The harness may inspect the secret; public logs do not retain ground truth schedules, prompts or responses.
 
 
-Source, vector, tests and data are local. Runtime dependencies are standard Python plus the preinstalled Linux sandbox tools; tests reuse pinned pytest without network installation. The executed core suite includes bundle identity, network denial, emit-once, logs, honest stability, exfiltration and defense.
+Source, vector, tests and data are local and available at \url{https://github.com/SiddakBath/artt-protocol}; the archived release is \url{https://doi.org/10.5281/zenodo.23180546}. Runtime dependencies are standard Python plus the Linux sandbox tools; tests use pinned pytest. The README includes a no-GPU fixture demo through the shipped scheduled publisher. The executed core suite includes bundle identity, network denial, emit-once, logs, honest stability, exfiltration and defense.
 
 
-\section{Whole-record learned-model result}
-The main finding is a protocol repair for a release-channel failure, rather than a new noise primitive. After repair, the same status decoder obtains 128/256 in every phase, including deliberate timeouts. The motivating failure is that a judge can emit a constant verdict on one private bit value and raise an exception on the other. Noise on accepted scores cannot protect truthful terminal status. On Qwen3-0.6B, the open accepted/error interface recovers 256/256 secrets with this attack. Table~\ref{tab:whole} places the open controls and closed attacks side by side.
+\section{Privacy analysis}\label{sec:privacy}
 
-The model receives a private context bit choosing amber lantern or violet compass before inference. There is no completion injection or response cache. The system instruction is ``Return exactly two words.'' Even-indexed public probes request a copy of the two-word marker; odd-indexed probes request a copy of ``hello'' followed by the marker. The 256 indices instantiate four distinct deterministic prompts, not 256 independent semantic tasks. Eight development calls tested this construction before the protocol recorded in \path{results/qwen-scheduled-utility-2026-10-05/protocol.json} was run. The canary is one private input, not a secret that affects every answer.
+\subsection{From bucket noise to a privacy bound}
+Differential privacy bounds how distinguishable two private inputs can be from the public release: for every possible public event, its probability in either input is at most $e^\epsilon$ times its probability in the other. Smaller $\epsilon$ means a tighter bound. This is a worst-case likelihood-ratio guarantee, distinct from decoder accuracy and mutual information.
 
-The trusted Windows CUDA custodian makes 1{,}536 live greedy inferences, with thinking disabled and a 32-token limit, after admission. All 1{,}536 contain the correct marker unambiguously. Before the run, we hashed the weights, \path{config.json} and \path{tokenizer.json}. We hashed the remaining checkpoint files afterwards. The runtime and scripts have a source snapshot. The backend receipt records an NVIDIA GeForce RTX 3050 Ti Laptop GPU; it does not record a driver version or checkpoint revision. Authentic inference remains a trusted-custodian premise. Every filed judge still runs in the mandatory Linux namespace/seccomp sandbox. Raw responses and bit schedules are not persisted. The status and honest phases use the same private contexts and public item identifiers. Open status and score-channel controls have independent protected corpora; their intentionally revealing outputs are outside the protected service view.
-
-\subsection{Repairing the complete release}
-Public bundle validation precedes protected access. SQLite atomically commits each custodian-owned budget charge before the worker starts. Corpus and item charges use separate transactions; both must succeed before access. A failed second charge can consume the first without admitting a worker, conservatively reducing availability rather than refunding access. Errors and timeouts receive no refunds. Program hashes do not own the budget scope: aliases accessing the same protected item share its counter. Because an item's budget is shared by everyone who files against it, a deployment pairs it with an allocation policy, such as per-filer quotas, so that no single filer can exhaust it. Four admissions per status item cover two abort attempts, a timeout attempt and an honest evaluation. Two subsequent requests from another program are refused without inference. Separately, the 32-request admission-controller audit used a corpus cap of three and recorded three admissions and 29 refusals. Tests cover concurrent admission and ordinary restart; hostile ledger rollback or cloning still requires an external checkpoint.
-
-An independent publisher completes a readiness handshake and fixes its epoch before private access. Its slots are 0.25 seconds apart; workers have a three-second limit and proposals have a fixed 0.1-second cutoff margin. A timely valid proposal supplies two raw buckets. Exceptions, invalid/no/multiple emits, forbidden operations, timeouts and missed cutoffs supply raw $(0,0)$. An error after emitting invalidates that proposal. Each bucket independently stays unchanged with probability $1-p$ and changes to each other bucket with probability $p/3$, with $p=1/2$ here. The same fresh trusted kernel processes every fallback.
-
-Every admitted slot publishes \texttt{kind=released}, the same public shape and policy, a noisy two-axis verdict, empty tags and fixed metadata. Actual call counts, post-access error/status labels, cutoff flags and execution timestamps are absent. ``Released'' does not assert a successful evaluation: the policy explicitly declares its default scoring rule. Public preflight refusals remain truthful. The caller waits until a fixed minimum completion gate after worker joins. This lower bound does not certify constant API-return latency; the observer interface excludes that return signal. Strict verification checks policy, shape, schedule order and the canonical hash chain.
-
-Live publication uses a preannounced Linux shared-memory endpoint and a publisher CPU distinct from judge CPUs. Its already-public bytes are archived to the Windows-mounted filesystem after the slot sequence. An earlier timing run synchronized that filesystem at each slot and overran a 250-ms period by as much as 360 ms. It remains preserved with a timing-integrity note and is excluded as evidence of a successful timing realization. The final Qwen run's maximum measured publication lateness is 6.81 ms; all publications preceded the following slot. Memory publication is not crash-durable, and committed admission charges are not refunded after publisher/storage failure.
+For one axis with raw value zero, the publisher releases zero with probability $1-p$ and each of $1,2,3$ with probability $p/3$. For $0<p\leq3/4$, changing the raw value can change an output's probability by at most
+\[
+\frac{1-p}{p/3}=\frac{3(1-p)}p.
+\]
+Two independently randomized axes multiply these ratios. Taking logarithms gives the per-record cost
+\[
+\epsilon=2\ln\!\left(\frac{3(1-p)}p\right),\qquad
+p=1/2\ \Longrightarrow\ \epsilon=2\ln3.
+\]
+At $p=3/4$, each axis is uniform and carries neither the secret signal nor the honest score signal.
 
 \subsection{The declared full-view guarantee}
+An item's admission cap $R$ is the maximum number of charged authorizations to execute against that item, shared across all filers and judge programs. Each permits at most one private model call; failures and timeouts still consume the cap. Write $M$ for the number of public records that changing one private context could affect. Context-local noninterference means that changing that context cannot change another item's raw proposal or fallback, including through a shared queue or a missed cutoff. Only with that additional property does the item cap justify $M=R$.
+
 Fix the public model commitment, filed methods, item identifiers, resource policy and observer interface. Neighboring inputs differ in one designated private canary context. A judge may make at most one model call per admission and cannot select another custodian context. Assume trusted isolation, custodian and publisher, non-rollback accounting, publisher availability and data-independent delivery at the declared slots. The observer sees complete ordered slot records, including metadata and preflight refusals, but no private execution telemetry or unscheduled completion signal. The observer interface is the public ledger; its hash chain is postprocessing of the records and does not affect the bound.
 
 \begin{theorem}[Whole-record privacy at the declared slot interface]
@@ -268,31 +313,101 @@ At most $M$ potentially affected public records compose to $M\epsilon$, includin
 Every one-axis input/output transition ratio is at most $3(1-p)/p$. The product kernel bounds every pair of raw vectors by $e^\epsilon$. Mixing over arbitrary transcript-dependent proposals, errors or cutoffs preserves this pointwise bound. All remaining admitted-record fields, including kind and slot, are fixed public information or postprocessing of noisy outputs and public history. Conditional on that history, admission/refusal depends on public filings and charged count, never hidden success. Sequential composition gives the cap; hash chaining is postprocessing. The delivery assumption is necessary to extend a score bound to the declared entire view. It includes secret-independent epoch selection across batches, not merely choosing each batch's epoch before that batch's first access. A subsequent wall-clock epoch or API return influenced by previous private work is an additional channel.
 \end{proof}
 
-At $p=1/2$, the per-admission bound is $2\ln3$. A four-filing item cap gives $8\ln3\simeq8.789$ only if changing that context cannot alter another context's raw proposal or fallback. The shared worker/model queues have not proved this premise: an adversarial delay may affect another item's cutoff. The safe generic composition for the 1{,}280 admitted v2 records is $2{,}560\ln3\simeq2{,}812.45$, a very weak bound. A deployment needs a cap spanning all affected releases or proved context-local execution. Until context-local execution is proved, the claim for this run is the generic composition.
+At $p=1/2$, the total cost is at most $2M\ln3$. A deployment that caps all admissions per model snapshot at $B$ therefore obtains $2B\ln3$ without a context-local assumption, under the theorem's trust and delivery assumptions. The prototype's conservative value of $M$ is discussed in Section~\ref{sec:timing-limitations}.
 
+\subsection{Exact status equality and bounded score leakage}\label{sec:status-equality}
 For the original status attack, success and error both map to raw $(0,0)$. Their complete slot-record distributions are exactly equal, so optimal equal-prior recovery is $1/2$ for any number of these filings. This equality is stronger than the generic DP bound. A different successful raw vector retains a permitted noisy channel. Repetition can distinguish that vector from a fallback, which is why the cap remains necessary. Identical noise parameters do not make every success indistinguishable from every error.
 
-\subsection{Controls and repeated attacks}
-The status decoder is fixed before evaluation: guess one on an error record, zero otherwise. The abort program raises after seeing the violet marker and otherwise proposes $(0,0)$. The open control enables legacy score noise, directly testing whether status bypasses it. The timeout program loops instead of raising. Private worker outcomes are retained only as aggregate synthetic-research diagnostics.
+\section{Experimental evaluation}\label{sec:experiments}
+Run status is a channel even when the score is constant. On Qwen3-0.6B, a judge that emits a constant verdict on one private bit value and raises on the other recovers 256/256 planted secrets through accepted-versus-error status. Closing that path means moving failure inside the noisy release: after repair, the same status decoder obtains 128/256 in every phase, including deliberate timeouts. For this attack, success and failure have exactly equal public-record distributions (Section~\ref{sec:status-equality}). Table~\ref{tab:whole} places the open controls and repaired attacks side by side.
 
-The score decoder counts categories zero and one across both axes and uses public seed 7631 for ties. The same decoder reads closed attacks and the score positive control. That control deliberately proposes $(S,S)$ on an independent corpus. With $p=1/2$ its optimal one-filing accuracy is exactly $13/18=72.22\%$. A failed control would invalidate an empirical chance result from this decoder.
+\subsection{Which evidence tests which claim}
+Table~\ref{tab:evidence-map} separates the live learned-model experiment, the scheduled fixture follow-up, and the older schema experiments. The honest utility measurements use the same Qwen contexts and releases as the status experiment; they are literal-format checks, not a separate semantic benchmark. The sampled count analysis in Appendix~\ref{app:count} uses a different mechanism and does not supply evidence for the deployed categorical release.
 
 \begin{table*}[t]\centering\small
-\begin{tabular}{lrrl}\toprule
-Interface / phase & Status decoder & Score decoder & Interpretation\\\midrule
-Open status control, Qwen & 256/256 & n/a & Status defeats noisy constant score\\
-Closed abort, first filing & 128/256 & 117/256 & Same raw vector in both branches\\
-Closed abort, second filing & 128/256 & 134/256 & No error refunds or status field\\
-Closed deliberate timeout & 128/256 & 123/256 & Every admitted slot releases\\
-Three closed attacks combined & 128/256 & 124/256 & Score 95\% interval [0.424, 0.545]\\
-Score-channel positive control (under ARTT) & 128/256 & 202/256 & Predicted 72.22\%; observed 78.91\%\\
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.22\textwidth}>{\raggedright\arraybackslash}p{0.29\textwidth}>{\raggedright\arraybackslash}p{0.40\textwidth}@{}}\toprule
+Evidence & Private input and execution & Question and location\\\midrule
+Qwen whole-record study & One planted context bit; live Qwen3-0.6B & Does status leak despite a constant score, and does the repair remove that path? Table~\ref{tab:whole}. Honest literal-format utility uses the same contexts: Table~\ref{tab:sameutility}.\\
+Repeated-admission study & Sixteen planted bits; scheduled fixture completions & How much score information remains as admissions increase? Figure~\ref{fig:lead}; no new Qwen inference.\\
+Earlier schema studies & Planted phrases or bytes; separate fixture and Qwen samples & What can an evaluator encode in a constrained verdict? Appendix~\ref{sec:fixture}.\\
+Sampled count analysis & Fixed binary scores; analytic mechanism and kernel simulations & What does hidden sampling change? Appendix~\ref{app:count}; not deployed categorical v2.\\
 \bottomrule\end{tabular}
-\caption{Same learned model, public probe construction and predeclared decoders. Controls use independent protected corpora; closed attacks use the same status contexts. A constant status decoder scores exactly 128 on balanced bits; the status control establishes that it recovers the secret when status is available.}\label{tab:whole}
+\caption{Evidence streams and their distinct purposes. Synthetic canaries test transport of private information; they do not measure semantic alignment.}
+\label{tab:evidence-map}
 \end{table*}
 
-Three closed filings yield 124/256 score recovery. Both branches produce the same output distribution by construction. A separate offline draw of 1,000,000 calls to the shipped kernel at $p=1/2$ flipped 499,692 outputs (49.9692\%), consistent with the analyzed kernel. The positive control obtains 202/256 (78.91\%), about 2.4 standard errors above the 72.22\% optimal accuracy for this kernel. Because the shipped kernel matches the analysis, we attribute the excess to sampling variation. The control confirms that the decoder detects a live score channel. The observed run remains reported without replacement. The timeout phase contains 128 deliberate private timeouts. All 1{,}280 admitted v2 records have one public shape, and the exhausted-budget requests cause no model calls.
+\subsection{Learned-model setup}
+The model receives a private context bit choosing amber lantern or violet compass before inference. There is no completion injection or response cache. The system instruction is ``Return exactly two words.'' Even-indexed public probes request a copy of the two-word marker; odd-indexed probes request a copy of ``hello'' followed by the marker. The 256 indices instantiate four distinct deterministic prompts, not 256 independent semantic tasks. Eight development calls tested this construction before the protocol recorded in \path{results/qwen-scheduled-utility-2026-10-05/protocol.json} was run. The canary is one private input, not a secret that affects every answer.
 
-This control is the worst case: a judge deliberately built to leak, targeting a one-bit secret. Any evaluation that publishes a score lets that score carry some information, so the goal cannot be zero leakage. ARTT turns a hidden, exact and unlimited channel into a declared, logged and budget-capped one. The noise level is a dial: our $p=1/2$ is a demonstration setting, and smaller $p$ trades precision for less leakage.
+The trusted Windows CUDA custodian makes 1{,}536 live greedy inferences, with thinking disabled and a 32-token limit, after admission. All 1{,}536 contain the correct marker unambiguously. Before the run, we hashed the weights, \path{config.json} and \path{tokenizer.json}. We hashed the remaining checkpoint files afterwards. The runtime and scripts have a source snapshot. The backend receipt records an NVIDIA GeForce RTX 3050 Ti Laptop GPU; it does not record a driver version or checkpoint revision. Authentic inference remains a trusted-custodian premise. Every filed judge still runs in the mandatory Linux namespace/seccomp sandbox. Raw responses and bit schedules are not persisted. The status and honest phases use the same private contexts and public item identifiers. Open status and score-channel controls have independent protected corpora; their intentionally revealing outputs are outside the protected service view.
+
+\subsection{Controls and repeated attacks}
+The three comparisons have different jobs: the open control's 256/256 establishes a status channel despite score noise; the repaired attack's 128/256 is the balanced-data realization of exact status equality; and the score encoder's 202/256 confirms that the permitted noisy score channel remains. The last is a positive control, not a failure of the status repair.
+
+The status decoder is fixed before evaluation: guess one on an error record, zero otherwise. The abort program raises after seeing the violet marker and otherwise proposes $(0,0)$. The open control enables legacy score noise, directly testing whether status bypasses it. The timeout program loops instead of raising. Private worker outcomes are retained only as aggregate synthetic-research diagnostics.
+
+The score decoder counts categories zero and one across both axes and uses public seed 7631 for ties. The same decoder reads status-suppressed attacks and the score positive control. That control deliberately proposes $(S,S)$ on an independent corpus. With $p=1/2$ its optimal one-filing accuracy is exactly $13/18=72.22\%$. A failed control would invalidate an empirical chance result from this decoder.
+
+Four admissions per status item cover two abort attempts, a timeout attempt and an honest evaluation. Two subsequent requests from another program are refused without inference. Separately, the 32-request admission-controller audit used a corpus cap of three and recorded three admissions and 29 refusals.
+
+\begin{table*}[t]\centering\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.28\textwidth}rr>{\raggedright\arraybackslash}p{0.45\textwidth}@{}}\toprule
+Phase & Status & Score & Interpretation\\\midrule
+Open status control, Qwen & 256/256 & n/a & Status defeats noisy constant score\\
+Status-suppressed abort (first filing) & 128/256 & 117/256 & Both branches map to the fallback raw vector\\
+Status-suppressed abort (second filing) & 128/256 & 134/256 & No error refunds or status field\\
+Status-suppressed timeout & 128/256 & 123/256 & Every admitted slot releases a fallback on timeout\\
+Three status-suppressed attacks & 128/256 & 124/256 & Score 95\% interval [0.424, 0.545]\\
+Score-channel positive control (under ARTT) & 128/256 & 202/256 & Predicted 72.22\%; observed 78.91\%\\
+\bottomrule\end{tabular}
+\caption{Same learned model, public probe construction and predeclared decoders. Controls use independent protected corpora; status-suppressed attacks use the same status contexts. A constant status decoder scores exactly 128 on balanced bits; the status control establishes that it recovers the secret when status is available.}\label{tab:whole}
+\end{table*}
+
+Three status-suppressed filings yield 124/256 score recovery. Both branches produce the same output distribution by construction. The positive control obtains 202/256 (78.91\%), about 2.4 standard errors above the 72.22\% optimal accuracy for this kernel. It confirms that the decoder detects a live score channel; the observed run remains reported without replacement. The separate fixture check in Section~\ref{sec:multibit} tests that kernel through the shipped publisher and does not reproduce the Qwen experiment. The timeout phase contains 128 deliberate private timeouts. All 1{,}280 admitted v2 records have one public shape, and the exhausted-budget requests cause no model calls. Appendix~\ref{app:evidence} gives the additional kernel diagnostics.
+
+This control is the worst case for one filing: a judge deliberately built to leak, targeting a one-bit secret. Any evaluation that publishes a score lets that score carry some information, so the goal cannot be zero leakage. ARTT turns a hidden, exact and unlimited channel into a declared, logged and budget-capped one. Our $p=1/2$ is a demonstration setting. Larger $p$, up to $3/4$, lowers leakage and reduces honest precision; smaller $p$ does the reverse.
+
+\subsection{Leakage under repeated admissions}
+\label{sec:multibit}
+This fixture experiment checks the release kernel and admission accounting. Each of 16 items carries one planted bit, and the judge writes that bit on both axes. The cap is a total across all sixteen items in each trial, not a separate allowance per bit. One pass is sixteen copies of the one-bit channel, so the first sixteen admissions recover $16\times 13/18=104/9$ bits in expectation. The adaptation determines which item is admitted next: each round files every item whose public likelihood exponent is closest to a tie. That choice does not change the channel. Within a round the filings are fixed before those releases are seen. The decoder is the equal-prior Bayes decoder, with public tie seed 7631. A refusal has no verdict and does not change the posterior.
+
+Write $a_r$ for the optimal decoder accuracy after $r$ admissions of one bit, both axes carrying that bit. Then $a_1=13/18$. For $t\le 16$ every admission is spent on a fresh bit, so
+\[
+\mathbb E[K_t]=8+\frac29 t,\qquad a_1-\frac12=\frac29.
+\]
+With this first-pass allocation, a total cap of 16 gives one admission per bit and an expected $104/9\approx 11.556$ correct bits. A total cap of 48 permits 32 further admissions, allocated to uncertain items. The cap bounds how many releases are available, while substantial recovery remains possible at this setting. Figure~\ref{fig:lead} estimates the same decoder's recovery as the budget increases.
+
+Correct hard-decoder predictions and Shannon leakage answer different questions. For a uniform planted bit in each context, one two-axis $p=1/2$ verdict $V$ has mutual information $I(S;V)=0.2314$ bits. Thus this sixteen-context experiment has the ceiling $\min\{16,0.2314N\}$ bits: 3.70 at 16 admissions and 11.11 at 48. This is not a protocol-wide capacity cap. With arbitrary four-bucket inputs on both axes, the same raw two-axis release channel has capacity 0.4150 bits per record at $p=1/2$, which a richer secret could use. The 72.22\% one-filing decoder accuracy instead gives $1-h_2(13/18)=0.1476$ bits only after discarding the categorical record in favour of a hard guess. Figure~\ref{fig:lead} reports posterior information from the retained public records, which preserves that distinction.
+
+The releases are the shipped scheduled publisher. Each filing runs in the Linux sandbox, the ledger charges the admission before the completion is read, and the public record is a v2 slot at $p=1/2$. The completion is the fixture backend; this curve adds no Qwen inferences. The 64-trial follow-up recovered 11.42 bits at sixteen admissions (standard error 0.218), against the exact $104/9\approx11.556$, and 14.31 at 48 admissions (standard error 0.157), against the frozen kernel prediction 14.481. The differences are $-0.61$ and $-1.07$ standard errors, respectively: both are within 1.1 standard errors of the analysis. Across the whole curve, live recovery estimates were predominantly below the prediction, the direction of less leakage. The mean at 48 was the locally declared primary endpoint, and the 100{,}000-trial Monte Carlo comparator was frozen before the follow-up in \path{results/multibit-rerun-2026-10-07/protocol.json}.
+
+The preliminary cap study recovered 11.69 bits at sixteen admissions across its two arms (pooled standard error 0.31); after each arm exhausted its cap, further filings were refused without model access or a decoder update. Figure~\ref{fig:lead} shows the follow-up, and Table~\ref{tab:decoder-deviations} reports every plotted deviation. These are completed trials, with a below-chance starting mean and one replaced interrupted attempt whose evidence was lost; Appendix~\ref{app:evidence} gives the exploratory results, RNG checks and evidence limitations.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.98\textwidth]{leakage-utility.png}
+\caption{The shared horizontal axis counts charged admissions in total across sixteen items per trial. Top: correct hard-decoder predictions across sixteen copies of the one-bit channel. Each item carries one bit and the judge writes it on both axes, so the line is exact through 16 admissions ($104/9\approx11.556$) and is the frozen 100{,}000-trial Monte Carlo expectation thereafter. Error bars show one standard error across 64 completed live scheduled fixture trials. Table~\ref{tab:decoder-deviations} reports each displayed deviation. Bottom: posterior information about the sixteen-bit binary secret from those same public chains, using full categorical records rather than hard decoder guesses. For this one-bit-per-context construction, one $p=1/2$ two-axis record carries 0.2314 Shannon bits, so the line is $\min\{16,0.2314N\}$ after $N$ admissions. It is not the capacity of the raw channel for richer secrets.}
+\label{fig:lead}
+\end{figure*}
+
+\begin{table*}[t]\centering\small
+\begin{tabular}{rrrr|rrrr}\toprule
+Admissions & Mean & SE & $z$ & Admissions & Mean & SE & $z$\\\midrule
+0 & 7.375 & 0.240 & $-2.60$ & 28 & 13.234 & 0.206 & $+0.27$\\
+4 & 8.219 & 0.273 & $-2.45$ & 32 & 13.391 & 0.190 & $-0.35$\\
+8 & 9.125 & 0.253 & $-2.58$ & 36 & 13.563 & 0.181 & $-1.33$\\
+12 & 10.328 & 0.252 & $-1.34$ & 40 & 13.719 & 0.186 & $-2.02$\\
+16 & 11.422 & 0.218 & $-0.61$ & 44 & 13.938 & 0.181 & $-2.10$\\
+20 & 12.203 & 0.209 & $-0.90$ & 48 & 14.312 & 0.157 & $-1.07$\\
+24 & 12.797 & 0.210 & $-0.55$ & & & &\\
+\bottomrule\end{tabular}
+\caption{Every plotted decoder point in Figure~\ref{fig:lead}. $z=(\text{live mean}-\text{reference})/\text{SE}$, where the reference is the exact fresh-bit expectation through 16 admissions and the frozen Monte Carlo comparator thereafter. The points are cumulative over the same 64 trials and strongly correlated. These descriptive pointwise values have no multiplicity adjustment.}
+\label{tab:decoder-deviations}
+\end{table*}
+
+For a predicate encoded as raw bucket $3Z$ and flip probability $p$, the released mean estimates the predicate mean by $\hat\mu=(\bar V-2p)/(3-4p)$. One admission of one item costs $\epsilon=2\ln(3(1-p)/p)$. On 256 items the root-mean-square error of $\hat\mu$ at $p=1/2$ is $\sqrt{4/(3\cdot256)}\approx 0.0722$, the variance already used for Table~\ref{tab:sameutility}. Tightening $\epsilon$ raises that error. The cap limits how often a secret can be re-read. It does not remove this noise.
 
 \subsection{Honest utility on the same contexts}
 The honest judge measures exactly two whitespace-separated words and exactly one permitted marker pair, ignoring which pair. Pass maps to raw category three and fail to zero. The inherited axis labels \texttt{deception} and \texttt{sycophancy} mean only these two literal predicates in the task declared in \path{results/qwen-scheduled-utility-2026-10-05/protocol.json}. Their names are not evidence of alignment validity. The public method declares the mapping, and utility includes every fallback value.
@@ -310,12 +425,12 @@ Predicate, same 256 status items & Raw mean & Public estimate & Absolute error &
 Two-word format compliance & 0.5000 & 0.3633 & 0.1367 & [0.222, 0.505]\\
 Marker validity, identity ignored & 1.0000 & 0.9219 & 0.0781 & [0.780, 1.063]\\
 \bottomrule\end{tabular}
-\caption{Honest utility through the same noisy slot interface. Standard error is $\sqrt{4/(3\cdot256)}=0.0722$. Intervals are fixed-effective-vector normal approximations and are not clipped to $[0,1]$; the finite-sample bound below also permits predictable adaptive defaults. Raw means are aggregate private research ground truth, never service-record fields.}\label{tab:sameutility}
+\caption{Honest utility through the same noisy slot interface. Absolute errors compare public estimates with raw response means; noise intervals target effective means including fallback zeros, not the raw response means. Standard error is $\sqrt{4/(3\cdot256)}=0.0722$. Intervals are fixed-effective-vector normal approximations and are not clipped to $[0,1]$; the finite-sample bound in the text also permits predictable adaptive defaults. Raw means are aggregate private research ground truth, never service-record fields.}\label{tab:sameutility}
 \end{table*}
 
 Exactly 251/256 honest proposals arrived before the cutoff: four timeouts and one additional late proposal produced five default scores. Effective predicate means, including defaults, are 0.4922 for format and 0.9805 for marker validity; the raw response means are 0.5 and 1.0. Response predicates were identical across all four phases on the status corpus. No failures are discarded.
 
-A descriptive post-run comparison of the public request groups declared in \path{results/qwen-scheduled-utility-2026-10-05/protocol.json} estimates format compliance as 0.7344 for two-word requests and $-0.0078$ for conflicting three-word requests. Their estimated difference is 0.7422, with approximate 95\% noise interval $[0.4593,1.0251]$ and standard error 0.1443. These are unclipped estimates from the same honest records, including defaults; the group contrast was not a primary endpoint. The public aggregate retains a formatting signal while the terminal-status attack is closed. This demonstrates utility for the narrow response rule, not broad semantic coverage or an asymmetric benefit from honest averaging. Every extra release uses up privacy budget.
+A descriptive post-run comparison of the public request groups declared in \path{results/qwen-scheduled-utility-2026-10-05/protocol.json} estimates format compliance as 0.7344 for two-word requests and $-0.0078$ for conflicting three-word requests. Their estimated difference is 0.7422, with approximate 95\% noise interval $[0.4593,1.0251]$ and standard error 0.1443. These are unclipped estimates from the same honest records, including defaults; the group contrast was not a primary endpoint. The public aggregate retains a formatting signal while the terminal-status signal is suppressed. This demonstrates utility for the narrow response rule, not broad semantic coverage or an asymmetric benefit from honest averaging. Every extra release uses up privacy budget.
 
 For a conservative finite-sample check, let $Z_t$ be the effective bit chosen at cutoff before its fresh noise, and $D_t=V_t-1-Z_t$. Conditional on the prior history and $Z_t$, $D_t$ has mean zero and range width three. Iterating the conditional Hoeffding moment bound gives, for fixed public weights $w_t$,
 \[
@@ -324,9 +439,95 @@ For a conservative finite-sample check, let $Z_t$ be the effective bit chosen at
 \]
 This remains valid if previous noise influences later cutoffs; it is not a confidence statement conditional on a retrospectively selected entire raw trajectory. With $w_t=1/256$, the pointwise 95\% radius is 0.2546: effective-format and marker intervals are $[0.1086,0.6179]$ and $[0.6672,1.1765]$. The public-group contrast has weights $1/128$ and $-1/128$, radius 0.5093 and interval $[0.2329,1.2515]$, still excluding zero. These are conservative post-run pointwise checks, with no simultaneous coverage or new primary-endpoint claim. They target effective scores, not a raw response mean corrected for unobserved failures. The bound is established probability theory~\cite{guntuboyina}.
 
-Actual publication jitter is an additional observable beyond declared slots. An exploratory timing decoder trains its threshold and direction on the first 128 measurements and tests the last 128. Its five held-out correct counts are 61, 58, 62, 67, 64 out of 128. These measurements do not prove timing noninterference. OS scheduling, physical transport arrival, host resource telemetry and publisher faults remain outside the theorem. A fixed-rate independent gateway and deployment timing audit are needed for a stronger operational claim.
+\section{Limitations}
+\subsection{Timing and cross-item interference}\label{sec:timing-limitations}
+The ideal interface releases each record at a secret-independent declared slot. The whole-record theorem assumes trusted, available delivery at that interface; it does not prove physical timing noninterference.
 
-\section{A narrow price for utility}
+Live publication uses a preannounced Linux shared-memory endpoint and a publisher CPU distinct from judge CPUs. Its already-public bytes are archived to the Windows-mounted filesystem after the slot sequence. An earlier timing run synchronized that filesystem at each slot and overran a 250-ms period by as much as 360 ms. It remains preserved with a timing-integrity note and is excluded as evidence of a successful timing realization. The final Qwen run's maximum measured publication lateness is 6.81 ms; all publications preceded the following slot. Memory publication is not crash-durable, and committed admission charges are not refunded after publisher/storage failure.
+
+Actual publication jitter is an additional observable beyond declared slots. An exploratory timing decoder trains its threshold and direction on the first 128 measurements and tests the last 128. Its five held-out correct counts are 61, 58, 62, 67, 64 out of 128. These measurements do not prove timing noninterference.
+
+Shared worker/model queues also mean that one context's delay may affect another item's cutoff and hence its fallback. The prototype has not established context-local noninterference. Its four-filing item caps would imply $8\ln3\simeq8.789$ only with that additional premise. For this run, all 1{,}280 admitted v2 records must instead count as potentially affected, giving the weaker generic composition bound $2{,}560\ln3\simeq2{,}812.45$. A total snapshot cap gives the direct deployment control from Section~\ref{sec:privacy}.
+
+The caller waits until a fixed minimum completion gate after worker joins. That lower bound does not certify constant API-return latency: the declared observer interface excludes this signal. Physical transport arrival, host telemetry, network delivery and publisher faults also remain outside the guarantee. A fixed-rate independent gateway and deployment timing audit are needed to extend the operational claim.
+
+\subsection{Trust, evaluation scope and participation}
+
+
+The kernel, runtime, custodian and publisher are trusted. A hostile host, forged model identity, modified runner, ledger rollback or equivocation by a dishonest operator, or storage failure lies outside the guarantee. Independent mirroring or witnessing of the ledger, for example Certificate Transparency-style witnesses~\cite{ct} or a public blockchain, is future work. Software attestation is not a hardware quote.
+
+The canary is private input context, and the four deterministic prompts measure transport and literal formatting rather than broad model behavior or semantic alignment. Fallbacks can bias an honest quantity, and repeated releases help both honest estimation and attacks.
+
+\paragraph{Budget scope in deployment.} Our experiments use known protected contexts. A secret internalized in model weights may influence responses to unrelated prompts, so item identifiers or prompt similarity alone do not establish which releases expose the same secret. A deployment must define its protected unit and account for every potentially affected release. A shared snapshot-wide cap provides the conservative accounting control in Section~\ref{sec:privacy}; choosing an allowance that supports useful evaluation at acceptable leakage remains a deployment task.
+
+A possible additional admission layer uses embedding similarity or LLM-assisted interpretation to group public filings and charge related probes against shared quotas across filers. PRADA detects model-extraction attempts from query distributions~\cite{prada}; stateful similarity detection also studies query-blinding attacks that evade such controls~\cite{stateful}. These are precedents for query-history controls, not guarantees for semantic grouping of LLM evaluations. Unrelated prompts may reveal the same secret, and a classifier label does not define a protected private bit. Such a layer would require tests of indirect and adaptive probing, coordinated filers, and mistaken grouping of legitimate evaluations. The theorem continues to account for all potentially affected releases independently of those labels. Grouping public submissions can precede private access; a decision based on private completions must itself have a protected release so that refusal does not become another channel~\cite{dproth}. This layer is proposed future work, not part of the measured prototype.
+
+Public software also cannot force a custodian to receive or execute a filing. Hardware custody, correlated model-wide secrets and substantive alignment evaluations remain open.
+
+Whether custodians adopt public filing, and which models and evaluations they admit, are policy questions. This paper shows how the release side can suppress the declared status signal and quantify score leakage for the defined task; it does not resolve the institutional choices needed to make participation broadly available.
+
+\section{Conclusion}
+ARTT removes status as a separate public channel by charging before access, routing every post-access outcome through a common noisy release, and publishing one fixed-shape record per scheduled slot. For the constant-score attack, success and failure have exactly equal record distributions and optimal recovery is $1/2$ for any number of filings. Score leakage remains explicit and countable: in the sixteen-context binary construction, one look at each bit recovers $104/9$ correct bits in expectation and carries at most 3.70 Shannon bits; the retained follow-up recovered 14.31 correct bits with 48 admissions, within 1.1 standard errors of the frozen kernel prediction. A richer secret can use the raw two-axis channel's 0.4150 bits per record at this noise level. Under explicit trust, delivery and accounting assumptions, each record costs $2\ln3$ and a total snapshot cap $B$ gives $2B\ln3$. The same Qwen release preserves useful literal-format signal. Hardware custody, physical timing and semantic alignment evaluation remain open.
+
+\appendix
+\section{Schema history and fixture leakage}
+\label{sec:fixture}
+
+\subsection{Why constraining the verdict alone failed}
+\label{sec:schemas}
+Earlier schemas constrained only the accepted verdict. v1 had four bucketed axes, an item-count field and up to four tags; its 163 permitted tag subsets give a 21.349-bit alphabet upper bound. v1b removed the count and two axes, but its two free axes still supplied four bits. For a secret $S$ and verdict $V$ from an alphabet of size $L$, $I(S;V\mid\text{fixed context})\leq H(V\mid\text{fixed context})\leq\log_2 L$; this limits capacity but does not establish secrecy. A trusted constant projection, v1c, removes the judge's remaining choice, but it also removes useful evaluator discretion.
+
+The separate source-frozen Qwen canary curve uses 256 deterministic inferences over two direct-copy prompts. All canaries land; v1/v1b recover 256/256 and runner-fixed v1c 128/256. One-axis noise at $p=.25,.5,.75$ yields 212/256, 184/256 and 124/256. Those three counts are this canary curve, in \path{results/qwen-curve-frozen-2026-10-05}: one private schedule and the same 256 completions are reused at each flip probability. They are not the fixture counts in Table~\ref{tab:fixture}, which are an independent sample and read 214/256, 180/256 and 118/256 at the same three probabilities. Both experiments use the one-axis kernel whose optimal accuracy is $1-2p/3$. Out of 256 trials that prediction is $213.33$, $170.67$ and $128$. The two observed triples come from separate samples; at $p=1/2$ both exceed the expectation. These schema experiments are distinct from the whole-record task above.
+
+\subsection{Fixture setup and results}
+
+We predeclared a binary secret as which of two fixed phrases the fixture includes: amber lantern or violet compass. The honest rubric ignores both. The adversary calls complete once, ignores the rubric and sets deception to zero or one. The unsafe control releases up to 256 characters, v1 packs axis buckets, v1b retains two axes, and v1c applies the trusted constant projection. A failed unsafe control would invalidate the experiment.
+
+
+The harness runs 256 balanced, privately shuffled binary trials per condition. The decoder reads the planted phrase in the unsafe control, the deception axis in v1/v1b, and makes a fixed zero guess in v1c. No decoder is trained on the evaluated labels. Recovery advantage is accuracy minus 0.5. Unsafe raw outputs are discarded and are never accepted public submissions. The safe logs are verified, including checks that neither phrase appears in their bytes.
+
+
+The fixture table includes the runner-noise conditions. Figure~\ref{fig:fixture-recovery} plots the same binary recovery and is supplemented by payload recovery because one binary secret cannot reveal a reduction from an eight-bit to a four-bit alphabet.
+
+\begin{figure}[t]\centering
+\parbox[b]{0.22\linewidth}{\centering\footnotesize 100\%\par\vspace{3pt}\textcolor{blue!60!black}{\rule{24pt}{90.0pt}}\par\vspace{3pt}Unsafe}\hfill\parbox[b]{0.22\linewidth}{\centering\footnotesize 100\%\par\vspace{3pt}\textcolor{blue!60!black}{\rule{24pt}{90.0pt}}\par\vspace{3pt}v1}\hfill\parbox[b]{0.22\linewidth}{\centering\footnotesize 100\%\par\vspace{3pt}\textcolor{blue!60!black}{\rule{24pt}{90.0pt}}\par\vspace{3pt}v1b}\hfill\parbox[b]{0.22\linewidth}{\centering\footnotesize 50\%\par\vspace{3pt}\textcolor{blue!60!black}{\rule{24pt}{45.0pt}}\par\vspace{3pt}v1c fixed}\caption{Binary-secret recovery, 256 fixture trials per condition. The fixed v1c control is 50\%; v1 and v1b both recover the secret perfectly. Unsafe is a test-only output.}\label{fig:fixture-recovery}\end{figure}
+
+
+\begin{table*}[t]\centering\small\begin{tabular}{>{\raggedright\arraybackslash}p{76.0pt}>{\raggedright\arraybackslash}p{76.0pt}>{\raggedright\arraybackslash}p{76.0pt}>{\raggedright\arraybackslash}p{76.0pt}>{\raggedright\arraybackslash}p{76.0pt}}\toprule
+Release & Correct/trials & Recovery & Advantage above chance & Empirical MI (bits)\\
+\midrule
+unsafe (test only) & 256/256 & 1.0000 & 0.5000 & 1.0000\\
+v1 & 256/256 & 1.0000 & 0.5000 & 1.0000\\
+v1b & 256/256 & 1.0000 & 0.5000 & 1.0000\\
+v1c & 128/256 & 0.5000 & 0.0000 & 0.0000\\
+v1b, p=0.25 & 214/256 & 0.8359 & 0.3359 & 0.5126\\
+v1b, p=0.5 & 180/256 & 0.7031 & 0.2031 & 0.2489\\
+v1b, p=0.75 & 118/256 & 0.4609 & -0.0391 & 0.0307\\
+\bottomrule\end{tabular}\caption{Fixture binary-secret recovery under each release policy. Noise is runner-owned; empirical MI is a finite-sample descriptive statistic.}\label{tab:fixture}\end{table*}
+
+The no-noise result is exact: unsafe, v1 and v1b all recover the binary secret 256/256 times. v1c returns a constant and the balanced decoder scores 128/256. This is a result about removing all choices in that verdict, not evidence that one freely selectable axis is safe. The unnoised controls' estimated MI is one bit for unsafe/v1/v1b and zero for v1c.
+
+
+For a separate capacity experiment, the harness covers every byte value in privately shuffled order. Four axes encode all eight bits. v1b releases only the lowest four bits, and the predeclared decoder zero-fills missing high bits. v1c's decoder guesses zero. Exact recovery is 256/256, 16/256 and 1/256; deterministic empirical MI is eight, four and zero bits. Tags and n\_items remain unused by this attack. Thus the measured payload ceiling is lower than the full schema ceiling. No negative binary-secret result is inferred from byte recovery.
+
+
+The noise experiment randomizes the runner's v1b exit, not the judge's behavior. With flip probability p, each axis remains unchanged with probability 1-p and is replaced by each other bucket with probability p/3. Tags are removed and the public call count must equal the committed one-call budget. Each accepted log entry publishes this policy. The planted binary encoding uses one axis; the unused noisy second axis is independent of the secret. Observations two and three are ties resolved with a predeclared independent decoder seed. Measured one-release recovery was p=0.25: 214/256 (83.6\%); p=0.5: 180/256 (70.3\%); p=0.75: 118/256 (46.1\%). These fixture counts are not the 212/256, 184/256 and 124/256 reported for the source-frozen Qwen canary in Section~\ref{sec:schemas}. Same kernel, separate samples, as that section explains.
+
+
+For this encoding, optimal one-release accuracy is 1-2p/3. For arbitrary inputs to one axis, the maximal transition-probability ratio is 3(1-p)/p, giving epsilon=ln(3(1-p)/p). Independent axes and repeated releases compose these likelihood ratios. This is a bound on a release kernel conditional on fixed context and acceptance, not a certificate for the whole transcript protocol. At p=0.75 every bucket is uniform and independent of the proposal, removing both the secret signal and honest axis signal.
+
+
+To expose repeated inference, we separately simulate 20,000 trials of the shipped noise kernel for 1, 3, 9 and 31 releases of the same bit. At p=0.5 the measured recovery is 1 releases: 65.9\%, 3 releases: 77.3\%, 9 releases: 90.1\%, 31 releases: 99.1\%. These are fixed-seed kernel simulations, not additional sandbox/model trials. Repetition lets attackers average noise, just as honest repeated measurements can average it. This historical fixture simulation establishes no global budget or asymmetric benefit for honest aggregation. The final Qwen run implements a shared admission cap. Section~\ref{sec:multibit} measures that cap on the scheduled publisher, for a sixteen-bit secret, rather than by replaying this kernel alone.
+
+
+Noisy plug-in MI estimates can be biased upward because the full verdict has up to sixteen outcomes and the sample is finite. We report them transparently and use exact transition probabilities for the proof. Counts and Wilson intervals are included in the machine-readable artifact; deterministic balanced and exhaustive controls do not depend on binomial significance testing. We evaluated all declared conditions and did not replace a leaking secret.
+
+
+\section{Analyses the release does not deploy}
+\label{app:count}
+The two analyses below are not properties of the scheduled release. The first is a general bound on what any private publication can say about one answer. The second is an exact sampled count mechanism. This system does not deploy that mechanism, and its filings surface is not the leakage curve in Figure~\ref{fig:lead}.
+
+\subsection{A narrow price for utility}
 Aggregate usefulness alone cannot imply positive information about every individual answer. Parity of independent fair bits reveals an aggregate bit but has zero mutual information with each single bit; knowing the others changes that result. A method may also ignore an item. Utility, side information and neighboring inputs must be specified.
 
 Fix public information and all answers except one binary score. Neighboring corpora $D_0,D_1$ have means differing by $1/n$, with equal priors. If the complete public release permits an estimate within strictly less than $1/(2n)$ of the mean with probability at least $1-\beta$ in both states, thresholding midway recovers the state with error at most $\beta$. For $0\leq\beta\leq1/2$,
@@ -346,7 +547,7 @@ DP also confines the equal-prior posterior probability of $S=1$ to $[1/(1+e^\eps
 \]
 Posterior-mean estimation after binary randomized response attains this risk in both states, establishing the two-state minimax result. These deductions use established information theory and privacy; the contribution is their explicit task scope.
 
-\section{Exact sampling, utility and filings}
+\subsection{Exact sampling, utility and filings}
 A separate count mechanism assumes a trusted fixed per-item binary rule on a corpus of $n$ answers. Secretly sample $B_i\sim\operatorname{Bernoulli}(q)$ and release
 \[
 Y=\sum_iB_ix_i+G,\qquad
@@ -372,10 +573,10 @@ u_1=\frac{\alpha+q(1-\alpha)}{1+\alpha}.
 \]
 The exact optimal equal-prior recovery over the full integer transcript after $r$ filings is
 \begin{align*}
-A_r=\frac12\sum_{k=0}^r\binom rk\max\{&u_0^k(1-u_0)^{r-k},\\
+C_r=\frac12\sum_{k=0}^r\binom rk\max\{&u_0^k(1-u_0)^{r-k},\\
 &u_1^k(1-u_1)^{r-k}\}.
 \end{align*}
-The reported recovery uses exact rational arithmetic. Composition $r\epsilon_q$ is attained by the repeated positive-tail event, though its logistic testing bound can overestimate this mechanism's actual Bayes recovery.
+The reported recovery uses exact rational arithmetic. Composition $r\epsilon_q$ is attained by the repeated positive-tail event, though its logistic testing bound can overestimate this mechanism's actual Bayes recovery. This $C_r$ is the Bayes accuracy of the undeployed count channel. It is not the shipped-kernel accuracy $a_1=13/18$ used for the sixteen-bit attack in Section~\ref{sec:multibit}.
 
 \begin{table*}[t]\centering\small
 \begin{tabular}{rrrrr}\toprule
@@ -421,70 +622,6 @@ Noiseless publication of $S+\operatorname{Binomial}(m,1/2)$ gives recovery
 but infinite pure-DP loss: an endpoint output is impossible under one bit. Bounded independent decoys added to geometric noise leave its extreme-tail ratio unchanged and add variance. Fixed known totals can be subtracted. These counterexamples do not exclude every randomized or unbounded decoy mechanism.
 
 Hidden inclusion also fails to close truthful error status. If inclusion with probability $q$ exposes an error only for $S=1$, recovery is $(1+q)/2$ for one filing and $1-(1-q)^r/2$ after $r$ independent filings. Pure-DP loss is infinite for every $q>0$. The constant-verdict fixture attack recovers 256/256 at $q=1$, and 142/256 at $q=1/8$, only mildly above chance and consistent with the 56.25\% prediction. At $q=1/8$, 31 filings predict 99.20\%. The terminal outcome must itself pass through the mechanism.
-
-\section{Why earlier verdict schemas failed}
-Earlier schemas constrained only the accepted verdict. v1 had four bucketed axes, an item-count field and up to four tags; its 163 permitted tag subsets give a 21.349-bit alphabet upper bound. v1b removed the count and two axes, but its two free axes still supplied four bits. For a secret $S$ and verdict $V$ from an alphabet of size $M$, $I(S;V\mid\text{fixed context})\leq H(V\mid\text{fixed context})\leq\log_2 M$; this limits capacity but does not establish secrecy. A trusted constant projection, v1c, removes the judge's remaining choice, but it also removes useful evaluator discretion.
-
-The separate source-frozen Qwen canary curve uses 256 deterministic inferences over two direct-copy prompts. All canaries land; v1/v1b recover 256/256 and runner-fixed v1c 128/256. One-axis noise at $p=.25,.5,.75$ yields 212/256, 184/256 and 124/256 (a separate experiment). This schema ablation is distinct from the live whole-record task above.
-
-\section{Limitations}
-The whole-record theorem assumes trusted, available fixed-slot delivery. It does not establish physical timing noninterference. OS publication jitter, host telemetry and publisher failures need a deployment timing audit and an independent gateway.
-
-The kernel, runtime, custodian and publisher are trusted. A hostile host, forged model identity, modified runner, ledger rollback or equivocation by a dishonest operator, or storage failure lies outside the guarantee. Independent mirroring or witnessing of the ledger, for example Certificate Transparency-style witnesses~\cite{ct} or a public blockchain, is future work. Software attestation is not a hardware quote.
-
-The canary is private input context, and the four deterministic prompts measure transport and literal formatting rather than broad model behavior or semantic alignment. Fallbacks can bias an honest quantity, and repeated releases help both honest estimation and attacks.
-
-Public software also cannot force a custodian to receive or execute a filing. Hardware custody, correlated model-wide secrets and substantive alignment evaluations remain open.
-
-Whether custodians adopt public filing, and which models and evaluations they admit, are policy questions. This paper shows that the release side can be made safe for the defined task; it does not resolve the institutional choices needed to make participation broadly available.
-
-\section{Conclusion}
-We show that a public verdict can be made leak-resistant by charging before model access, routing every post-access outcome through a common noisy fallback mechanism, and publishing one fixed-shape record on a schedule. The ARTT protocol closes a channel through which a constant proposed verdict still leaks a planted secret through accepted versus error status. Under explicit trust, delivery and accounting assumptions, we prove a privacy bound for those declared records and show useful literal-format signal on the same runs. Hardware custody, physical timing and semantic alignment evaluation remain open.
-
-\appendix
-\section{Fixture leakage experiment}
-
-We predeclared a binary secret as which of two fixed phrases the fixture includes: amber lantern or violet compass. The honest rubric ignores both. The adversary calls complete once, ignores the rubric and sets deception to zero or one. The unsafe control releases up to 256 characters, v1 packs axis buckets, v1b retains two axes, and v1c applies the trusted constant projection. A failed unsafe control would invalidate the experiment.
-
-
-The harness runs 256 balanced, privately shuffled binary trials per condition. The decoder reads the planted phrase in the unsafe control, the deception axis in v1/v1b, and makes a fixed zero guess in v1c. No decoder is trained on the evaluated labels. Recovery advantage is accuracy minus 0.5. Unsafe raw outputs are discarded and are never accepted public submissions. The safe logs are verified, including checks that neither phrase appears in their bytes.
-
-
-The fixture table includes the runner-noise conditions. Figure~\ref{fig:fixture-recovery} plots the same binary recovery and is supplemented by payload recovery because one binary secret cannot reveal a reduction from an eight-bit to a four-bit alphabet.
-
-\begin{figure}[t]\centering
-\parbox[b]{0.22\linewidth}{\centering\footnotesize 100\%\par\vspace{3pt}\textcolor{blue!60!black}{\rule{24pt}{90.0pt}}\par\vspace{3pt}Unsafe}\hfill\parbox[b]{0.22\linewidth}{\centering\footnotesize 100\%\par\vspace{3pt}\textcolor{blue!60!black}{\rule{24pt}{90.0pt}}\par\vspace{3pt}v1}\hfill\parbox[b]{0.22\linewidth}{\centering\footnotesize 100\%\par\vspace{3pt}\textcolor{blue!60!black}{\rule{24pt}{90.0pt}}\par\vspace{3pt}v1b}\hfill\parbox[b]{0.22\linewidth}{\centering\footnotesize 50\%\par\vspace{3pt}\textcolor{blue!60!black}{\rule{24pt}{45.0pt}}\par\vspace{3pt}v1c fixed}\caption{Binary-secret recovery, 256 fixture trials per condition. The fixed v1c control is 50\%; v1 and v1b both recover the secret perfectly. Unsafe is a test-only output.}\label{fig:fixture-recovery}\end{figure}
-
-
-\begin{table*}[t]\centering\small\begin{tabular}{>{\raggedright\arraybackslash}p{76.0pt}>{\raggedright\arraybackslash}p{76.0pt}>{\raggedright\arraybackslash}p{76.0pt}>{\raggedright\arraybackslash}p{76.0pt}>{\raggedright\arraybackslash}p{76.0pt}}\toprule
-Release & Correct/trials & Recovery & Advantage above chance & Empirical MI (bits)\\
-\midrule
-unsafe (test only) & 256/256 & 1.0000 & 0.5000 & 1.0000\\
-v1 & 256/256 & 1.0000 & 0.5000 & 1.0000\\
-v1b & 256/256 & 1.0000 & 0.5000 & 1.0000\\
-v1c & 128/256 & 0.5000 & 0.0000 & 0.0000\\
-v1b, p=0.25 & 214/256 & 0.8359 & 0.3359 & 0.5126\\
-v1b, p=0.5 & 180/256 & 0.7031 & 0.2031 & 0.2489\\
-v1b, p=0.75 & 118/256 & 0.4609 & -0.0391 & 0.0307\\
-\bottomrule\end{tabular}\caption{Fixture binary-secret recovery under each release policy. Noise is runner-owned; empirical MI is a finite-sample descriptive statistic.}\end{table*}
-
-The no-noise result is exact: unsafe, v1 and v1b all recover the binary secret 256/256 times. v1c returns a constant and the balanced decoder scores 128/256. This is a result about removing all choices in that verdict, not evidence that one freely selectable axis is safe. The unnoised controls' estimated MI is one bit for unsafe/v1/v1b and zero for v1c.
-
-
-For a separate capacity experiment, the harness covers every byte value in privately shuffled order. Four axes encode all eight bits. v1b releases only the lowest four bits, and the predeclared decoder zero-fills missing high bits. v1c's decoder guesses zero. Exact recovery is 256/256, 16/256 and 1/256; deterministic empirical MI is eight, four and zero bits. Tags and n\_items remain unused by this attack. Thus the measured payload ceiling is lower than the full schema ceiling. No negative binary-secret result is inferred from byte recovery.
-
-
-The noise experiment randomizes the runner's v1b exit, not the judge's behavior. With flip probability p, each axis remains unchanged with probability 1-p and is replaced by each other bucket with probability p/3. Tags are removed and the public call count must equal the committed one-call budget. Each accepted log entry publishes this policy. The planted binary encoding uses one axis; the unused noisy second axis is independent of the secret. Observations two and three are ties resolved with a predeclared independent decoder seed. Measured one-release recovery was p=0.25: 214/256 (83.6\%); p=0.5: 180/256 (70.3\%); p=0.75: 118/256 (46.1\%).
-
-
-For this encoding, optimal one-release accuracy is 1-2p/3. For arbitrary inputs to one axis, the maximal transition-probability ratio is 3(1-p)/p, giving epsilon=ln(3(1-p)/p). Independent axes and repeated releases compose these likelihood ratios. This is a bound on a release kernel conditional on fixed context and acceptance, not a certificate for the whole transcript protocol. At p=0.75 every bucket is uniform and independent of the proposal, removing both the secret signal and honest axis signal.
-
-
-To expose repeated inference, we separately simulate 20,000 trials of the shipped noise kernel for 1, 3, 9 and 31 releases of the same bit. At p=0.5 the measured recovery is 1 releases: 65.9\%, 3 releases: 77.3\%, 9 releases: 90.1\%, 31 releases: 99.1\%. These are fixed-seed kernel simulations, not additional sandbox/model trials. Repetition lets attackers average noise, just as honest repeated measurements can average it. This historical fixture simulation establishes no global budget or asymmetric benefit for honest aggregation. The final Qwen run implements a shared admission cap.
-
-
-Noisy plug-in MI estimates can be biased upward because the full verdict has up to sixteen outcomes and the sample is finite. We report them transparently and use exact transition probabilities for the proof. Counts and Wilson intervals are included in the machine-readable artifact; deterministic balanced and exhaustive controls do not depend on binomial significance testing. We evaluated all declared conditions and did not replace a leaking secret.
-
 
 \section{Honest judge case study}
 
@@ -535,7 +672,20 @@ A bucket is this judge's label, not a proof of misalignment. The axes are a demo
 
 \section{Reproduction and evidence}\label{app:evidence}
 
-Run the WSL commands in the README to build the sandbox and execute the offline suite. Evidence is \path{results/run-2026-10-05/results.json} plus its JSONL chains. Unsafe controls have no transcript artifact. The final Qwen run is \path{results/qwen-scheduled-utility-2026-10-05}, with protocol, backend/inference receipts, seven public chains and an archived source snapshot. The final audit verifies 39 public chains with 8{,}570 entries, archived source snapshots, local model hashes and exact privacy-utility arithmetic; retained ground-truth counts remain trusted aggregate receipts because private schedules were discarded. Because the private bit schedules are discarded by design, the public chains verify integrity rather than the recovery counts. Future runs will publish a hash commitment to the schedule before the run and reveal it afterwards. The detailed assumptions, derivations and source record are in \path{paper/proofs.md}.
+\subsection*{Kernel diagnostics and retained-sample limitations}
+An offline draw of 1{,}000{,}000 calls to the shipped kernel at $p=1/2$ flipped 499{,}692 outputs (49.9692\%), consistent with its analyzed flip probability. The Qwen score positive control's 202/256 recovery is about 2.4 standard errors above its 72.22\% optimal one-filing expectation. It motivated the separate fixture study; it remains reported without replacement.
+
+The preliminary sixteen-bit study ran sixteen trials with a total corpus cap of 16 admissions per trial and sixteen with a total corpus cap of 48. At sixteen admissions, their means were 11.63 (standard error 0.39) and 11.75 (standard error 0.50), respectively; pooled, 11.69 (standard error 0.31). Each arm refused further filings after exhausting its own cap, with no model access or decoder change. The cap-48 arm ended at 15.00 bits (standard error 0.158), 3.3 standard errors above the kernel prediction 14.48. This exploratory excess motivated the locally declared 64-trial follow-up, where that mean did not recur.
+
+The retained follow-up starts at 7.375 correct bits, 2.60 standard errors below the eight-bit chance baseline. Planting uses \texttt{SystemRandom}; tie guesses use separately seeded \texttt{random.Random}, so they do not share an RNG stream. An offline 10{,}000-trial check of the live harness's same planting and tie-guess code returned 7.9705 correct bits (standard error 0.0201), consistent with eight at $z=-1.47$; its receipt is \path{results/readiness-2026-10-08/planting-check.json}. This check does not reconstruct the discarded historical schedules or explain their early offset. Table~\ref{tab:decoder-deviations} reports every displayed deviation; those cumulative points share the same trials and are strongly correlated.
+
+Of the follow-up's 6{,}144 released axes, 3{,}172 differed from the planted bit, 2.55 standard errors above the kernel's expected mismatch rate $1/2$. This was a secondary diagnostic; the mean at 48 admissions was the primary endpoint. Several endpoints were examined without a multiplicity correction. The mismatch deviation alone does not establish a change in the kernel or explain the primary result.
+
+One filing missed its cutoff. The old harness stopped that attempt and deleted its partial logs and admission database on resume before running a replacement; its evidence cannot be recovered. The 64 retained curves therefore describe completed trials rather than all initiated attempts, and no all-attempt recovery estimate is available. The local declaration is not independently timestamped registration. The repaired harness includes noisy fallbacks for late or failed proposals and preserves incomplete attempts without automatically replacing them. A fresh, fully retained cohort would be needed for an all-attempt claim or further diagnosis.
+
+\subsection*{Public artifacts and integrity audit}
+
+Run the WSL commands in the README to build the sandbox and execute the offline suite. Evidence is \path{results/run-2026-10-05/results.json} plus its JSONL chains. Unsafe controls have no transcript artifact. The final Qwen run is \path{results/qwen-scheduled-utility-2026-10-05}, with protocol, backend/inference receipts, seven public chains and an archived source snapshot. The original 5 October audit verified 39 public chains with 8{,}570 entries. The current preparation audit verifies 973 chains with 12{,}898 records, archived source snapshots, local model hashes and exact privacy and utility arithmetic; retained ground-truth counts remain trusted aggregate receipts because private schedules were discarded. It checks public-chain integrity and the recorded arithmetic, not planted-bit recovery: planted bits are not written into those chains. Independent recovery verification would require committing the synthetic schedule before execution and revealing it afterwards. The sixteen-bit cap study is \path{results/multibit-scheduled-2026-10-07/results.json}, together with its scheduled release and refusal chains. The locally declared follow-up is \path{results/multibit-rerun-2026-10-07}, with the frozen comparator in \path{protocol.json} and the lost-attempt limitation in \path{EVIDENCE-LIMITATIONS.md}. The detailed assumptions, derivations and source record are in \path{paper/proofs.md}.
 
 \begin{thebibliography}{99}
 \bibitem{attestable} C. Schnabl, D. Hugenroth, B. Marino, and A. R. Beresford. \emph{Attestable Audits: Verifiable AI Safety Benchmarks Using Trusted Execution Environments}. 2025. arXiv:2506.23706.
@@ -562,6 +712,9 @@ Run the WSL commands in the README to build the sandbox and execute the offline 
 \bibitem{medicare} A. Albanese. ``Press conference, New York.'' Prime Minister of Australia, 24 September 2026. \url{https://www.pm.gov.au/media/press-conference-new-york}
 \bibitem{scheming} OpenAI and Apollo Research. ``Detecting and reducing scheming in AI models.'' 17 September 2025. \url{https://openai.com/index/detecting-and-reducing-scheming-in-ai-models/}
 \bibitem{misalignment} OpenAI. ``Our framework for reporting model misalignment.'' 16 September 2026. \url{https://openai.com/index/model-misalignment-reporting-framework/}
+\bibitem{prada} M. Juuti, S. Szyller, S. Marchal, and N. Asokan. \emph{PRADA: Protecting Against DNN Model Stealing Attacks}. IEEE European Symposium on Security and Privacy, 2019. \url{https://arxiv.org/abs/1805.02628}
+\bibitem{stateful} S. Chen, N. Carlini, and D. Wagner. \emph{Stateful Detection of Black-Box Adversarial Attacks}. 2019. \url{https://arxiv.org/abs/1907.05587}
+\bibitem{dproth} C. Dwork and A. Roth. \emph{The Algorithmic Foundations of Differential Privacy}. Foundations and Trends in Theoretical Computer Science, 9(3--4):211--407, 2014. \url{https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf}
 \end{thebibliography}
 
 \end{document}

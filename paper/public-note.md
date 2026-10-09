@@ -28,7 +28,13 @@ schema, and resource limits. The study does not demonstrate tool-use or
 multi-step agent evaluations. The same release mechanism can apply when every
 tool stays inside the seal and has no external side effect; otherwise the tool
 is another exit that needs its own protection. This paper's implementation,
-experiments and theorem cover judges that make one model call per admission.
+experiments and theorem cover judges that make at most one model call per admission.
+
+An admission is a charged authorization for one judge execution against a protected
+item. The cap counts these authorizations, including failures and timeouts. An
+item cap limits repeated admissions of one item; a corpus cap limits the total
+across its items. Both are shared across filers and program aliases. A cap does
+not count questions inside a prompt or just the calls that succeed.
 
 ARTT does not prescribe which target models a custodian must offer or how large
 they must be. It applies when the custodian commits to the model identity and
@@ -37,10 +43,12 @@ not establish that a filed evaluation is scientifically valid. It protects the
 release interface around an evaluation; evaluation design and validation remain
 separate work.
 
-Every filing, refusal, and result goes on a public hash-chained ledger. The
-ledger is required because it lets anyone check that a filing was made, whether
-it was run or refused, and that no published record has been altered. External
-witnesses, which would also detect dropped filings or rollback, are future work.
+Every filing outcome, including refusals and noisy fallback releases, goes on a
+public hash-chained ledger. Anyone can inspect the recorded filings and outcomes
+and verify chain consistency. A previously retained checkpoint lets readers
+detect changes to the committed prefix; without one, a whole chain can be
+rewritten or a valid suffix deleted. External filing receipts and witnessing to
+detect omissions or equivocation are future work.
 The privacy guarantee does not depend on the ledger: hash chaining is
 postprocessing of the declared records.
 
@@ -68,11 +76,13 @@ fixture study used an honest substring-rule judge across 32 public prompts.
 The status attack is the central result. A malicious judge made a constant
 proposal for one planted secret and failed for the other. With the status channel
 open, a decoder recovered the secret in 256/256 trials even though the score did
-not change. With the ARTT release protocol, status recovery fell to 128/256,
+not change. ARTT removes status as a separate public channel: for this attack,
+success and failure have exactly equal record distributions, giving optimal
+recovery of 1/2 for any number of filings. Observed status recovery was 128/256,
 including deliberate timeouts. A score decoder obtained 124/256 across three
-closed attacks. A judge deliberately writing a one-bit secret into the released
-score obtained 202/256 through the one noisy, logged, budget-capped score bit
-per filing. On the same protected contexts, an honest evaluator retained an
+status-suppressed attacks. A judge deliberately writing a one-bit secret into
+the released score obtained 202/256 through a noisy, logged, budget-capped
+two-axis record per filing. On the same protected contexts, an honest evaluator retained an
 aggregate formatting signal, including every fallback.
 
 Earlier fixture experiments show the same lesson. Four or two free score axes

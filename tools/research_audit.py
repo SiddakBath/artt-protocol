@@ -13,6 +13,7 @@ import math
 from pathlib import Path
 import re
 import sqlite3
+import statistics
 
 from rt.log import read as legacy_read
 from rt.runner import version
@@ -69,12 +70,62 @@ def tex_structure(path):
     require(len(labels) == len(set(labels)) and set(refs) <= set(labels), "unresolved_or_duplicate_tex_reference")
     require("@@" not in text and "\\smallSubmitter" not in text and "\\raggedrightrefused" not in text, "tex_template_or_macro_error")
     figures = re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", active)
-    expected_figures = {"privacy-utility-filings.png", "qwen-utility-check.png"}
+    expected_figures = {"privacy-utility-filings.png", "qwen-utility-check.png", "leakage-utility.png"}
     require(set(figures) == expected_figures, "unexpected_figure_assets")
     require(all((path.parent / "figures" / figure).is_file() for figure in figures), "missing_figure_asset")
     require(not re.search(r"\\(?:input|include|bibliography)\b", active), "unexpected_external_tex_dependency")
     return {"environment_and_brace_balance": True, "references_resolve": True,
         "external_project_files_required": True, "semantic_compilation_or_layout_verified": False}
+
+
+def is_curve_summary(path):
+    return path.parent.name.startswith("multibit-") and path.name in {"capped-curves.jsonl", "uncapped-curves.jsonl"}
+
+
+def audit_multibit(study):
+    """Verify counts and arithmetic without pretending discarded labels are recoverable."""
+    report = json.loads((study / "results.json").read_text())
+    arms = {}
+    for label in ("uncapped", "capped"):
+        if label not in report:
+            continue
+        arm = report[label]
+        path = study / f"{label}-curves.jsonl"
+        raw = path.read_bytes()
+        require(raw.endswith(b"\n"), "incomplete_multibit_summary")
+        rows = [strict_json(line) for line in raw.splitlines()]
+        require(len(rows) == arm["trials"], "multibit_trial_count_mismatch")
+        require([row["curve"] for row in rows] == arm["curves"], "multibit_saved_curve_mismatch")
+        admitted = arm["admissions"]
+        for trial, row in enumerate(rows):
+            curve = row["curve"]
+            require(row["trial"] == trial and len(curve) == admitted + 1 and
+                    all(type(value) is int and 0 <= value <= 16 for value in curve), "invalid_multibit_curve")
+            if "bits_at_end" in row or "bits_at_16" in row:
+                require(row["bits_at_end"] == curve[-1] and row["bits_at_16"] == curve[min(16, admitted)], "multibit_endpoint_mismatch")
+            prefix = f"{label}-{trial:02d}"
+            rounds = sorted(study.glob(prefix + "-round-*.jsonl"), key=lambda p: int(p.stem.rsplit("-", 1)[1]))
+            entries = [entry for log in rounds for entry in scheduled_read(log)]
+            require(len(entries) == admitted and all(entry["kind"] == "released" for entry in entries), "multibit_release_count_mismatch")
+            require(all(entry["policy"]["admission_cap"] == arm["cap"] for entry in entries), "multibit_log_cap_mismatch")
+            refused = scheduled_read(study / (prefix + "-refusals.jsonl"))
+            require(refused and all(entry["kind"] == "refused" and entry["reason_code"] == "release_budget_exhausted" for entry in refused), "multibit_refusal_mismatch")
+            with sqlite3.connect((study / (prefix + ".sqlite")).resolve().as_uri() + "?mode=ro", uri=True) as connection:
+                budgets = connection.execute("SELECT scope,cap,used FROM budgets").fetchall()
+            require(budgets == [("sixteen-bit-corpus", arm["cap"], admitted)], "multibit_budget_mismatch")
+            if "axis_total" in row:
+                require(row["axis_total"] == 2 * admitted and type(row["axis_mismatch"]) is int
+                        and 0 <= row["axis_mismatch"] <= row["axis_total"], "multibit_axis_count_mismatch")
+        for index in range(admitted + 1):
+            column = [row["curve"][index] for row in rows]
+            close(arm["mean_bits"][index], statistics.fmean(column))
+            close(arm["stderr_bits"][index], statistics.stdev(column) / math.sqrt(len(column)) if len(column) > 1 else 0)
+        arms[label] = {"trials": len(rows), "admissions": admitted,
+                       "mean_at_end": arm["mean_bits"][-1], "stderr_at_end": arm["stderr_bits"][-1],
+                       "axis_mismatch": sum(row["axis_mismatch"] for row in rows) if all("axis_mismatch" in row for row in rows) else None,
+                       "axis_total": sum(row["axis_total"] for row in rows) if all("axis_total" in row for row in rows) else None}
+    return {"study": study.name, "arms": arms,
+            "scope": "ledger integrity, retained budget counts and summary arithmetic; ground-truth correctness and historical excluded attempts are not independently verified"}
 
 
 def main(argv=None):
@@ -85,6 +136,8 @@ def main(argv=None):
     require(not output.exists(), "new_audit_receipt_required")
     chains = []
     for path in sorted((ROOT / "results").rglob("*.jsonl")):
+        if is_curve_summary(path):
+            continue  # Validated as summaries below, never silently treated as public chains.
         raw = path.read_bytes()
         first = strict_json(raw.splitlines()[0]) if raw else {}
         is_v2 = first.get("schema") == "rt.release.v2"
@@ -168,7 +221,9 @@ def main(argv=None):
     checks = {"count_surface_rows": len(frontier["rows"]), "binary_surface_rows": len(binary_data["rows"]),
         "real_model_count_kernel_points": len(behavior["rows"]), "main_study_receipt_inferences": 1536,
         "main_study_chains": 7, "main_study_entries": 1538, "retained_budgets": budget_states,
-        "tex_structure": tex}
+        "tex_structure": tex,
+        "multibit_studies": [audit_multibit(study) for study in sorted((ROOT / "results").glob("multibit-*"))
+                            if (study / "results.json").exists()]}
     manifest = []
     for folder in ("rt", "tools", "tests", "judges", "examples", "fixtures", "vectors", "paper", "results"):
         for path in sorted((ROOT / folder).rglob("*")):
@@ -189,7 +244,7 @@ def main(argv=None):
         "limitations": ["Ground-truth recovery counts and timings are trusted local aggregate receipts; discarded private schedules cannot be independently redecoded.",
             "Hashes are integrity commitments, not hardware attestation or independent preregistration.",
             "Physical timing, availability, hostile ledger rollback and shared-queue locality remain stated assumptions or unproved extensions.",
-            "Compilation and PDF visual quality remain for the user's build; structural checks are not compilation."],
+            "This audit does not compile or assess PDF layout; use a separate build receipt for those checks."],
         "artifact_manifest": sorted(manifest, key=lambda row: row["file"])}
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x", encoding="utf-8") as stream:

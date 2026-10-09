@@ -1,0 +1,37 @@
+{
+  "compiled": true,
+  "compiler": "pdfTeX 3.141592653-2.6-1.40.25 / TeX Live 2023 Debian",
+  "shell_escape": false,
+  "references_resolved": true,
+  "overfull_boxes": 0,
+  "pages": 16,
+  "visual_pages_inspected": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "visual_check": "Figures, tables, columns and page boundaries inspected; final revised pages 1 and 15 checked again.",
+  "source_sha256": "516abada8d219466cf2783b3140b329d3d4455eaef498fbe2aec877924cda733",
+  "figure_sha256": {
+    "leakage-utility.png": "8f802b7b32181dc368659c6aab152811ec2ec481b525932a0e86d659e0c7d7a4",
+    "privacy-utility-filings.png": "81c2bac803cd044a4179b4c7d3aaf94ecd50fc5fac5755428ef6d37abcc5e78a",
+    "qwen-utility-check.png": "7d96e625e4508e2f46e3b1359a7ebd0964ae821d46cd2f787ab0ad3c605081ed"
+  },
+  "pdf": "dist/a-right-to-test-ready.pdf",
+  "pdf_sha256": "23885917cf7e82a592a657f75e7ef2c3100301c442473e89454d5070e80fdc0f",
+  "log_sha256": "39014aeba47f378f08db042b9e55eb30591339a108d51ae7733014fe03f25814",
+  "scope": "trusted local compilation and visual check; not content authentication"
+}

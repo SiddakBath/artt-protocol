@@ -1,0 +1,25 @@
+{
+  "scope": "documented no-GPU fixture demo; Linux sandbox and shipped scheduled publisher; not a new paper measurement",
+  "passed": true,
+  "command": ".venv/bin/python -m tools.multibit_attack --output scratch/fixture-demo --live --trials 2 --admissions 16 --cap 16 --skip-capped --kernel-trials 1000",
+  "trials": 2,
+  "admissions_per_trial": 16,
+  "refusals_checked": true,
+  "late_proposals": 0,
+  "worker_errors": 0,
+  "results_sha256": "8e9f8c916dd12f704ef91b84568b0d205a5a20295f92e4b38297861ff03afe2a",
+  "integrity_checks": {
+    "study": "fixture-demo",
+    "arms": {
+      "uncapped": {
+        "trials": 2,
+        "admissions": 16,
+        "mean_at_end": 10.0,
+        "stderr_at_end": 2.0,
+        "axis_mismatch": 37,
+        "axis_total": 64
+      }
+    },
+    "scope": "ledger integrity, retained budget counts and summary arithmetic; ground-truth correctness and historical excluded attempts are not independently verified"
+  }
+}
