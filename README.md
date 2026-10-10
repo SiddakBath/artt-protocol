@@ -126,6 +126,15 @@ Observed tamper checks:
 - middle_deleted: INVALID log; checkpoint matches: False
 - suffix_deleted: VERIFIED 63 entries (chain integrity only; no hardware attestation); checkpoint matches: False
 
+Separately predeclared utility-only follow-up (the first run above remains unchanged):
+
+1152 admissions per fixture agent, repeating the same fixed 48-task corpus. No pooling with the first utility sample.
+Follow-up A: 0.7543, 95% interval 0.6343 to 0.8744.
+Follow-up B: 0.4019, 95% interval 0.2819 to 0.5220.
+Follow-up A minus B: 0.3524, 95% interval 0.1827 to 0.5222. The conservative interval excludes zero.
+Additional admissions: 2304. The public budget extension carries forward the first 352 charges; total used is 2656 against an extended cap of 2656. Additional epsilon: 5062.4054; combined scope total: 5835.8285.
+Utility protocol SHA256: `64601a79b768a70ac1ebcdd4776158a9e38507a3e38713358a290bae8aeb0f6c`; predeclared in `6e06fe4c8202a847e4764abfdfb23b572ca93018`. Observed utility runtime: 440.0329 seconds.
+
 ## Limitations
 
 - The guarantee assumes trusted isolation, accounting, custody, and fixed-slot delivery.

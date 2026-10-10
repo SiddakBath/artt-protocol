@@ -6,6 +6,8 @@ import sqlite3
 import pytest
 from demos.coding_agent.passport import export, legacy_export
 from demos.coding_agent.utility_run import difference, extend_budget, size_rationale
+from demos.coding_agent.review_report import load_evidence
+from demos.coding_agent.run import checkpoint
 from rt.budget import AdmissionBudget
 from tests.test_coding_agent_demo import synthetic_ledger
 
@@ -62,3 +64,22 @@ def test_passport_keeps_scopes_separate_and_accounts_for_explicit_extension(tmp_
     assert result["privacy_scope_totals"]["test-corpus"]["admission_caps_seen"] == [8, 16]
     assert result["privacy_scope_totals"]["test-corpus"]["admitted_records"] == 9
     assert result["entries"][-1]["privacy"]["epsilon_cumulative_scope_through_this_record"] == 2*math.log(3)
+
+
+def test_review_loader_rejects_suffix_deletion_and_changed_protocol(tmp_path):
+    from rt.bundle import sha
+    path = tmp_path / "ledger.jsonl"
+    synthetic_ledger(path)
+    raw = b'{"test":true}\n'
+    (tmp_path / "protocol.json").write_bytes(raw)
+    summary = {"protocol_sha256": sha(raw), "ledger_files": [path.name], "checkpoints": {path.name: checkpoint(path)}}
+    (tmp_path / "summary.json").write_text(json.dumps(summary))
+    assert len(load_evidence(tmp_path)[1][0][1]) == 8
+    original = path.read_bytes()
+    path.write_bytes(b"".join(original.splitlines(keepends=True)[:-1]))
+    with pytest.raises(ValueError, match="checkpoint"):
+        load_evidence(tmp_path)
+    path.write_bytes(original)
+    (tmp_path / "protocol.json").write_bytes(b'{}\n')
+    with pytest.raises(ValueError, match="protocol"):
+        load_evidence(tmp_path)

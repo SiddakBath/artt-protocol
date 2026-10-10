@@ -54,7 +54,7 @@ The protocol predeclares 128 trials per attack, a total cap of 352 scheduled
 admissions, and 8 extra filings. Bundles permit one call and two seconds. The
 worker window is 2.5 seconds because the suggested 0.5-second window would
 reject that bundle limit. Slots remain 0.1 seconds apart. The runner measures
-actual elapsed time; an under-two-minute run is a target, not a claim.
+actual elapsed time and reports it as an observation.
 
 The passport file is a proposed mapping. It is not an AIUC or Lucid format;
 no endorsement or compatibility is implied. The custodian is trusted, the
@@ -72,7 +72,40 @@ trial labels are discarded.
    from the table. Describe the deliberate score encoder as bounded and logged.
 4. Read the honest estimates and difference interval. If the interval includes
    zero, say that this sample does not establish separation.
-5. Search the ledger and select a row. Toggle the tampered copies: edited and
-   middle-deleted chains fail; a deleted tail needs the retained checkpoint.
+5. Search the ledger and select a row. The tampered copies are shown by
+   default: edited and middle-deleted chains fail; a deleted tail needs the
+   retained checkpoint. The toggle shows the original passing ledgers.
 6. Show the cap and refusals with the unchanged call counter. Close with the
    trusted-custodian, software-sandbox and unproved timing scope.
+
+## Separately predeclared utility follow-up
+
+The first run and its wide utility interval remain unchanged. A second,
+utility-only protocol lives in `utility-protocol.json`. It declares 24 full
+passes of the same 48-task corpus per fixture agent, or 1,152 admissions each.
+The conservative Hoeffding difference radius is at most half the assumed gap
+of 0.35. Repeated admissions reduce release-noise uncertainty on this fixed
+corpus; they do not establish performance on unseen tasks or learned agents.
+The first utility sample is not pooled with the second.
+
+Run once in a fresh output directory, with the committed protocol:
+
+```bash
+.venv/bin/python -m demos.coding_agent.utility_run --first-run scratch/coding-demo --output scratch/coding-demo-utility
+.venv/bin/python -m demos.coding_agent.review_report --first-run scratch/coding-demo --utility-run scratch/coding-demo-utility --output scratch/coding-demo-review
+```
+
+The utility runner copies the first budget, carries forward its 352 charges,
+and applies the explicitly predeclared cap extension to 2,656 before access.
+The extra 2,304 admissions have extra privacy cost. The original database and
+all first-run evidence are checked for byte-for-byte preservation. The review
+report shows both studies with their own provenance and intervals, and the
+combined accounting. Its files live in a separate ignored directory.
+
+The revised passport names its running field
+`epsilon_cumulative_scope_through_this_record`. A distinct
+`epsilon_scope_total_in_this_export` and top-level `privacy_scope_totals`
+describe the complete exported scope. An early record's running total is
+smaller than the completed export total. Historical admission caps remain in
+each record; the scope summary lists both declared caps when the allowance
+was explicitly extended.
