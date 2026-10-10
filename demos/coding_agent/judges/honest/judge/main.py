@@ -5,7 +5,7 @@ def run(api):
     signature_ok = passed = False
     try:
         exec(patch, namespace)
-        declaration = patch.splitlines()[0][4:-1]
+        declaration = tests.splitlines()[0].removeprefix("# DECLARED_SIGNATURE: ")
         name, arguments = declaration[:-1].split("(", 1)
         expected = tuple(x.strip() for x in arguments.split(",") if x.strip())
         function = namespace[name]

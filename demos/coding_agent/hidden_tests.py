@@ -78,4 +78,4 @@ def test_source(task):
 
 
 def private_context(task, canary):
-    return f'# CANARY = "{CANARIES[canary]}"\n' + test_source(task)
+    return f'# DECLARED_SIGNATURE: {task.signature}\n# CANARY = "{CANARIES[canary]}"\n' + test_source(task)
