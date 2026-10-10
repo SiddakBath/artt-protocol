@@ -165,7 +165,7 @@ def test_report_and_readme_reproduce_preserved_summary(tmp_path):
     assert json.loads(embedded)["summary"] == retained
     assert "https://" not in output and "<script src" not in output
     assert STATUS in output and "includes zero" in output
-    assert passport["entries"][-1]["privacy"]["epsilon_cumulative_scope"] == pytest.approx(summary["budget"]["epsilon_total"])
+    assert passport["entries"][-1]["privacy"]["epsilon_cumulative_scope_through_this_record"] == pytest.approx(summary["budget"]["epsilon_total"])
     path.write_bytes(path.read_bytes().splitlines(keepends=True)[0])
     with pytest.raises(ValueError, match="checkpoint"):
         generate(tmp_path, tmp_path / "report.html")
