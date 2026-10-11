@@ -1,15 +1,19 @@
 # ARTT on a coding-agent evaluation
 
-[Paper](https://doi.org/10.5281/zenodo.23180546) · [Quick start](../../README.md#quick-start-coding-demo) · [Recorded comparison figure](assets/main-comparison.svg)
+[Paper](https://doi.org/10.5281/zenodo.23180546) · [Quick start](../../README.md#quick-start-coding-demo) · [Both crash scenarios](assets/useful-crash-comparison.svg) · [Earlier comparison figure](assets/main-comparison.svg)
 
-The protected asset is the **hidden test suite**. A canary is one planted bit
-in its private test context, used to measure whether a malicious evaluator can
-publish a fact from that context. It is a proxy for protected information,
-not a recovered test assertion or a secret memorized by the model.
+The protected asset is the **hidden test suite**. The equal-score scenario uses
+a planted canary in its private context; the useful-score scenario uses the
+order of two executable hidden assertions. Both measure whether a malicious
+evaluator can publish a private fact. These synthetic properties are proxies
+for protected information, not recovered proprietary assertions or secrets
+memorized by the model.
 
-The live Qwen crash attack recovers 128/128 before ARTT and 64/128 after.
-ARTT publishes no admitted error status, so this decoder always guesses zero;
-the balanced sample contains exactly 64 zeros. The separately predeclared
+The retained live Qwen equal-score crash attack recovers 128/128 before ARTT
+and 64/128 after using status alone. The new useful-score crash attack recovers
+128/128 before and 98/128 (76.6%) after the first ARTT release using status and
+scores together. Hiding status removes the exit signal; useful scores can
+still leak. These are separate cohorts and are not pooled. The separately predeclared
 exact-score baseline recovers 128/128, versus the retained live ARTT noisy-score
 result of 96/128. The score cohorts are a descriptive comparison, not paired
 observations. The older eight noisy-control measurements remain in the report.
@@ -75,6 +79,78 @@ no endorsement or compatibility is implied. The custodian is trusted, the
 sandbox is software rather than hardware, and timing noninterference is not
 proven. Public recovery totals are trusted custodian aggregates; private
 trial labels are discarded.
+
+## Equal-score and useful-score crash results
+
+| Scenario | Successful / crashed raw scores | Decoder | Exposed exact outcome | First ARTT release |
+| --- | --- | --- | ---: | ---: |
+| Equal scores, retained live Qwen cohort | (0, 0) / (0, 0) | Status only | 128/128 | 64/128 (50.0%) |
+| Useful scores, fixed Qwen patch replay | Honest scores / (0, 0) | Status and scores with public normal-score controls | 128/128 | 98/128 (76.6%) |
+
+The equal-score scenario isolates the benefit of suppressing error status.
+Its status decoder always guesses zero on a balanced cohort. Its retained
+score decoder observed 67/128, with a declared prediction of 50% because the
+two noisy-score distributions are identical. This remains a useful result,
+conditional on that equal-score assumption. Comparisons are paired within
+each experiment; the two scenarios are not a paired comparison to each other.
+
+The useful-score protocol was committed as `02f8e30` before assignment and
+executed once. It uses every index 0–127 of the pinned Qwen source cohort,
+including all incorrect patches, with no regeneration, repair or exclusion.
+Ordinary controls pass 78/128 hidden suites and match 128/128 signatures;
+swapping assertion order changes no ordinary score. Successful attack judges
+retain those genuine scores; crashes take the normal zero fallback. The
+attacker knows each patch's ordinary scores from public fixed-order controls.
+That strong side information is part of the declared threat model.
+
+First-release recovery is 98/128, with a descriptive Wilson 95% interval of
+68.5%–83.1%. The declared channel prediction is 70.1%, assuming on-time proposals.
+The paired drop from exact outcomes is 23.4 percentage points (descriptive
+paired bootstrap 95% interval: 16.4–31.2 points). One late proposal in the first
+capped batch remains included; maximum publication jitter is 0.474 seconds.
+The decoder measures status and scores; timing leakage is not measured.
+
+| Attempted filing | Eight-admission control | Capped arm | Capped admissions / refusals per secret |
+| ---: | ---: | ---: | ---: |
+| 0 | 64/128 | 64/128 | 0 / 0 |
+| 1 | 88/128 | 98/128 | 1 / 0 |
+| 2 | 101/128 | 104/128 | 2 / 0 |
+| 3 | 105/128 | 108/128 | 3 / 0 |
+| 4 | 109/128 | 102/128 | 4 / 0 |
+| 5 | 114/128 | 102/128 | 4 / 1 |
+| 6 | 117/128 | 102/128 | 4 / 2 |
+| 7 | 116/128 | 102/128 | 4 / 3 |
+| 8 | 120/128 | 102/128 | 4 / 4 |
+
+![Both crash scenarios with separate cohort labels](assets/useful-crash-comparison.svg)
+![All useful-score filing prefixes, including observed decreases](assets/useful-crash-filings.svg)
+
+The capped arm makes 512 later refusals, with protected replay calls staying
+at 512. Both its item caps and the shared allowance expire together; this
+experiment does not distinguish their individual effects. Both noisy arms
+are charged: 1,024 control plus 512 capped admissions. The 384 public/exact
+comparators are separately charged and make the full experimental transcript
+non-private. No fresh GPU generations were made. All 19 merged chains and
+checkpoints verify, and earlier evidence remains byte-for-byte intact.
+
+These intervals describe release noise on a fixed 128-patch corpus across 48
+tiny tasks. Prefixes share private assignments and are correlated; intervals
+are pointwise, not simultaneous bands or evidence of unseen-task performance.
+This is a hand-written attack on a synthetic assertion-order secret with a
+trusted custodian and software sandbox. It does not demonstrate autonomous
+discovery or theft of a proprietary test suite. Private labels were discarded;
+recovery and bootstrap counts are trusted custodian aggregates.
+
+The completed evidence is `scratch/coding-demo-useful-crash-01/`. Generate a
+new combined report from it, with zero private access or model calls:
+
+```powershell
+& ../.venv/Scripts/python.exe -m demos.coding_agent.useful_crash_report --input scratch/coding-demo-useful-crash-01 --output scratch/coding-demo-useful-crash-report-next
+```
+
+The generator requires the pinned earlier evidence directories and uses a
+fresh report path. Open its `report.html`. The original experiment and earlier
+reports remain intact; do not rerun the completed cohort or reset its budget.
 
 ## Recording guide
 
@@ -230,8 +306,8 @@ still count. Unsafe comparison arms are excluded from the finite guarantee.
 | --- | ---: | ---: |
 | Fixture A commitment | 1,456 | 3,199.1590 |
 | Fixture B commitment | 1,200 | 2,636.6695 |
-| Qwen3-0.6B commitment, including replay | 816 | 1,792.9353 |
-| Conservative composition across the protected asset | 3,472 | 7,628.7637 |
+| Qwen3-0.6B commitment, including replay and both new noisy arms | 2,352 | 5,167.8722 |
+| Conservative composition across the protected asset | 5,008 | 11,003.7007 |
 
 These model totals are derived from verified model commitments. The historical
 experiments enforced one shared `coding-demo-corpus` counter, not independent
@@ -245,13 +321,16 @@ their releases must also compose against that asset.
 | [Fixture utility raise](utility-protocol.json) | 2,656 | 352 | 2,304 |
 | [Live Qwen raise](real-model-protocol.json) | 2,960 | 2,656 | 304 |
 | [Repeated-filings raise](filings-protocol.json) | 3,472 | 2,960 | 512 |
+| [Useful-score crash raise](useful-crash-protocol.json) | 5,008 | 3,472 | 1,536 |
 
 The revised report exports a hash-chained `policy-changes.jsonl`, its checkpoint,
 the exact source protocol bytes and `model-scope-accounting.json`. This new
 reporting log is reconstructed from the retained committed protocols; it is
 not presented as a contemporaneous event log. Each raise granted additional
 access before its cohort, without discarding any earlier charge. The last
-cohort additionally enforced four admissions per fixed secret. These large
+two cohorts additionally enforced four admissions per fixed secret. Both
+new noisy arms are included in the totals; the exact/status-visible comparators
+have no finite guarantee. These large
 demonstration caps are not strong privacy settings.
 
 Generate the revised report from retained evidence without new model calls or
