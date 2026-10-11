@@ -1,111 +1,43 @@
-# A Right to Test (ARTT): Public Evaluation Under Output Confidentiality
+# A Right to Test: independent scrutiny under confidentiality
 
-ARTT is a proposed way for people outside an AI lab to file an evaluation for a
-custodian-held model. The evaluation runs in a sealed environment beside the
-model. The custodian keeps the weights, raw responses and private execution
-details confidential; the filed method is public. The filer and public receive
-only a small, declared result record. That makes it possible to learn something
-from an evaluation without publishing the model or its raw outputs.
+**ARTT aims to make independent AI testing a public, accountable process while custodians retain confidential models, responses and test material.** Our research studies the release controls needed when the submitted evaluator itself may be hostile.
 
-## What exists and what is new
+That is the proposed change: an outsider could file an inspectable test, a custodian could execute it against a committed model configuration under declared limits, and the public could receive a bounded result and a record of the outcome. A legal right to access, institutional adoption and deployment on frontier models remain future work.
 
-Most model evaluation today is arranged by the developer, invited evaluators, or
-government institutes under negotiated access. Sealed pilots such as OpenMined
-and AVERI show that confidential evaluation can work in those settings. ARTT
-adds a public way to file an evaluation: anyone can submit a declared procedure,
-refusals are visible, and each released result is bounded. The same release
-controls can protect work done through existing arrangements too. Broader
-participation has helped security through bug bounties and open benchmarks; ARTT
-aims to make that kind of coverage possible when model outputs must stay sealed.
+## Why this could matter
 
-## What is filed and what is released
+A researcher may want to investigate a failure that a standard benchmark misses. A regulator may need to examine a confidential system. An independent evaluator may need to protect an unreleased benchmark. These needs can conflict with publishing weights, prompts or raw responses.
 
-An evaluation is the whole procedure: its code, prompts or task environment,
-any allowed tool use, scoring rule, and resource budget. A verdict is the small
-record released after that evaluation runs. A filing identifies its code and
-optional local evaluator model with hashes, a public method card, a release
-schema, and resource limits. The study does not demonstrate tool-use or
-multi-step agent evaluations. The same release mechanism can apply when every
-tool stays inside the seal and has no external side effect; otherwise the tool
-is another exit that needs its own protection. This paper's implementation,
-experiments and theorem cover judges that make at most one model call per admission.
+Confidential evaluation is already being deployed between selected organizations. The [Google DeepMind double-blind pilot](https://deepmind.google/blog/piloting-the-worlds-first-double-blind-ai-evaluations/) demonstrates that direction with external partners and confidential benchmarks. ARTT proposes a public filing and release interface that could complement confidential execution infrastructure. It does not replace enclaves, cryptographic proofs or a custodian's access policy.
 
-An admission is a charged authorization for one judge execution against a protected
-item. The cap counts these authorizations, including failures and timeouts. An
-item cap limits repeated admissions of one item; a corpus cap limits the total
-across its items. Both are shared across filers and program aliases. A cap does
-not count questions inside a prompt or just the calls that succeed.
+If adopted with suitable custody, witnessing and practical privacy settings, this could broaden who can challenge AI claims, make submitted methods easier to inspect, and make recorded refusals and access limits easier to scrutinize. Broader coverage and better governance are intended benefits, not outcomes measured by our experiments.
 
-ARTT does not prescribe which target models a custodian must offer or how large
-they must be. It applies when the custodian commits to the model identity and
-serving configuration while retaining the weights and raw outputs. It also does
-not establish that a filed evaluation is scientifically valid. It protects the
-release interface around an evaluation; evaluation design and validation remain
-separate work.
+## Our contributions
 
-Every filing outcome, including refusals and noisy fallback releases, goes on a
-public hash-chained ledger. Anyone can inspect the recorded filings and outcomes
-and verify chain consistency. A previously retained checkpoint lets readers
-detect changes to the committed prefix; without one, a whole chain can be
-rewritten or a valid suffix deleted. External filing receipts and witnessing to
-detect omissions or equivocation are future work.
-The privacy guarantee does not depend on the ledger: hash chaining is
-postprocessing of the declared records.
+**1. A public evaluation contract.** A filing identifies executable code, a public method card, the declared result schema and resource limits. Model/configuration commitments identify the intended evaluation target. The protocol specifies admissions, protected releases and refusal records. This is a concrete proposal for organizing access; it does not establish that every filed test is scientifically valid or must be admitted.
 
-## Why the release needs protection
+**2. An adversarial model of the public result.** A small score is still a channel. A hostile judge can encode a private fact in its score, crash, timeout or record shape. We demonstrate status leakage with a language model in the loop and extend the coding study to a genuine correctness property: which expected value a hidden assertion checks. The contribution is the analysis and measured application to AI evaluation, not the discovery of covert channels in general.
 
-A limited verdict is still a channel out of the sealed environment. A hostile
-evaluator can choose a score, an error, a timeout, or a record shape based on a
-private model response. A reader can then decode that choice. A smaller output
-schema does not solve the problem if the evaluator still controls even one bit.
+**3. A release mechanism with explicit accounting.** The trusted publisher owns the output format and randomness. Access is charged before execution; post-access failures become a fixed raw fallback; successes and fallbacks pass through the same score-noise kernel and scheduled record interface. Shared budgets limit repetition across filers and program aliases. The newest experiment reserves its experiment and secret allowances atomically. The privacy bound covers the defined public record under stated trust and delivery assumptions. Physical timing and generic shared-queue noninterference remain outside the established guarantee.
 
-ARTT charges the privacy budget before model access. Every post-access failure,
-including a timeout, maps to the same fallback value as the protected success
-path. The publisher applies the same fresh noise to both values and releases one
-record of the same shape on a fixed schedule. This means that run status and
-other execution details cannot become a second, unprotected exit.
+**4. A record readers can check.** Hash-chained ledgers, retained checkpoints, source snapshots, pre-access commitments and durable budgets connect reported results to preserved artifacts. Checkpoints detect modification or truncation of their committed prefix. Hashes establish integrity, not truthful execution; external witnessing, omission detection and protection against a hostile custodian remain additional work.
 
-## What this study shows
+**5. Measurements that show the protection's boundary.** We retain the ideal case, then measure useful scores, a meaningful private suite choice, repeated releases and honest utility. This distinguishes status suppression from the remaining score channel and exposes the privacy–utility tradeoff.
 
-The target model in the main study was Qwen3-0.6B, a small open-weight stand-in.
-The judges in that study were deterministic code, not another language model.
-Across 256 admissions, the task instantiated four deterministic prompts; it was
-a literal-format canary task, not a semantic alignment measurement. A separate
-fixture study used an honest substring-rule judge across 32 public prompts.
+## What the latest coding experiment establishes
 
-The status attack is the central result. A malicious judge made a constant
-proposal for one planted secret and failed for the other. With the status channel
-open, a decoder recovered the secret in 256/256 trials even though the score did
-not change. ARTT removes status as a separate public channel: for this attack,
-success and failure have exactly equal record distributions, giving optimal
-recovery of 1/2 for any number of filings. Observed status recovery was 128/256,
-including deliberate timeouts. A score decoder obtained 124/256 across three
-status-suppressed attacks. A judge deliberately writing a one-bit secret into
-the released score obtained 202/256 through a noisy, logged, budget-capped
-two-axis record per filing. On the same protected contexts, an honest evaluator retained an
-aggregate formatting signal, including every fallback.
+The expected-value protocol was committed before execution. It uses all 128 pinned Qwen3-0.6B attack patches and 48 honest patches, across 48 tiny public tasks, with zero fresh GPU generations. A private choice selects one of two valid assertions with different expected values; three other checks stay common. Candidate suites and candidate-zero ordinary scores are public attacker side information.
 
-Earlier fixture experiments show the same lesson. Four or two free score axes
-can carry a planted secret in all 256 trials. A runner-fixed verdict removes
-that choice, but also removes useful evaluator discretion. Runner-owned noise
-can make one release unreliable, yet repeated releases can average it away. The
-whole release, not only the score, needs protection.
+Recovery is **128/128 from exposed exact outcomes, 90/128 after one noisy release, and 101/128 after four**. The four-release cap then refuses 512 further attempts, adding no charge or backend call while honest capacity remains. The earlier optimal equal-score case remains a separate control: status recovery falls from 128/128 to 64/128 when successful and fallback raw scores are identical.
 
-## Scope
+Honest patches pass **29/48 suites**. Across 192 noisy observations, the pass estimate is **0.510**, compared with exact truth **0.604**, with a conservative 95% interval of **0.216–0.804**. This measures noise on the fixed corpus, not performance on unseen tasks.
 
-The privacy proof depends on trusted isolation, accounting, the custodian and
-publisher, and fixed-slot delivery. It does not cover hardware attacks, host
-telemetry, physical timing, ledger rollback, or shared-queue effects without an
-additional locality argument. The paper gives a bounded release protocol and an
-end-to-end attack and repair for a defined task. It does not claim to solve
-model-wide secrecy, hardware custody, or semantic alignment evaluation.
+At this setting four two-score releases cost **ε = 8.7889 per secret**, conditional on the experiment's isolated private contexts and trusted publisher. **ARTT meters the channel here; it does not make one bit private.** The fresh-secret experiment has its own fixed allowance, and all historical charges remain intact. Exact comparisons and research diagnostics make the full published research transcript non-private. Discarded private labels leave recovery totals as trusted custodian aggregates.
 
-Whether custodians adopt public filing, and which models and evaluations they
-admit, are policy questions. The paper shows that the release side can be made
-safe for the defined task; it does not settle the institutional choices needed
-for broad participation.
+[Combined report](../results/coding-expected-value-2026-10-12/report/report.html) · [Protocol and detailed results](../demos/coding_agent/README.md#expected-value-secret-and-honest-utility) · [Evidence index](../results/README.md)
 
-The goal is practical: let people file tests, make the evaluation method
-inspectable, publish a useful protected result, and measure what that result can
-leak. The research draft contains the implementation, theorem, evidence, and
-full boundaries.
+## How to position the research
+
+ARTT builds on existing confidential execution, differential privacy and covert-channel defenses. In particular, [Differential Privacy Under Fire](https://www.usenix.org/conference/usenix-security-11/differential-privacy-under-fire) established the importance of timing, shared state, budgets and defaults for adversarial private queries. Our claimed contribution is the specified public AI evaluation interface, its treatment of the declared release as a complete adversarial channel, and the end-to-end implementation and measurements. We do not claim to have invented those underlying defenses or established their absence from every other system.
+
+The long-term proposition is testable: **confidentiality should permit more independent scrutiny when access and disclosure are governed together.** The prototype supplies a mechanism and evidence for part of that proposition. Real-world adoption, useful operating points, independent reproduction, stronger custody and broader evaluations are the work that would turn it into practical infrastructure.

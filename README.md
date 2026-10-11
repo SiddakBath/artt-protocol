@@ -4,6 +4,23 @@
 
 Let outsiders run evaluations while protecting what the evaluator can read. This coding demo protects the **hidden test suite**: a malicious judge publishes a private suite choice through a crash or a score. ARTT suppresses admitted error status, adds score noise and charges each release against a declared budget.
 
+## What ARTT contributes
+
+ARTT aims to make independent AI testing a **public, accountable process under confidentiality**. An outsider files an inspectable method; the custodian executes it against a committed model configuration under declared limits; a trusted publisher releases a bounded result and records the outcome.
+
+The research contributes:
+
+- **A public filing contract:** executable methods, declared resources and result schemas, model commitments, admissions and refusal records.
+- **An adversarial release model:** a score, crash or timeout can carry private information even when execution is sealed. The studies measure these channels with a language model in the loop.
+- **Controlled disclosure:** the publisher handles successes and failures through the same scheduled, noisy interface, with access charged before execution and shared caps on repetition.
+- **Checkable evidence and measured limits:** committed protocols, preserved ledgers, checkpoints and source snapshots, together with attack recovery and honest utility results.
+
+With suitable custody and practical privacy settings, this could broaden who can challenge AI claims without requiring publication of confidential assets. Institutional adoption, frontier deployment and those wider benefits are future work. The contribution builds on established confidential execution, differential privacy and covert-channel defenses.
+
+[Read the contribution and impact explanation](paper/public-note.md).
+
+## What the coding study shows
+
 ![Separate equal-score, useful-score and expected-value crash experiments](results/coding-expected-value-2026-10-12/report/scenarios.svg)
 
 The new, predeclared experiment protects **which valid expected value a hidden assertion checks**, using a private choice between two different correctness checks. Recovery is **128/128 → 90/128 (70.3%)** after one ARTT release, and **101/128 (78.9%)** after four. Its first-release Wilson 95% interval is 61.9%–77.5%. Useful scores still leak after error status is hidden.
