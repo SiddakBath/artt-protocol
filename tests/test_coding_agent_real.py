@@ -4,7 +4,7 @@ from pathlib import Path
 import sys
 import pytest
 from demos.coding_agent.local_model import extract_patch, public_messages
-from demos.coding_agent.real_model_host import validate_request
+from demos.coding_agent.real_model_host import guest_command, validate_request
 from demos.coding_agent.real_run import EXPECTED_MESSAGES, LiveModel, naive_cohort, prepare_bundles
 from demos.coding_agent.run import ROOT
 from demos.coding_agent.tasks import TASKS
@@ -47,6 +47,22 @@ def test_host_rejects_duplicate_unadmitted_or_changed_task():
     for changed in ({"admission_charged": False}, {"task_id": TASKS[1].id}, {"index": -1}, {"arm": "fixture"}):
         with pytest.raises(ValueError):
             validate_request({**request, **changed}, PROTOCOL, set())
+
+
+def test_windows_bridge_paths_are_literal_and_shell_quoted(monkeypatch):
+    from pathlib import PureWindowsPath
+    requests = []
+    def convert(command, text):
+        requests.append(command)
+        assert command[:4] == ["wsl", "--exec", "wslpath", "-a"]
+        assert "\\" not in command[4]
+        return "/mnt/c/demo space\n"
+    monkeypatch.setattr("demos.coding_agent.real_model_host.subprocess.check_output", convert)
+    command = guest_command(PureWindowsPath("C:/demo space/output"), PureWindowsPath("C:/prior/input"), "win32")
+    assert command[:4] == ["wsl", "--exec", "bash", "-lc"]
+    assert "cd '/mnt/c/demo space'" in command[4]
+    assert "--output '/mnt/c/demo space'" in command[4]
+    assert len(requests) == 3
 
 
 class RecordingBridge:

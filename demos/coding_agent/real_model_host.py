@@ -31,6 +31,20 @@ def validate_request(request, protocol, seen):
     return BY_ID[task_id]
 
 
+def guest_command(output, prior_run, platform=None):
+    platform = platform or sys.platform
+    args = ["-u", "-m", "demos.coding_agent.real_run", "--output", str(output), "--prior-run", str(prior_run)]
+    if platform == "win32":
+        def linux_path(path):
+            # --exec avoids WSL's default shell stripping Windows backslashes.
+            return subprocess.check_output(["wsl", "--exec", "wslpath", "-a", str(path).replace("\\", "/")], text=True).strip()
+        args[-3], args[-1] = linux_path(output), linux_path(prior_run)
+        return ["wsl", "--exec", "bash", "-lc", "cd " + shlex.quote(linux_path(REPO)) + " && .venv/bin/python " + shlex.join(args)]
+    if platform == "linux":
+        return [sys.executable, *args]
+    raise RuntimeError("Linux or Windows via WSL required")
+
+
 def run(model_path, output, first_run, prior_run):
     started = time.monotonic()
     raw = (ROOT / "real-model-protocol.json").read_bytes()
@@ -59,21 +73,12 @@ def run(model_path, output, first_run, prior_run):
     proc = None
     calls, seen, batches = 0, set(), []
     try:
+        command = guest_command(output, prior_run)
         print("Loading offline Qwen3-0.6B on CUDA; no fixture fallback", flush=True)
         model = LocalQwen(model_path, protocol["generation"]["max_new_tokens"])
         if model.receipt["gpu"] != protocol["gpu"] or model.receipt["generation"] != protocol["generation"]:
             raise ValueError("inference configuration differs from protocol")
         write_json(output / "backend-receipt.json", model.receipt)
-        args = ["-u", "-m", "demos.coding_agent.real_run", "--output", str(output), "--prior-run", str(prior_run)]
-        if sys.platform == "win32":
-            def linux_path(path):
-                return subprocess.check_output(["wsl", "--", "wslpath", "-a", str(path)], text=True).strip()
-            args[-3], args[-1] = linux_path(output), linux_path(prior_run)
-            command = ["wsl", "--", "bash", "-lc", "cd " + shlex.quote(linux_path(REPO)) + " && .venv/bin/python " + shlex.join(args)]
-        elif sys.platform == "linux":
-            command = [sys.executable, *args]
-        else:
-            raise RuntimeError("Linux or Windows via WSL required")
         incoming = queue.Queue()
         with (output / "guest-stderr.txt").open("w", encoding="utf-8") as errors, (output / "public-patches.jsonl").open("x", encoding="utf-8") as patches:
             proc = subprocess.Popen(command, cwd=REPO, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=errors, text=True, bufsize=1)
