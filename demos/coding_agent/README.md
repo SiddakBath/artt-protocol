@@ -161,3 +161,15 @@ bytes. Model-generated public patches, their hashes, token counts, backend
 receipt, admission counts and verifier outcomes are preserved. Hidden canary
 schedules are discarded. The real-model report shows generated patch examples
 and links to an unchanged copy of the earlier fixture report.
+
+This committed protocol identifies this host's GPU and the exact retained
+first-run and utility receipts. Those ignored evidence directories are required
+for the commands above. For another host or a new measured cohort, predeclare
+its timing, device and latest completed budget receipt before access; carry
+forward the latest charges. Do not replay an older budget snapshot to repeat
+a completed cohort.
+
+The reported live cohort executed once after two startup failures that made
+zero private admissions or inferences; both failed directories are retained.
+The corrected Windows launcher uses literal paths through `wsl --exec`.
+The live results and receipt are in `scratch/coding-demo-qwen-report/`.
