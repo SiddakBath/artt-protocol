@@ -92,7 +92,7 @@ def verify_history(directory):
 
 def budget_panel(scopes, events=()):
     escape = html.escape
-    rows = "".join(f'<tr><td>{escape(s["label"])}</td><td><code>{escape(s["accounting_scope"])}</code></td><td>{s["admitted_records"]}</td><td>{s["refused_records"]}</td><td>{s["epsilon_model_total"]:.4f}</td></tr>' for s in scopes)
+    rows = "".join(f'<tr><td>{escape(s["label"])}</td><td><abbr title="{escape(s["accounting_scope"], quote=True)}"><code>coding-model-{s["model_commitment"][:12]}…</code></abbr></td><td>{s["admitted_records"]:,}</td><td>{s["refused_records"]:,}</td><td>{s["epsilon_model_total"]:.4f}</td></tr>' for s in scopes)
     cost = scopes[0]["epsilon_per_record"]
     total = sum(s["epsilon_model_total"] for s in scopes)
     historical = ", ".join(sorted({name for s in scopes for name in s["historical_enforcement_scopes"]}))

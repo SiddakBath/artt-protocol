@@ -12,6 +12,7 @@ from .filings_run import prediction
 from .passport import export
 from .report import metric, recovery_panel, attack_label
 from .accounting import model_scopes, policy_history, budget_panel, verify_history
+from .design import apply_design
 from .review_report import load_evidence
 from .run import checkpoint, write_json
 from .utility_run import evidence_hashes
@@ -75,7 +76,7 @@ def plots(summary, retained, output):
     import matplotlib.pyplot as plt
     from matplotlib.ticker import PercentFormatter, MaxNLocator
     plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 11, "svg.fonttype": "none"})
-    orange, teal = "#d97860", "#278982"
+    orange, teal = "#9ca7a1", "#177b63"
     baseline, protected = summary["exact_baseline"]["score"], retained["recovery"]["artt_score_attack"]["score"]
     fig, ax = plt.subplots(figsize=(10, 2.7), layout="constrained")
     for y, point, color in ((1, baseline, orange), (0, protected, teal)):
@@ -116,14 +117,14 @@ def plots(summary, retained, output):
     fig.savefig(output / "main-comparison.png", dpi=180)
     plt.close(fig)
     cap = summary["budget"]["cap_per_secret"]
-    fig, (ax, lower) = plt.subplots(2, 1, figsize=(10, 7), sharex=True, height_ratios=[3, 1.25], layout="constrained")
+    fig, (ax, lower) = plt.subplots(2, 1, figsize=(10, 5.8), sharex=True, height_ratios=[3, 1.25], layout="constrained")
     for arm, color, label in (("uncapped", orange, "Uncapped noisy releases"), ("artt", teal, f"ARTT: cap {cap}")):
         points = summary["curve"][arm]
         shown = points if arm == "uncapped" else points[:cap+1]
         xs, ys = [p["filing"] for p in shown], [p["rate"] for p in shown]
         ax.plot(xs, ys, "o-", color=color, linewidth=2.4, label=label)
         ax.fill_between(xs, [p["wilson_95"][0] for p in shown], [p["wilson_95"][1] for p in shown], color=color, alpha=.12)
-        ax.plot(xs, [p["predicted"] for p in shown], "--", color=color, alpha=.7, linewidth=1, label=f"{arm.upper()} prediction")
+        ax.plot(xs, [p["predicted"] for p in shown], "--", color=color, alpha=.7, linewidth=1, label=f"Expected, {arm.upper() if arm == 'artt' else arm}")
     plateau = summary["curve"]["artt"][cap]["rate"]
     ax.plot([cap, summary["curve"]["artt"][-1]["filing"]], [plateau, plateau], ":", color="#6b7d85", linewidth=1.5)
     ax.annotate("No further scores; last estimate retained", (cap+0.4, plateau), xytext=(0, -24), textcoords="offset points", color="#53666f")
@@ -132,10 +133,9 @@ def plots(summary, retained, output):
     ax.yaxis.set_major_formatter(PercentFormatter(1))
     ax.set_ylabel("Private-bit recovery")
     ax.legend(loc="lower right", fontsize=9)
-    ax.set_title("Fresh noisy scores accumulate information; the cap stops new scores", loc="left", pad=14)
     points = summary["curve"]["artt"]
     xs = [p["filing"] for p in points]
-    lower.bar(xs, [p["refused_per_trial"] for p in points], color="#dfa98e", alpha=.8, label="Cumulative refusals per secret")
+    lower.bar(xs, [p["refused_per_trial"] for p in points], color="#cbd3ce", alpha=.8, label="Cumulative refusals per secret")
     lower.plot(xs, [p["admitted_per_trial"] for p in points], color=teal, marker=".", linewidth=2, label="Protected backend accesses per secret")
     lower.set_ylabel("Filings per secret")
     lower.set_xlabel("Number of attempted filings of the same secret")
@@ -208,14 +208,14 @@ def generate(directory, prior, retained_report, first, utility, output):
     document = document.replace('<a href="#recovery">Recovery</a>', '<a href="#recovery">Attack comparison</a><a href="#filings">Repeated filings</a><a href="#retained-recovery">Retained rows</a>', 1)
     exact, previous = summary["exact_baseline"]["score"], retained["recovery"]["artt_score_attack"]["score"]
     final_uncapped, at_cap = summary["curve"]["uncapped"][-1], summary["curve"]["artt"][protocol["cap_per_secret"]]
-    cohort_note = '<p class="note">The two crash bars are the paired retained live Qwen comparison. The exact-score before bar is a separately predeclared cohort of 128 fresh Qwen generations; the noisy-score after bar is the retained live cohort. Those score cohorts have independent balanced assignments and are a descriptive comparison, not a paired trial. The first fixture protected score result remains 88/128; Qwen remains 96/128. No result has been rerun or replaced.</p><p><a href="protocol.json">New predeclared protocol</a> · <a href="public-patches.jsonl">New Qwen patches</a> · <a href="retained/report.html#recovery">Unchanged first live report</a> · <a href="exact-baseline.png">Export score comparison</a></p>'
+    cohort_note = '<details><summary>Cohort receipts and original results</summary><p>The exact baseline generated 128 fresh Qwen patches under a separately predeclared protocol. The protected score cohort was retained, not rerun. The first fixture protected score result remains 88/128; Qwen remains 96/128.</p><p><a href="protocol.json">Predeclared protocol</a> · <a href="public-patches.jsonl">New Qwen patches</a> · <a href="retained/report.html#recovery">Original live report</a> · <a href="exact-baseline.png">Export score comparison</a></p></details>'
     baseline_panel = recovery_panel(retained, exact).replace('</section>', cohort_note + '</section>')
     rows = ""
     for un, ar in zip(summary["curve"]["uncapped"], summary["curve"]["artt"]):
         rows += f'<tr><td>{un["filing"]}</td><td>{metric(un)}</td><td>{metric(ar)}</td><td>{ar["admitted_per_trial"]}</td><td>{ar["refused_per_trial"]}</td></tr>'
     ledger_links = " · ".join(f'<a href="{name}">filing {i+1}</a>' for i, (name, _) in enumerate(ledgers))
     budget = summary["budget"]
-    filings_panel = f'''<section id="filings"><h2>What the admission budget buys</h2><p>Each trial repeatedly files the <b>same private bit and same frozen Qwen patch</b>. Both paths add the same fresh p=0.5 noise. The uncapped path keeps releasing scores; ARTT permits four filings per secret, then refuses further access.</p><img style="width:100%" src="repeated-filings.svg" alt="Recovery over 16 filings; ARTT scores stop after four and later filings are refused"><p>At filing 16, uncapped recovery is <b>{final_uncapped['correct']}/{final_uncapped['n']}</b>. At its cap, ARTT recovery is <b>{at_cap['correct']}/{at_cap['n']}</b>; later requests reveal no new scores. Across 128 trials, <b>{budget['refused']} additional filings were refused</b>. Protected replay-backend accesses stayed <b>{budget['protected_replay_calls_at_cap']} → {budget['protected_replay_calls_after_refusals']}</b>.</p><p>Solid lines are observed recovery; shaded areas are pointwise Wilson 95% intervals; dashed colored lines are the predeclared mechanism prediction. The gray extension retains the last available estimate after the cap and is not a new release. Prefix measurements share the same secrets and are correlated.</p><p class="note">This experiment isolates repeated releases by replaying public patches from the retained Qwen run. It makes zero new GPU generations for the filing curve; each admitted filing invokes the protected replay backend once. The new exact baseline above makes 128 fresh GPU generations. The uncapped curve is already noisy: an exact-score uncapped attacker would recover the bit on its first filing.</p><p>The four-per-secret cap is enforced by durable item budgets plus a shared allowance of 512 for this new cohort. Earlier {budget['used_before']} corpus charges are carried forward; total used is {budget['used']}/{budget['cap']}. This demonstrates a chosen cap, not a claim that the demo's large cumulative epsilon offers strong privacy. New release epsilon: {budget['epsilon_new']:.4f}; composed ARTT scope: {budget['epsilon_composed']:.4f}. Unsafe controls are outside that finite guarantee.</p><details><summary>All 17 observed prefixes, intervals and refusals</summary><div class="scroll"><table><thead><tr><th>Attempted filings</th><th>Uncapped</th><th>ARTT / last available estimate</th><th>ARTT accesses per secret</th><th>Refusals per secret</th></tr></thead><tbody>{rows}</tbody></table></div></details><p><a href="repeated-filings.png">Export chart</a> · <a href="summary.json">Counts and diagnostics</a> · <a href="replay-provenance.json">Frozen patch provenance</a> · <a href="supplement-passport.json">Combined passport through this cohort</a></p><details><summary>Inspect all 16 ARTT filing ledgers</summary><p>{ledger_links}</p></details></section>'''
+    filings_panel = f'''<section id="filings"><h2>Repeated filings</h2><p>Both paths release fresh noisy scores from the same frozen Qwen patch and private bit. ARTT admits four filings per secret, then refuses further access.</p><figure><img src="repeated-filings.svg" alt="Recovery over 16 filings; ARTT scores stop after four and later filings are refused"><figcaption>Solid lines: observed recovery. Shading: pointwise Wilson 95% intervals. Dashed lines: predeclared predictions. The gray extension keeps the last estimate after the cap; it is not a new release.</figcaption></figure><dl class="facts"><div><dt>Uncapped, at 16 filings</dt><dd>{final_uncapped['correct']}/{final_uncapped['n']}</dd></div><div><dt>ARTT, at its cap of four</dt><dd>{at_cap['correct']}/{at_cap['n']}</dd></div><div><dt>Further filings refused</dt><dd>{budget['refused']:,}</dd></div></dl><p>Protected replay calls: <b>{budget['protected_replay_calls_at_cap']} → {budget['protected_replay_calls_after_refusals']}</b>. Refusals make no further protected access.</p><p class="note">Fixed public Qwen patches are replayed here; the curve makes zero new GPU generations. The separate exact baseline above generated 128 fresh patches.</p><details><summary>Protocol, accounting and curve assumptions</summary><p>Both curve arms already use p=0.5 noise. An exact-score uncapped attacker would recover the bit on its first filing. Prefix measurements share the same secrets and are correlated.</p><p>The four-per-secret cap is enforced by durable item budgets and a shared allowance of 512 for this cohort. Prior {budget['used_before']} corpus charges are carried forward; total used is {budget['used']}/{budget['cap']}. New release epsilon: {budget['epsilon_new']:.4f}; composed scope: {budget['epsilon_composed']:.4f}. This chosen demonstration cap is not a strong privacy setting. Unsafe controls are outside the finite guarantee.</p></details><details><summary>All 17 observed prefixes, intervals and refusals</summary><div class="scroll"><table><thead><tr><th>Attempted filings</th><th>Uncapped</th><th>ARTT / last estimate</th><th>Accesses per secret</th><th>Refusals per secret</th></tr></thead><tbody>{rows}</tbody></table></div></details><details><summary>Inspect all 16 ARTT filing ledgers</summary><p>{ledger_links}</p></details><p class="caption"><a href="repeated-filings.png">Export chart</a> · <a href="summary.json">Counts and diagnostics</a> · <a href="replay-provenance.json">Replay provenance</a> · <a href="supplement-passport.json">Combined passport</a></p></section>'''
     document = document.replace('<main>', '<main>'+baseline_panel+filings_panel, 1)
     start = document.index('<section id="budget">')
     end = document.index('</section>', start) + len('</section>')
@@ -225,7 +225,7 @@ def generate(directory, prior, retained_report, first, utility, output):
     document = document.replace('<section id="passport"><h2>A proposed passport mapping</h2>', '<section id="passport"><h2>Retained passport through the first live cohort</h2><p><a href="supplement-passport.json">The combined passport including the new filing cohort</a> carries the updated cumulative total.</p>', 1)
     new_inference = json.loads((directory / "inference-receipt.json").read_text())
     document = document.replace('</main>', f'<footer>New protocol commit: {summary["protocol_commit"]}<br>New executed commit: {summary["git_commit"]}<br>New protocol SHA256: {summary["protocol_sha256"]}<br>New cohort runtime including model load: {new_inference["wall_seconds_including_model_load"]:.4f} seconds.<br>Recovery truth remains a custodian aggregate; private schedules were not saved.</footer></main>', 1)
-    (output / "report.html").write_text(document, encoding="utf-8")
+    (output / "report.html").write_text(apply_design(document), encoding="utf-8")
     write_json(output / "supplement-passport.json", passport)
     for name in ("summary.json", "protocol.json", "start.json", "backend-receipt.json", "inference-receipt.json", "public-patches.jsonl", "replay-provenance.json"):
         shutil.copyfile(directory / name, output / name)
