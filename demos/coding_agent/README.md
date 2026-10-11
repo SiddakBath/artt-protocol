@@ -109,3 +109,55 @@ describe the complete exported scope. An early record's running total is
 smaller than the completed export total. Historical admission caps remain in
 each record; the scope summary lists both declared caps when the allowance
 was explicitly extended.
+
+## Optional live local model
+
+The default remains the fixture backend. `--backend local-qwen` uses an offline
+Qwen3-0.6B checkpoint to generate a fresh Python patch after every admission.
+It never substitutes fixture solutions, caches patches, repairs incorrect
+code, or retries failed generations. The model sees only the public task
+description, signature and example. The custodian appends hidden checks and
+the synthetic private canary for the judge after inference. The attack is
+therefore a judge leaking its private test context, rather than a claim about
+extracting Qwen's training data.
+
+On this Windows host, use the existing CUDA environment and local checkpoint:
+
+```powershell
+./scripts/demo.ps1 -Backend local-qwen -Output scratch/coding-demo-qwen
+```
+
+Set `-ModelPath` and `-ModelPython` for other installed checkpoint/runtime paths.
+The runtime requirements are in `requirements-runtime.txt`; the demo does not
+download a model or install packages. A Linux CUDA host can run the same flag:
+
+```bash
+python -m demos.coding_agent.run --backend local-qwen --model-path /path/to/Qwen3-0.6B --output scratch/coding-demo-qwen
+.venv/bin/python -m demos.coding_agent.real_report --input scratch/coding-demo-qwen --output scratch/coding-demo-qwen-report
+```
+
+`real-model-protocol.json` commits the actual checkpoint hashes, CUDA device,
+greedy non-thinking generation, 256-token limit, batch size, 128 trials per
+attack, 48 honest tasks per release path, 304 new scheduled admissions and 8
+extra refusals. The same canary assignments and public tasks are used in the
+naive and ARTT arms, with fresh model inference in each. All 608 inferences
+are counted at the GPU host. The conservative honest interval compares one
+real model's ARTT estimate with its unnoised control; it is separate from the
+fixture A/B study and makes no new A/B separation claim.
+
+Public-only timing preflights are preserved separately. The live protocol has
+a 60-second worker limit, 60.5-second window and three-second slot period,
+chosen before private access. The report includes late proposals, timeouts and
+actual code failures. The allowance extension copies the prior durable budget,
+carries forward 2,656 charges and extends the cap to 2,960 before access.
+The unsafe comparator is separately precharged and has no finite privacy
+guarantee for its intentionally published status channel. Composed epsilon in
+the passport describes the ARTT releases only.
+
+Every run requires a fresh output directory. The reported protocol must match
+its committed bytes, as must the downloaded checkpoint. Source and model-file
+hashes are checked after execution, as are all retained earlier evidence
+bytes. Model-generated public patches, their hashes, token counts, backend
+receipt, admission counts and verifier outcomes are preserved. Hidden canary
+schedules are discarded. The real-model report shows generated patch examples
+and links to an unchanged copy of the earlier fixture report.

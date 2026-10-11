@@ -3,7 +3,7 @@ STATUS = "PROPOSED MAPPING. Not an AIUC or Lucid format; no endorsement or compa
 LIMITS = ["software sandbox, not hardware quote", "trusted custodian", "single model call per admission", "fixture agent"]
 
 
-def export(ledgers, axis_meaning):
+def export(ledgers, axis_meaning, model_limits=None):
     totals = {}
     for _, rows in ledgers:
         for row in rows:
@@ -33,7 +33,7 @@ def export(ledgers, axis_meaning):
                 "privacy": {"epsilon_this_record": epsilon, "epsilon_cumulative_scope_through_this_record": cumulative,
                     "epsilon_scope_total_in_this_export": totals[scope]["epsilon_scope_total"], "budget_scope": scope, "admission_cap": policy["admission_cap"]},
                 "provenance": {"ledger_file": filename, **{key: row[key] for key in ("entry_hash", "prev", "slot", "release_at", "attestation", "runner_version")}, "ledger_seq": row["seq"]},
-                "limits": LIMITS,
+                "limits": (model_limits or {}).get(row["model_hash"], LIMITS),
             })
     return {"status": STATUS, "privacy_scope_totals": totals, "entries": entries}
 

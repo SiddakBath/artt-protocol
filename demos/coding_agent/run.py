@@ -200,9 +200,19 @@ def run(output):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--backend", choices=("fixture", "local-qwen"), default="fixture")
+    parser.add_argument("--model-path", help="offline Qwen3-0.6B checkpoint for local-qwen")
+    parser.add_argument("--first-run", default="scratch/coding-demo")
+    parser.add_argument("--prior-run", default="scratch/coding-demo-utility")
     parser.add_argument("--output", required=True)
     args = parser.parse_args(argv)
-    run(args.output)
+    if args.backend == "local-qwen":
+        if not args.model_path:
+            parser.error("local-qwen requires --model-path; no fixture fallback")
+        from .real_model_host import run as run_real
+        run_real(args.model_path, args.output, args.first_run, args.prior_run)
+    else:
+        run(args.output)
 
 
 if __name__ == "__main__":
