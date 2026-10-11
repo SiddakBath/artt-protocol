@@ -80,7 +80,8 @@ def plots(summary, retained, output):
     for y, point, color in ((1, baseline, orange), (0, protected, teal)):
         low, high = point["wilson_95"]
         ax.barh(y, point["rate"], height=0.38, color=color)
-        ax.errorbar(point["rate"], y, xerr=[[point["rate"]-low], [high-point["rate"]]], color="#243b48", capsize=4)
+        # Wilson's upper endpoint can round a fraction below 1 for a perfect run.
+        ax.errorbar(point["rate"], y, xerr=[[max(0, point["rate"]-low)], [max(0, high-point["rate"])]], color="#243b48", capsize=4)
         ax.text(1.025, y, f"{point['correct']}/{point['n']}", va="center")
     ax.set_yticks([1, 0], ["New exact-score baseline\n128 fresh Qwen generations", "ARTT noisy score release\nretained first live cohort"])
     ax.set_xlim(0, 1.14)
@@ -147,6 +148,10 @@ def generate(directory, prior, retained_report, first, utility, output):
     output.mkdir(parents=True)
     plots(summary, retained, output)
     document = (retained_report / "report.html").read_text(encoding="utf-8")
+    document = document.replace('Qwen generates every patch from a public task description, signature and example.', 'The retained first live cohort and new exact-score baseline use fresh Qwen generations from public task descriptions, signatures and examples. The repeated-filings experiment reuses fixed public Qwen patches.', 1)
+    document = document.replace('<h2>Honest utility, with its uncertainty</h2>', '<h2>Retained first live-cohort honest utility</h2>', 1)
+    document = document.replace('<h2>Inspect the model-generated patches</h2>', '<h2>Retained first live-cohort generated patches</h2>', 1)
+    document = document.replace('<h2>Inspect a released record</h2>', '<h2>Inspect a retained first live-cohort record</h2>', 1)
     for path in retained_report.iterdir():
         if path.is_file():
             document = document.replace('href="'+path.name+'"', 'href="retained/'+path.name+'"')
@@ -166,7 +171,8 @@ def generate(directory, prior, retained_report, first, utility, output):
     document = document.replace('<main>', '<main>'+baseline_panel+filings_panel, 1)
     document = document.replace('<section id="budget"><h2>The cap is charged before access</h2>', '<section id="budget"><h2>Retained first live-cohort budget</h2><p>The numbers below are from the unchanged first live cohort. The new filing cohort and combined totals appear above.</p>', 1)
     document = document.replace('<section id="passport"><h2>A proposed passport mapping</h2>', '<section id="passport"><h2>Retained passport through the first live cohort</h2><p><a href="supplement-passport.json">The combined passport including the new filing cohort</a> carries the updated cumulative total.</p>', 1)
-    document = document.replace('</main>', f'<footer>New protocol commit: {summary["protocol_commit"]}<br>New executed commit: {summary["git_commit"]}<br>New protocol SHA256: {summary["protocol_sha256"]}<br>Recovery truth remains a custodian aggregate; private schedules were not saved.</footer></main>', 1)
+    new_inference = json.loads((directory / "inference-receipt.json").read_text())
+    document = document.replace('</main>', f'<footer>New protocol commit: {summary["protocol_commit"]}<br>New executed commit: {summary["git_commit"]}<br>New protocol SHA256: {summary["protocol_sha256"]}<br>New cohort runtime including model load: {new_inference["wall_seconds_including_model_load"]:.4f} seconds.<br>Recovery truth remains a custodian aggregate; private schedules were not saved.</footer></main>', 1)
     (output / "report.html").write_text(document, encoding="utf-8")
     write_json(output / "supplement-passport.json", passport)
     for name in ("summary.json", "protocol.json", "start.json", "backend-receipt.json", "inference-receipt.json", "public-patches.jsonl", "replay-provenance.json"):

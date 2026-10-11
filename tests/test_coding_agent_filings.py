@@ -8,6 +8,7 @@ from demos.coding_agent.real_run import EXPECTED_MESSAGES, prepare_bundles
 from demos.coding_agent.run import ROOT
 from demos.coding_agent.tasks import TASKS
 from rt.budget import AdmissionBudget
+from rt.experiment import interval
 from rt.scheduled import run_batch
 
 PROTOCOL = json.loads((ROOT / "filings-protocol.json").read_text())
@@ -37,6 +38,17 @@ def test_live_supplement_allowlist_only_admits_new_exact_arm():
     for changed in ({"arm": "artt_score_attack"}, {"index": 128}, {"admission_charged": False}):
         with pytest.raises(ValueError):
             validate_request({**request, **changed}, PROTOCOL, set())
+
+
+def test_chart_renders_perfect_recovery_wilson_boundary(tmp_path):
+    pytest.importorskip("matplotlib")
+    from demos.coding_agent.filings_report import plots
+    perfect = {"correct": 128, "n": 128, "rate": 1.0, "wilson_95": interval(128, 128)}
+    points = [{**perfect, "filing": i, "predicted": prediction(i), "admitted_per_trial": i, "refused_per_trial": 0} for i in range(17)]
+    artt = [{**point, "admitted_per_trial": min(i, 4), "refused_per_trial": max(0, i-4)} for i, point in enumerate(points)]
+    plots({"exact_baseline": {"score": perfect}, "curve": {"uncapped": points, "artt": artt}, "budget": {"cap_per_secret": 4}},
+          {"recovery": {"artt_score_attack": {"score": perfect}}}, tmp_path)
+    assert all((tmp_path / name).stat().st_size > 1000 for name in ("exact-baseline.svg", "exact-baseline.png", "repeated-filings.svg", "repeated-filings.png"))
 
 
 @pytest.mark.skipif(sys.platform != "linux", reason="Linux namespace sandbox required")
