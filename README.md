@@ -1,189 +1,59 @@
 # A Right to Test: Public Evaluation Under Output Confidentiality
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23180546.svg)](https://doi.org/10.5281/zenodo.23180546)
+[Paper](https://doi.org/10.5281/zenodo.23180546) · [Paper source](paper/draft.tex) · [Coding demo and recorded results](demos/coding_agent/README.md) · [Evidence index](results/README.md)
 
-## Why this matters
+Let outsiders run evaluations while protecting what the evaluator can read. This coding demo protects the **hidden test suite**: a malicious judge tries to publish one planted bit through a crash or a score. ARTT removes the crash signal, adds noise to scores, and charges each admitted release against a declared budget.
 
-Today, the most powerful AI models are mostly tested by the labs that build them, by partners they choose, or by government institutes under negotiated access. Independent researchers, journalists and the public have to take the results on trust. A right to test would change that. Anyone could submit an evaluation that runs inside a sealed environment next to the model, and only a small public verdict would come out. The model stays private, and the results are public and checkable. That could let outside researchers check safety claims, regulators run their own audits without getting the weights, and the public see which tests a lab refused. It could also let competitors compare models fairly on the same sealed tests. The catch is that the verdict is a way out of the seal. If an evaluator can sneak private model outputs out through it, nobody will agree to host one. This project demonstrates that failure end to end, then builds a release interface that suppresses its status signal and quantifies the score channel that remains.
+![Crash recovery falls from 128/128 to 64/128; exact-score recovery is 128/128 before ARTT and 96/128 with ARTT noisy scores](demos/coding_agent/assets/main-comparison.svg)
 
-## What ARTT closes and what it accounts for
+Crash bars are the paired live Qwen3-0.6B run. The exact-score baseline is a separately predeclared new cohort; the protected score bar retains the first live cohort. Whiskers are Wilson 95% intervals. The canary is a proxy bit in the private test context, not recovered test assertions. All earlier rows remain in the report.
 
-ARTT publishes one fixed-shape, noised record per run on a fixed schedule, with the budget charged before the model is touched. It removes status as a separate public channel: on Qwen3-0.6B, the constant-score attack falls from 256/256 recovery to 128/256. For that attack, success and failure have exactly equal public-record distributions, so optimal recovery is 1/2 for any number of filings. Score leakage is an explicit tradeoff: a judge that deliberately writes a secret into the score receives a noisy, logged release that consumes a declared admission budget, while an honest evaluator can still distinguish two literal-format conditions. At p = 1/2, each two-axis record costs ε = 2 ln 3; a total cap B per model snapshot gives 2B ln 3 under the paper's trust and delivery assumptions.
+## Quick start: coding demo
 
-An admission is a charged authorization for one judge execution, permitting at most one private model call in this prototype. Failures and timeouts still count. The custodian declares the cap's scope: an item cap limits repeated admissions of one protected item; a corpus cap limits the total across its items. Counters are shared across filers and program aliases. They count authorized executions, rather than successful calls or questions inside a prompt.
-
-The contribution is an end-to-end demonstration: a malicious evaluation can exploit the public exit even when the proposed score is constant; a protocol can remove that status path; and the remaining score path can be accounted for in public records. The public ledger, fixed-shape fallback release, admission accounting, attack, repair, and measurements are part of one implementation rather than separate assumptions.
-
-ARTT requires every filing, refusal, and released result to appear in a public hash-chained ledger. This makes the process checkable, while the privacy guarantee remains a property of the protected records rather than the ledger itself.
-
-## Quick start
-
-Run these commands from the repository root in WSL or another Linux environment with `unshare`, `libseccomp.so.2`, GCC, and Python 3.11 or later:
+On Linux or Windows through WSL, with Python 3.11+, GCC, `unshare` and `libseccomp.so.2`:
 
 ```bash
-python3 -m venv .venv && .venv/bin/python -m pip install -r requirements-test.txt
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-test.txt
 .venv/bin/python -m rt.build_sandbox
+make demo
+```
+
+Open `scratch/coding-demo/report.html`. The default uses deterministic fixture agents and needs no GPU or model download. Every run needs a fresh directory; use `make demo OUTPUT=scratch/coding-demo-next` for another run. Windows also has `scripts/demo.ps1`.
+
+The [live model option](demos/coding_agent/README.md#optional-live-local-model) uses local Qwen3-0.6B to produce patches. The custodian appends hidden tests after generation; the malicious judge sees them. The [repeated-filings experiment](demos/coding_agent/README.md#exact-score-baseline-and-repeated-filings) replays frozen public Qwen patches to isolate repeated releases: uncapped recovery reaches 128/128 at 16 filings; ARTT stops releasing scores after four per secret, with 109/128 recovery and 1,536 later refusals. Protected replay calls stay at 512. This curve makes no new GPU generations; its separate exact baseline generated 128 fresh patches.
+
+## What the result means
+
+Before ARTT, the judge crashes for bit 1 and succeeds for bit 0. Public error status reveals the bit. ARTT publishes the same scheduled record shape in both cases. The status decoder always guesses 0, and the balanced sample has 64 zeros: **64/128 is exactly half by construction**. For this crash attack, both branches also have identical raw scores and therefore identical noisy score distributions.
+
+The deliberate score attack still leaks. At the demo's noise setting, each admitted two-score record costs **ε = 2 ln 3 ≈ 2.1972**. Refusals cost zero additional release epsilon. The budget limits the number of releases an attacker can combine; the ledger records the cost and detects editing. A retained checkpoint is needed to detect deletion of a final row. Large experimental caps are not strong privacy settings.
+
+The coding runs historically used one shared counter, raised from 352 to 2,656, then 2,960, then 3,472 by committed protocols. The [accounting note](demos/coding_agent/README.md#privacy-accounting-and-policy-history) shows separate model attribution and all three cap raises without changing those original records. Separate model attribution does not create independent allowances for the same protected test suite.
+
+The first fixture utility interval includes zero. A separately predeclared utility-only follow-up used 1,152 admissions per fixture and measured A minus B as 0.3524, with a conservative 95% interval of 0.1827 to 0.5222. It concerns the fixed 48-task corpus and repeated release noise. The learned-model run has only one model and makes no A/B utility claim.
+
+## FAQ
+
+**Why not just pre-approve the code?** Approval is useful if the custodian trusts a fixed evaluator. Public testing allows outsiders to submit new evaluations, so approval must account for what arbitrary code does after seeing private information, including secret-dependent crashes and scores. The sandbox restricts execution; the release interface separately restricts what can leave it. This demo shows why a small verdict alone is insufficient.
+
+**Can two accounts split a secret?** They can combine their observations, so the custodian must charge them to the same protected scope. Budgets must be shared across accounts and program aliases, keyed to the protected asset and committed model snapshot. If multiple model paths access the same hidden tests, those paths need shared asset accounting too. Giving each account a fresh cap would break the intended protection.
+
+**Was this a real problem?** The crash and score leaks ran through actual evaluators and a Linux sandbox, with real local Qwen-generated patches in the learned-model experiment. The secret was a synthetic canary planted by the custodian. This demonstrates a reproducible failure of an evaluation interface; it does not document a production breach or stolen proprietary tests. The custodian, isolation and delivery are trusted, and timing noninterference is not proven.
+
+## Verify and explore
+
+```bash
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q -p no:cacheprovider
-.venv/bin/python -m tools.research_audit --output results/recheck.json
+.venv/bin/python -m tools.research_audit --output scratch/recheck.json
 ```
 
-The first three commands install the pinned test dependency, build the Linux sandbox launcher, and run the test suite. The last command verifies the retained public chains, source snapshots, arithmetic, and paper structure without model inference.
+The [evidence index](results/README.md) also covers the earlier learned-model study, multi-bit score study, privacy and utility calculations, and integrity audits. Its [interrupted-run limitation](results/multibit-rerun-2026-10-07/EVIDENCE-LIMITATIONS.md) remains part of the record. Counts and intervals belong to their declared cohorts; they are not pooled across experiments.
 
-The code and retained chains are public. A small live fixture demo runs through
-the shipped scheduled publisher without a GPU or downloaded model:
+- `demos/coding_agent/`: coding tasks, fixture and local-model runners, protocols and report generation.
+- `rt/`: isolation, release, logging and budget code.
+- `judges/`, `examples/`, `fixtures/`: executable study inputs.
+- `tests/`, `tools/`: regression checks and evidence audits.
+- `paper/`, `results/`: paper, proofs, figures and retained research evidence.
 
-```bash
-.venv/bin/python -m tools.multibit_attack --output scratch/fixture-demo --live --trials 2 --admissions 16 --cap 16 --skip-capped --kernel-trials 1000
-```
-
-Use a fresh output directory for each demo. This exercises admission charging,
-noisy releases and post-cap refusals with planted fixture bits; the learned-model
-Qwen experiment is separate.
-
-v0.1.2 passed 71 tests in the WSL environment.
-
-The 8 October preparation passed 84 tests in WSL, including regressions for
-interrupted evidence, incompatible resumes, late fallbacks and audit arithmetic.
-See [the preparation record](results/readiness-2026-10-08/README.md) for the
-retained-chain audit and paper build checks.
-
-## Repository map
-
-- `rt/` contains the filing, isolation, release, logging, and budget code.
-- `judges/`, `examples/`, and `fixtures/` hold the executable study inputs.
-- `tests/` contains the Linux sandbox and analytical tests.
-- `tools/` contains the audit and analysis scripts.
-- `paper/` contains the paper, proofs, public note, and figures.
-- `results/` contains the retained evidence and its [evidence index](results/README.md).
-
-## Main results
-
-The [evidence index](results/README.md) links the primary Qwen release records, the schema curve, the privacy and utility calculations, and the final integrity audit. The [paper source](paper/draft.tex) gives the protocol, theorem, and full interpretation of the results.
-
-### Learned-model status attack and repair
-
-The Qwen3-0.6B study is the learned-model experiment. A judge whose score never changes recovers a planted secret in 256/256 trials from accepted versus error status. Under ARTT's fixed-slot fallback release, the same status decoder is at chance in every phase, including deliberate timeouts. The same honest records retain a literal-format contrast of 0.742, with a conservative finite-sample interval from 0.233 to 1.252.
-
-### Repeated score-channel study
-
-The sixteen-bit study exercises the shipped scheduled publisher and admission accounting with a fixture completion that carries the planted bit; it adds no Qwen inference. Its caps of 16 and 48 admissions are totals across all sixteen protected items in each trial. The first sixteen admissions visit each item once; further admissions revisit uncertain items. One admission per bit recovers 104/9 correct bits in expectation. At 48 admissions, 64 retained completed trials recovered 14.31 correct bits on average (standard error 0.157), close to the frozen 14.481 decoder expectation. For this one-bit-per-context construction, the same public records carry 0.2314 Shannon bits per two-axis admission, giving ceilings of 3.70 bits at 16 admissions and 11.11 at 48. This is not a protocol-wide cap: the raw two-axis channel has capacity 0.4150 bits per record at the same noise level for richer secrets. One interrupted attempt was replaced and its evidence was lost; read [the evidence limitation](results/multibit-rerun-2026-10-07/EVIDENCE-LIMITATIONS.md).
-
-To regenerate the figure from the retained sample and its locally frozen
-Monte Carlo comparator, without rerunning the experiment (requires matplotlib;
-the test suite and live fixture demo do not):
-
-```bash
-python -m tools.multibit_attack --plot-from results/multibit-rerun-2026-10-07/results.json --comparator results/multibit-rerun-2026-10-07/protocol.json
-```
-
-New live experiments use a fresh output directory and record their settings
-before execution. `--resume` requires identical settings and intact completed
-evidence. Incomplete attempts are preserved and require a new cohort rather
-than automatic replacement. Late and failed proposals remain in the sample
-through the protocol's noisy fallback.
-
-## ARTT on a coding-agent evaluation
-
-Coding agents are judged on hidden tests. This demo runs 48 small Python tasks through two release paths with deterministic fixture agents, not learned models.
-
-On a naive design that publishes status, the constant-score abort attack recovered its planted canary in 128/128 (1.0000; 95% interval 0.9709 to 1.0000).
-Under ARTT the same attack recovered it from status in 64/128 (0.5000; 95% interval 0.4147 to 0.5853) and from scores in 58/128 (0.4531; 95% interval 0.3695 to 0.5395).
-The deliberate score encoder recovered it in 88/128 (0.6875; 95% interval 0.6027 to 0.7613); its predicted optimal recovery is 0.7222. The score channel is bounded and logged, not closed.
-
-Honest fixture A estimate: 0.7500, 95% interval 0.1619 to 1.3381.
-Honest fixture B estimate: 0.3958, 95% interval -0.1922 to 0.9839.
-A minus B: 0.3542, 95% interval -0.4775 to 1.1858. The conservative interval includes zero; this run does not establish separation.
-
-Each batch is a separate hash-chained ledger. Edited and middle-deleted copies are checked by `python -m rt.verify`; tail deletion needs a retained checkpoint. CT-style witnessing is future work.
-
-Budget: 352 admitted, 8 refused; epsilon per record 2.1972, total 773.4231. The post-cap call count is unchanged: 608 before, 608 after.
-
-Run it on Linux or Windows via WSL:
-
-    .venv/bin/python -m rt.build_sandbox
-    make demo
-
-On Windows use `scripts/demo.ps1`. Every run needs a fresh output directory. Open `scratch/coding-demo/report.html`.
-
-Scope: deterministic fixture agent; single model call per admission; trusted custodian; software sandbox, not hardware. Timing noninterference is not proven. The passport export is a proposed mapping, not an official AIUC or Lucid format.
-
-Observed runtime: 151.4645 seconds. Commit: `3ed8b0203a3bc65080999ff02a472894c3f59506`. Protocol SHA256: `de79dadef4712648eb8e8f71f04db2e17dee5e2bb70856d1ccee8149efbe73b8`.
-
-Decoder results from summary.json:
-
-- naive_status_attack / status: 128/128 (1.0000; 95% interval 0.9709 to 1.0000)
-- naive_status_attack / score: 83/128 (0.6484; 95% interval 0.5625 to 0.7257)
-- artt_status_attack / status: 64/128 (0.5000; 95% interval 0.4147 to 0.5853)
-- artt_status_attack / score: 58/128 (0.4531; 95% interval 0.3695 to 0.5395)
-- naive_score_attack / status: 64/128 (0.5000; 95% interval 0.4147 to 0.5853)
-- naive_score_attack / score: 89/128 (0.6953; 95% interval 0.6108 to 0.7684)
-- artt_score_attack / status: 64/128 (0.5000; 95% interval 0.4147 to 0.5853)
-- artt_score_attack / score: 88/128 (0.6875; 95% interval 0.6027 to 0.7613)
-
-Observed tamper checks:
-
-- edited: INVALID log; checkpoint matches: True
-- middle_deleted: INVALID log; checkpoint matches: False
-- suffix_deleted: VERIFIED 63 entries (chain integrity only; no hardware attestation); checkpoint matches: False
-
-Separately predeclared utility-only follow-up (the first run above remains unchanged):
-
-1152 admissions per fixture agent, repeating the same fixed 48-task corpus. No pooling with the first utility sample.
-Follow-up A: 0.7543, 95% interval 0.6343 to 0.8744.
-Follow-up B: 0.4019, 95% interval 0.2819 to 0.5220.
-Follow-up A minus B: 0.3524, 95% interval 0.1827 to 0.5222. The conservative interval excludes zero.
-Additional admissions: 2304. The public budget extension carries forward the first 352 charges; total used is 2656 against an extended cap of 2656. Additional epsilon: 5062.4054; combined scope total: 5835.8285.
-Utility protocol SHA256: `64601a79b768a70ac1ebcdd4776158a9e38507a3e38713358a290bae8aeb0f6c`; predeclared in `6e06fe4c8202a847e4764abfdfb23b572ca93018`. Observed utility runtime: 440.0329 seconds.
-
-## Limitations
-
-- The guarantee assumes trusted isolation, accounting, custody, and fixed-slot delivery.
-- Hardware custody, host telemetry, and physical timing noninterference require further work.
-- This is a narrow canary and literal-format task. It does not settle semantic alignment evaluation or leakage from model-wide secrets.
-
-## Citation
-
-Please cite the project using [CITATION.cff](CITATION.cff). The project record is
-available at [doi:10.5281/zenodo.23180546](https://doi.org/10.5281/zenodo.23180546).
-
-## License
-
-Code is licensed under Apache 2.0 (see LICENSE). The paper in paper/ is licensed under CC BY 4.0 (see paper/LICENSE).
-
-## Source archives
-
-Release source archives use `git archive` and the exclusions in `.gitattributes`.
-They include the paper source and required figures, code, tests and retained
-evidence. Generated PDFs, local environments, caches, scratch work and build
-outputs are excluded. The compiled paper is distributed separately. Each archive
-is accompanied by a SHA-256 checksum and must match its declared release version.
-An uncommitted candidate package uses the same exclusions and contains the latest
-working-file bytes; it is not an archive of the previous release tag.
-
-## Optional live Qwen3-0.6B coding evaluation
-
-Every patch is generated by the offline CUDA model after admission. Hidden tests and the planted canary are appended by the custodian for the judge; neither is model input. No patch cache, code repairs, or fixture fallback.
-
-- naive_status_attack / status: 128/128 (1.0000; 95% interval 0.9709 to 1.0000)
-- naive_status_attack / score: 73/128 (0.5703; 95% interval 0.4837 to 0.6528)
-- artt_status_attack / status: 64/128 (0.5000; 95% interval 0.4147 to 0.5853)
-- artt_status_attack / score: 67/128 (0.5234; 95% interval 0.4375 to 0.6080)
-- naive_score_attack / status: 64/128 (0.5000; 95% interval 0.4147 to 0.5853)
-- naive_score_attack / score: 98/128 (0.7656; 95% interval 0.6852 to 0.8306)
-- artt_score_attack / status: 64/128 (0.5000; 95% interval 0.4147 to 0.5853)
-- artt_score_attack / score: 96/128 (0.7500; 95% interval 0.6684 to 0.8170)
-
-Unnoised honest control: 28/48 tasks pass all hidden checks.
-ARTT honest estimate: 0.9375, 95% interval 0.3494 to 1.5256.
-One learned model on 48 tasks; this is separate from the fixture A/B utility comparison. No pooling or unseen-task generalization claim.
-
-New ARTT admissions: 304; earlier charges retained: 2656; total 2960/2960. New release epsilon: 667.9563; composed ARTT scope epsilon: 6503.7847.
-Extra refusals: 8; actual model calls before/after: 608/608.
-The intentionally unsafe comparator is separately charged and has no finite privacy guarantee for its status channel.
-Observed runtime including model load: 1936.9530 seconds.
-Executed commit: `1c41fedc37040a6e1d1c7307de0fc0c85118c7b6`; protocol commit: `c6af559291b2902344cc4ddba6b9e6962216797a`; protocol SHA256: `a637a873baa71eb8876bd5322cbbba5aab6da92bdfbb415336bd0726fd70d7f3`.
-Qwen weights SHA256: `f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b`.
-
-Trusted custodian; software sandbox; synthetic planted judge-side canary. Timing noninterference is not proven. Private trial schedules were discarded; recovery totals are custodian aggregates.
-
-Use `--backend local-qwen` or `scripts/demo.ps1 -Backend local-qwen`. The default remains the fixture backend. See [the coding demo guide](demos/coding_agent/README.md#optional-live-local-model) for the local runtime, retained-evidence requirements and predeclaration rules. The original fixture and utility reports are preserved separately.
+Cite using [CITATION.cff](CITATION.cff). Code is [Apache 2.0](LICENSE); the paper is [CC BY 4.0](paper/LICENSE). Release source archives follow `.gitattributes`; generated PDFs, environments and scratch outputs are excluded. The compiled paper is distributed separately.

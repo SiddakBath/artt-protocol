@@ -6,6 +6,7 @@ from pathlib import Path
 from rt.bundle import sha
 from rt.scheduled_log import read
 from .passport import STATUS, export, legacy_export
+from .accounting import budget_panel, model_scopes
 
 
 def number(value):
@@ -55,8 +56,14 @@ def readme_numbers(summary):
     return "\n".join(lines) + "\n"
 
 
-def chart(summary):
-    rows = [(arm, decoder, value) for arm, decoders in summary["recovery"].items() for decoder, value in decoders.items()]
+def attack_label(arm):
+    attack = "Crash attack" if "status_attack" in arm else "Score attack"
+    path = "before ARTT" if arm.startswith("naive") else "after ARTT"
+    return f"{attack}, {path}"
+
+
+def chart(summary, selected=None):
+    rows = selected if selected is not None else [(arm, decoder, value) for arm, decoders in summary["recovery"].items() for decoder, value in decoders.items()]
     height = len(rows) * 44 + 65
     parts = [f'<svg viewBox="0 0 960 {height}" role="img" aria-label="Canary recovery with Wilson intervals and chance line">',
              f'<line x1="530" x2="530" y1="20" y2="{height-35}" stroke="#64748b" stroke-dasharray="5 5"/>',
@@ -65,7 +72,7 @@ def chart(summary):
         y = 38 + index * 44
         low, high = value["wilson_95"]
         color = "#ef765b" if arm.startswith("naive") else "#148b87"
-        label = arm.replace("_", " ") + " / " + decoder
+        label = attack_label(arm) + ((" / status" if decoder == "status" else " / scores") if selected is None else "")
         parts += [f'<text x="0" y="{y+17}" font-size="14">{html.escape(label)}</text>',
                   f'<rect x="320" y="{y}" width="{420*value["rate"]}" height="24" rx="4" fill="{color}"/>',
                   f'<path d="M {320+420*low} {y+7} v10 M {320+420*low} {y+12} H {320+420*high} M {320+420*high} {y+7} v10" stroke="#122838" stroke-width="2"/>',
@@ -74,13 +81,23 @@ def chart(summary):
     return "".join(parts)
 
 
+def recovery_panel(summary, exact=None):
+    recovery = summary["recovery"]
+    selected = [(arm, "status", recovery[arm]["status"]) for arm in ("naive_status_attack", "artt_status_attack")]
+    score = recovery["artt_score_attack"]["score"]
+    if exact is not None:
+        selected.extend([("naive_score_attack", "score", exact), ("artt_score_attack", "score", score)])
+    after = recovery["artt_status_attack"]["status"]
+    return f'''<section id="recovery"><h2>Can an evaluator read the hidden test suite through its results?</h2><p>The protected asset is the <b>hidden test suite</b>. A private canary is one planted bit in its test context: it stands in for a fact the evaluator is not allowed to publish. Recovery means the outsider correctly reads that bit from public results. This is a controlled test of the evaluation's exit channel, not a claim that a model memorized a secret or that whole test assertions were recovered.</p>{chart(summary, selected)}<h3>Why the crash attack gives exactly half after ARTT</h3><p>Before ARTT, the malicious judge crashes when the bit is 1 and succeeds when it is 0. The outsider reads error versus success and recovers the bit. <b>ARTT never publishes an error for an admitted evaluation.</b> It releases the same kind of record on the fixed schedule in both cases, so there is no error signal to read.</p><p>The error-based decoder therefore always guesses 0. The trial contains equal numbers of 0 and 1, so it gets exactly <b>{after['correct']}/{after['n']}</b> right. The 64/128 result in the retained run is exactly half by construction, not a fortunate draw of release noise. For this particular crash attack, success and crash also start from identical raw scores (0, 0), so their noisy score distributions match.</p><h3>The score attack is a different channel</h3><p>Here the judge writes the bit into both scores instead of crashing. Exact scores reveal it outright; ARTT's noisy scores still reveal some information. The retained protected score result is <b>{score['correct']}/{score['n']}</b>; the declared one-record prediction is about 72%. Noise limits each release, and the admission cap limits how many releases an attacker can combine. The score channel is not closed.</p><p>Bars show observed recovery; whiskers are Wilson 95% intervals. The dashed line marks half. Crash recovery uses error status; score recovery uses the two published scores.</p></section>'''
+
+
 def render_html(summary, ledgers, passport):
     real = summary.get("backend") == "local-qwen"
     rows = [{"ledger_file": filename, "display_index": index, **row} for index, (filename, row) in enumerate((filename, row) for filename, entries in ledgers for row in entries)]
     preview_entries = [entry for entry in passport["entries"] if not real or entry["subject"]["model_commitment"] == summary["model_hash"]]
     passport_preview = {"status": passport["status"], "privacy_scope_totals": passport["privacy_scope_totals"], "entries": preview_entries[:1]}
     data = json.dumps({"summary": summary, "rows": rows, "passport": passport_preview}, ensure_ascii=True, sort_keys=True).replace("<", "\\u003c")
-    recovery = "".join(f'<tr><td>{html.escape(arm.replace("_", " "))}</td><td>{decoder}</td><td>{metric(value)}</td><td>{number(value["predicted"]) if value["predicted"] is not None else "not predeclared"}</td></tr>' for arm, decoders in summary["recovery"].items() for decoder, value in decoders.items())
+    recovery = "".join(f'<tr><td>{html.escape(attack_label(arm))}</td><td>{"Error status" if decoder == "status" else "Scores"}</td><td>{metric(value)}</td><td>{number(value["predicted"]) if value["predicted"] is not None else "not predeclared"}</td></tr>' for arm, decoders in summary["recovery"].items() for decoder, value in decoders.items())
     followup = summary.get("utility_followup")
     measurements = followup["honest"] if followup else summary["honest"]
     if real:
@@ -132,6 +149,21 @@ def render_html(summary, ledgers, passport):
     <section id="verification"><h2>What the hash chain catches</h2><p><button id="tamper-toggle" aria-pressed="true">Show original ledgers</button></p><div id="verify-panel"></div><p class="note">{html.escape(summary['tamper']['caveat'])}</p><p>The saved checkpoint commits to the original batch head and row count. Validate the chain as well as the checkpoint: an edited middle row can leave the saved head unchanged. A holder must keep the checkpoint independently; it is not a hardware quote or an external witness.</p></section>
     <section id="passport"><h2>A proposed passport mapping</h2><p class="note">{STATUS}</p><p>One entry per scheduled record carries model and evaluation commitments, the released verdict, privacy charge and ledger provenance. Refusals have no released verdict and cost no additional release epsilon. The running charge through this record and the full scope total in this export are separately labelled.</p><pre id="passport-preview"></pre></section>
     <footer>First executed commit: {summary['git_commit']}<br>Runner version: {summary['runner_version']}<br>First protocol SHA256: {summary['protocol_sha256']}<br>First protocol introduced in: {summary['protocol_commit']}<br>Observed first evaluation runtime: {number(summary['wall_seconds'])} seconds.{followup_provenance}<br>Timing noninterference is not proven. CT-style witnessing is future work. Recovery counts are trusted custodian aggregates; private schedules were discarded.</footer></main>'''
+    # Keep every original measurement, but lead with the channel being attacked.
+    start = body.index('<section id="recovery">')
+    end = body.index('</section>', start) + len('</section>')
+    detailed = f'<section id="retained-recovery"><h2>All retained decoder measurements</h2><p>Both original score comparison arms already used noise. Their score difference does not measure adding ARTT noise. The crash comparison measures exposing versus suppressing errors.</p><details><summary>Inspect all eight original measurements</summary>{chart(summary)}<div class="scroll"><table><thead><tr><th>Attack and path</th><th>Read from</th><th>Observed recovery and interval</th><th>Prediction</th></tr></thead><tbody>{recovery}</tbody></table></div></details></section>'
+    body = body[:start] + recovery_panel(summary) + detailed + body[end:]
+    names = {row["model_hash"]: "Fixture " + agent for filename, entries in ledgers for agent in ("A", "B") if f"honest-{agent}" in filename or f"utility-{agent}-" in filename for row in entries}
+    if real:
+        names[summary["model_hash"]] = "Qwen3-0.6B"
+    start = body.index('<section id="budget">')
+    end = body.index('</section>', start) + len('</section>')
+    legacy_budget = body[start:end].replace('id="budget"', 'id="budget-retained"').replace('<h2>The cap is charged before access</h2>', '<h2>Retained cohort counter and refusal receipt</h2>')
+    body = body[:start] + budget_panel(model_scopes(ledgers, names)) + legacy_budget + body[end:]
+    body = body.replace('<h1>What leaves a hidden coding evaluation?</h1>', '<h1>Protecting hidden tests during public coding evaluations</h1>')
+    body = body.replace('The same ' + intro_kind + ' and the same attacker, through a naive status-publishing design and ARTT\'s scheduled release. Status is suppressed for this attack. Score leakage remains noisy, bounded, logged and capped.', 'A malicious evaluator can read hidden tests and encode a private fact in its public result. ARTT removes the crash signal and makes score releases noisy, charged and capped.')
+    body = body.replace('<a href="#utility">Honest utility</a>', '<a href="#budget">Privacy cost</a><a href="#utility">Honest utility</a>')
     js = '''<script id="run-data" type="application/json">''' + data + '''</script><script>
     const data=JSON.parse(document.getElementById('run-data').textContent), rows=data.rows;
     const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

@@ -1,5 +1,19 @@
 # ARTT on a coding-agent evaluation
 
+[Paper](https://doi.org/10.5281/zenodo.23180546) · [Quick start](../../README.md#quick-start-coding-demo) · [Recorded comparison figure](assets/main-comparison.svg)
+
+The protected asset is the **hidden test suite**. A canary is one planted bit
+in its private test context, used to measure whether a malicious evaluator can
+publish a fact from that context. It is a proxy for protected information,
+not a recovered test assertion or a secret memorized by the model.
+
+The live Qwen crash attack recovers 128/128 before ARTT and 64/128 after.
+ARTT publishes no admitted error status, so this decoder always guesses zero;
+the balanced sample contains exactly 64 zeros. The separately predeclared
+exact-score baseline recovers 128/128, versus the retained live ARTT noisy-score
+result of 96/128. The score cohorts are a descriptive comparison, not paired
+observations. The older eight noisy-control measurements remain in the report.
+
 This demonstrates the existing release protocol on 48 tiny Python coding
 tasks. Agent A and Agent B are deterministic fixtures, not learned models.
 They pass 36 and 19 tasks by construction. During evaluation the custodian
@@ -199,3 +213,53 @@ live evidence (the shipped protocol pins those exact evidence hashes):
 
 A later experiment must predeclare a new protocol and carry the newest budget
 forward. Replaying an older allowance is outside the claimed accounting.
+
+Observed repeated-filings results: uncapped recovery reaches 128/128 at filing
+16. ARTT reaches 109/128 at its four-filing cap, then makes 1,536 refusals;
+protected replay calls stay at 512. The curve uses fixed public patches and
+makes no new GPU generations. The separate exact baseline makes 128 fresh
+generations. See [the repeated-filings figure](assets/repeated-filings.svg).
+
+## Privacy accounting and policy history
+
+Each admitted two-score record costs **ε = 2 ln 3 = 2.1972** at p=0.5.
+Refusals cost zero additional release epsilon; admitted crashes and timeouts
+still count. Unsafe comparison arms are excluded from the finite guarantee.
+
+| Per-model accounting scope | Admitted ARTT records | Cumulative ε |
+| --- | ---: | ---: |
+| Fixture A commitment | 1,456 | 3,199.1590 |
+| Fixture B commitment | 1,200 | 2,636.6695 |
+| Qwen3-0.6B commitment, including replay | 816 | 1,792.9353 |
+| Conservative composition across the protected asset | 3,472 | 7,628.7637 |
+
+These model totals are derived from verified model commitments. The historical
+experiments enforced one shared `coding-demo-corpus` counter, not independent
+model caps. Per-model attribution does not rewrite those policies, reset costs,
+or authorize further access. If models or accounts share a protected secret,
+their releases must also compose against that asset.
+
+| Logged policy declaration | Shared cap | Prior charges carried forward | Additional allowance |
+| --- | ---: | ---: | ---: |
+| [Initial fixture protocol](protocol.json) | 352 | 0 | 352 |
+| [Fixture utility raise](utility-protocol.json) | 2,656 | 352 | 2,304 |
+| [Live Qwen raise](real-model-protocol.json) | 2,960 | 2,656 | 304 |
+| [Repeated-filings raise](filings-protocol.json) | 3,472 | 2,960 | 512 |
+
+The revised report exports a hash-chained `policy-changes.jsonl`, its checkpoint,
+the exact source protocol bytes and `model-scope-accounting.json`. This new
+reporting log is reconstructed from the retained committed protocols; it is
+not presented as a contemporaneous event log. Each raise granted additional
+access before its cohort, without discarding any earlier charge. The last
+cohort additionally enforced four admissions per fixed secret. These large
+demonstration caps are not strong privacy settings.
+
+Generate the revised report from retained evidence without new model calls or
+private admissions, using a fresh output directory:
+
+```bash
+python -m demos.coding_agent.filings_report --input scratch/coding-demo-filings --output scratch/coding-demo-review-final
+```
+
+Open that directory's `report.html`. It retains the first fixture result and
+the original live report alongside the new baseline and filing curve.

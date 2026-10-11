@@ -47,7 +47,7 @@ def test_chart_renders_perfect_recovery_wilson_boundary(tmp_path):
     points = [{**perfect, "filing": i, "predicted": prediction(i), "admitted_per_trial": i, "refused_per_trial": 0} for i in range(17)]
     artt = [{**point, "admitted_per_trial": min(i, 4), "refused_per_trial": max(0, i-4)} for i, point in enumerate(points)]
     plots({"exact_baseline": {"score": perfect}, "curve": {"uncapped": points, "artt": artt}, "budget": {"cap_per_secret": 4}},
-          {"recovery": {"artt_score_attack": {"score": perfect}}}, tmp_path)
+          {"recovery": {"artt_score_attack": {"score": perfect}, "naive_status_attack": {"status": perfect}, "artt_status_attack": {"status": perfect}}}, tmp_path)
     assert all((tmp_path / name).stat().st_size > 1000 for name in ("exact-baseline.svg", "exact-baseline.png", "repeated-filings.svg", "repeated-filings.png"))
 
 
