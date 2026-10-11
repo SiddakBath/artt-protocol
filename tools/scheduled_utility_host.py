@@ -1,6 +1,7 @@
 """Offline live CUDA custodian. Inference happens only after guest admission."""
 import os
 os.environ.update(HF_HUB_OFFLINE="1",TRANSFORMERS_OFFLINE="1",HF_HUB_DISABLE_TELEMETRY="1",HF_HUB_DISABLE_PROGRESS_BARS="1")
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -32,8 +33,13 @@ def digest(path):
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--model-path",default=os.environ.get("ARTT_MODEL_PATH"))
+    args=parser.parse_args()
+    if not args.model_path:
+        parser.error("set --model-path or ARTT_MODEL_PATH")
+    checkpoint=Path(args.model_path).expanduser().resolve()
     OUT.mkdir(exist_ok=False)
-    checkpoint=ROOT.parent/"research/adversarial-auditor-independence/models/Qwen3-0.6B"
     frozen=version()
     source_files=[*sorted((ROOT/"rt").glob("*.py")),ROOT/"rt/isolate.c",
                   Path(__file__),ROOT/"tools/scheduled_utility_guest.py"]

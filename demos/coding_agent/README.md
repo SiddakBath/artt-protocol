@@ -1,22 +1,23 @@
 # ARTT on a coding-agent evaluation
 
-[Paper](https://doi.org/10.5281/zenodo.23180546) · [Quick start](../../README.md#quick-start-coding-demo) · [Both crash scenarios](assets/useful-crash-comparison.svg) · [Earlier comparison figure](assets/main-comparison.svg)
+[Paper](https://doi.org/10.5281/zenodo.23180546) · [Quick start](../../README.md#quick-start-coding-demo) · [Three crash scenarios](../../results/coding-expected-value-2026-10-12/report/scenarios.svg) · [Earlier comparison figure](assets/main-comparison.svg)
 
-The protected asset is the **hidden test suite**. The equal-score scenario uses
-a planted canary in its private context; the useful-score scenario uses the
-order of two executable hidden assertions. Both measure whether a malicious
-evaluator can publish a private fact. These synthetic properties are proxies
-for protected information, not recovered proprietary assertions or secrets
-memorized by the model.
+The protected asset is the **hidden test suite**. The main expected-value
+experiment protects which of two valid assertions with different expected
+values is included. It recovers **128/128 → 90/128 (70.3%)** after one
+ARTT release, and **101/128** after four. Honest scoring utility is
+measured on 48 separately assigned suites at the same noise setting.
 
-The retained live Qwen equal-score crash attack recovers 128/128 before ARTT
-and 64/128 after using status alone. The new useful-score crash attack recovers
-128/128 before and 98/128 (76.6%) after the first ARTT release using status and
-scores together. Hiding status removes the exit signal; useful scores can
-still leak. These are separate cohorts and are not pooled. The separately predeclared
-exact-score baseline recovers 128/128, versus the retained live ARTT noisy-score
-result of 96/128. The score cohorts are a descriptive comparison, not paired
-observations. The older eight noisy-control measurements remain in the report.
+The ideal equal-score case remains visible: **128/128 → 64/128** using status
+alone, with identical raw scores on success and failure. The earlier useful-score
+assertion-order case is **128/128 → 98/128** with a joint decoder. Cohorts are
+separate, not pooled. One Qwen3-0.6B model is used; no larger-model claim is made.
+The new expected-value experiment replays pinned public patches and makes no
+fresh GPU generations.
+
+The separately predeclared exact-score baseline recovers 128/128, versus the
+retained live ARTT noisy-score result of 96/128. Those score cohorts are a
+descriptive comparison, not paired observations. Older controls remain intact.
 
 This demonstrates the existing release protocol on 48 tiny Python coding
 tasks. Agent A and Agent B are deterministic fixtures, not learned models.
@@ -45,7 +46,8 @@ make demo OUTPUT=scratch/coding-demo-next
 
 The runner refuses an existing directory. Do not replace interrupted evidence
 or rerun for nicer numbers. It copies the committed protocol and its hash
-before access, then writes all evidence to ignored `scratch/` paths. Its
+before access, then writes fixture evidence to ignored `scratch/` paths. The measured coding
+cohorts are now published in [the evidence archive](../../results/coding-agent-history-2026-10-11/README.md). Its
 protocol must match the committed bytes. Small live tests are separate from
 the full reported cohort.
 
@@ -79,6 +81,87 @@ no endorsement or compatibility is implied. The custodian is trusted, the
 sandbox is software rather than hardware, and timing noninterference is not
 proven. Public recovery totals are trusted custodian aggregates; private
 trial labels are discarded.
+
+## Expected-value secret and honest utility
+
+[Predeclared protocol](expected-value-protocol.json) · [Published run](../../results/coding-expected-value-2026-10-12/) · [Offline report](../../results/coding-expected-value-2026-10-12/report/report.html)
+
+Protocol `7bffc27` was committed before sampling any new private choices. Each
+choice selects which of two valid assertions with different expected values
+is included in the hidden suite; three other checks stay common. For slugify,
+one candidate checks the empty input and the other checks whitespace
+normalization. A patch can pass one candidate suite and fail the other.
+The malicious judge runs the genuine rubric, parses the actual expected-value
+literal, and aborts for candidate one. No planted canary or assertion-order
+secret is used in this experiment.
+
+The 128 attack patches and 48 honest patches are all the retained indices of
+the pinned Qwen3-0.6B arms, with no repair, filtering or regeneration. There is
+one model and zero new GPU generations. Candidate suites and candidate-zero
+ordinary scores are public side information; the sampled inclusion choice is
+private during execution. Independent SystemRandom choices are sampled once,
+without forcing balance. The decoder reads released status and scores only.
+All prefixes and deviations are retained.
+
+Observed expected-value recovery: **128/128 exact**, **90/128 after one
+release** (Wilson 95%: 61.9%–77.5%; declared prediction: 70.1%), and
+**101/128 after four**. Every attempt prefix is retained:
+`59, 90, 96, 98, 101, 101, 101, 101, 101` out of 128. The always-zero baseline
+is 46.1%, and the empirical majority baseline is 53.9%; choices were not
+forced to balance. The paired reduction is 29.7 percentage points, with a
+descriptive bootstrap 95% interval of 21.9–37.5 points. Accuracy is not Shannon
+bits leaked. Public controls pass 78/128 and 80/128 suites, with two genuine
+score disagreements. All 128 match the signature. There are no exact attack
+outcome deviations or late admitted proposals; timing leakage is not measured.
+
+The experiment declares its own 704-admission allowance for fresh, independent
+suite choices: 512 attack and 192 honest releases. Each secret has a four-release
+cap. Shared and item reservations are atomic in the same SQLite database;
+512 attack refusals occur while honest capacity remains, and add no charge or
+backend call. The separate exact/control allowance is 432. The historical
+counter remains at 5,008/5,008; this experiment does not reset old secrets.
+
+At p = 0.5, a two-score release costs ε = 2 ln 3. Four releases cost
+**ε = 8.7889 per secret**. This conditional per-secret statement relies on
+this replay experiment's isolated private contexts and trusted publisher; it
+is not a locality theorem for arbitrary evaluators and excludes timing.
+The conservative sum across the experiment is ε = 1,546.8461.
+**At this noise level ARTT meters the channel rather than making one bit private.**
+Exact comparators, aggregate recovery and research diagnostics make the full
+research transcript non-private. Shared secrets across models or accounts
+would need joint composition.
+
+Honest utility uses one retained patch per task, a separate private choice
+for each, one exact ordinary control and four noisy ordinary evaluations:
+192 observations. The estimator is mean(released bucket) − 1, with untruncated
+Hoeffding 95% intervals and error against exact truth. These intervals concern
+release noise on this fixed corpus, not unseen-task performance.
+
+| Honest rubric | Exact fraction, 48 patches | Noisy estimate, 192 releases | Hoeffding 95% interval | Estimate minus truth |
+| --- | ---: | ---: | ---: | ---: |
+| Hidden-suite pass | 0.604 (29/48) | 0.510 | 0.216–0.804 | -0.094 |
+| Signature match | 1.000 (48/48) | 1.010 | 0.716–1.304 | +0.010 |
+
+Both exact truths fall inside their declared conservative intervals. Estimates
+and intervals are not clamped to [0, 1]. All 192 honest proposals arrived before
+cutoff. All 16 merged chains, original exact-control chains, source hashes and
+durable budgets verify. Execution made 1,136 protected replay calls and took
+533.4 seconds; no retries or new model generations occurred.
+
+The published HTML opens without Python dependencies. To regenerate its figures,
+install the optional `requirements-report.txt` in your chosen Python environment.
+Generate a fresh report from the published evidence, without protected access:
+
+```bash
+python -m demos.coding_agent.expected_value_report --input results/coding-expected-value-2026-10-12 --output scratch/expected-value-report-next
+```
+
+Raw ledgers, durable budgets, checkpoint verification, the protocol, completion
+receipt, public patches and a byte-for-byte source snapshot are published with
+the run. Earlier cohorts remain separate and unchanged. Private assignments
+were discarded; recovery totals are trusted custodian aggregates. The
+experiment remains a controlled hand-written attack on 48 tiny public tasks,
+with one small model, known candidate checks and no timing measurement.
 
 ## Equal-score and useful-score crash results
 
@@ -141,11 +224,11 @@ trusted custodian and software sandbox. It does not demonstrate autonomous
 discovery or theft of a proprietary test suite. Private labels were discarded;
 recovery and bootstrap counts are trusted custodian aggregates.
 
-The completed evidence is `scratch/coding-demo-useful-crash-01/`. Generate a
+The completed evidence is [published here](../../results/coding-agent-history-2026-10-11/useful-crash/summary.json). Generate a
 new combined report from it, with zero private access or model calls:
 
 ```powershell
-& ../.venv/Scripts/python.exe -m demos.coding_agent.useful_crash_report --input scratch/coding-demo-useful-crash-01 --output scratch/coding-demo-useful-crash-report-next
+python -m demos.coding_agent.useful_crash_report --input results/coding-agent-history-2026-10-11/useful-crash --output scratch/coding-demo-useful-crash-report-next
 ```
 
 The generator requires the pinned earlier evidence directories and uses a
@@ -263,7 +346,7 @@ a completed cohort.
 The reported live cohort executed once after two startup failures that made
 zero private admissions or inferences; both failed directories are retained.
 The corrected Windows launcher uses literal paths through `wsl --exec`.
-The live results and receipt are in `scratch/coding-demo-qwen-report/`.
+The live results and receipt are [published here](../../results/coding-agent-history-2026-10-11/qwen/summary.json).
 ## Exact-score baseline and repeated filings
 
 `filings-protocol.json` separately predeclares an unnoised score baseline with
@@ -298,6 +381,10 @@ makes no new GPU generations. The separate exact baseline makes 128 fresh
 generations. See [the repeated-filings figure](assets/repeated-filings.svg).
 
 ## Privacy accounting and policy history
+
+The following table retains the historical shared-scope accounting. The new
+expected-value experiment has its separately declared fresh-secret scope and
+per-secret costs [above](#expected-value-secret-and-honest-utility).
 
 Each admitted two-score record costs **ε = 2 ln 3 = 2.1972** at p=0.5.
 Refusals cost zero additional release epsilon; admitted crashes and timeouts

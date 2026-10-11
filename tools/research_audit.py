@@ -10,6 +10,7 @@ from fractions import Fraction
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 import re
 import sqlite3
@@ -24,6 +25,33 @@ from tools import privacy_frontier as binary
 from tools.utility_bounds import analyze
 
 ROOT = Path(__file__).resolve().parents[1]
+CODING_PACKAGES = {"coding-agent-history-2026-10-11", "coding-expected-value-2026-10-12"}
+
+
+def audit_coding_packages():
+    """Use package manifests and designated chains, including retained tamper examples."""
+    from demos.coding_agent.expected_value_report import historical, verify
+    from demos.coding_agent.review_report import load_evidence
+    from demos.coding_agent.run import checkpoint
+    history = ROOT / "results/coding-agent-history-2026-10-11"
+    current = ROOT / "results/coding-expected-value-2026-10-12"
+    checks = {}
+    if history.exists():
+        historical(history)  # Every listed raw file and supplementary archive hash.
+        for label in ("first", "utility", "qwen", "filings", "useful-crash"):
+            summary, _ = load_evidence(history / label)
+            for filename, saved in summary["checkpoints"].items():
+                path = history / label / filename
+                first = strict_json(path.read_bytes().splitlines()[0])
+                (scheduled_read if first.get("schema") == "rt.release.v2" else legacy_read)(path)
+                require(checkpoint(path) == saved, "coding_checkpoint_mismatch")
+        checks[history.name] = {"publication_hashes": True, "cohorts": 5,
+            "recovery": "Trusted custodian aggregate; discarded choices are not reconstructed."}
+    if current.exists():
+        summary, _ = verify(current)
+        checks[current.name] = {"designated_merged_chains": len(summary["verification"]),
+            "source_chains_and_snapshots": True, "durable_budgets_and_utility": True}
+    return checks
 
 
 def digest(path):
@@ -131,11 +159,14 @@ def audit_multibit(study):
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True)
+    parser.add_argument("--model-path", default=os.environ.get("ARTT_MODEL_PATH"))
     args = parser.parse_args(argv)
     output = Path(args.output)
     require(not output.exists(), "new_audit_receipt_required")
     chains = []
     for path in sorted((ROOT / "results").rglob("*.jsonl")):
+        if path.relative_to(ROOT / "results").parts[0] in CODING_PACKAGES:
+            continue  # Package checks below distinguish ledgers, patches and tamper examples.
         if is_curve_summary(path):
             continue  # Validated as summaries below, never silently treated as public chains.
         raw = path.read_bytes()
@@ -156,11 +187,11 @@ def main(argv=None):
         require(snapshot_version(study / "source-snapshot") == receipt["frozen_runner_version"], "frozen_runner_identity_mismatch")
         freezes.append({"study": name, "snapshot_files": len(receipt["source_sha256"]), "runner_version": receipt["frozen_runner_version"], "verified": True,
             "current_source_claim": "The archived snapshot, not the evolving release tree, identifies the executed study."})
-    checkpoint = ROOT.parent / "research/adversarial-auditor-independence/models/Qwen3-0.6B"
+    checkpoint = Path(args.model_path).expanduser().resolve() if args.model_path else None
     main_study = ROOT / "results/qwen-scheduled-utility-2026-10-05"
     receipt = json.loads((main_study / "backend-receipt.json").read_text())
     model_files = ("model.safetensors", "config.json", "tokenizer.json")
-    if all((checkpoint / name).is_file() for name in model_files):
+    if checkpoint is not None and all((checkpoint / name).is_file() for name in model_files):
         assets = {name: digest(checkpoint / name) for name in model_files}
         for name, key in (("model.safetensors", "model_weights_sha256"), ("config.json", "config_sha256"), ("tokenizer.json", "tokenizer_sha256")):
             require(assets[name] == receipt[key], "local_model_asset_mismatch")
@@ -218,7 +249,8 @@ def main(argv=None):
     baseline_bounds = ROOT / "results/research-audit-2026-10-05/utility-bounds.json"
     require(bounds == json.loads(baseline_bounds.read_text()), "conservative_utility_analysis_mismatch")
     tex = tex_structure(ROOT / "paper/draft.tex")
-    checks = {"count_surface_rows": len(frontier["rows"]), "binary_surface_rows": len(binary_data["rows"]),
+    checks = {"coding_packages": audit_coding_packages(),
+        "count_surface_rows": len(frontier["rows"]), "binary_surface_rows": len(binary_data["rows"]),
         "real_model_count_kernel_points": len(behavior["rows"]), "main_study_receipt_inferences": 1536,
         "main_study_chains": 7, "main_study_entries": 1538, "retained_budgets": budget_states,
         "tex_structure": tex,

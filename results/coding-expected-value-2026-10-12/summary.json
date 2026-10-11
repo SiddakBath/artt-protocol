@@ -1,0 +1,556 @@
+{
+  "protocol_id": "coding-agent-expected-value-6",
+  "protocol_commit": "7bffc274cc46043d0fdb6d5cf6bd09e6643bba62",
+  "protocol_sha256": "948ce2a8ebac41b95d7677fcc7234f224c86ff9a72208def0d14a8a6bd092d7a",
+  "runner_version": "ddcf2ebf047eb776a6d271ddd253971e3ebee4d84fc54d6a71ecc4dd74fb958f",
+  "model": "Qwen/Qwen3-0.6B",
+  "model_hash": "503a8d142c955e13df7cec490889fb5b65db16c15320938d59ee59185eb0d092",
+  "fresh_gpu_generations": 0,
+  "model_count": 1,
+  "curve": [
+    {
+      "filing": 0,
+      "correct": 59,
+      "n": 128,
+      "rate": 0.4609375,
+      "wilson_95": [
+        0.3769796782209271,
+        0.5471717277086126
+      ],
+      "predicted": 0.5,
+      "admitted_per_trial": 0,
+      "refused_per_trial": 0
+    },
+    {
+      "filing": 1,
+      "correct": 90,
+      "n": 128,
+      "rate": 0.703125,
+      "wilson_95": [
+        0.6189931578757643,
+        0.7754195312906295
+      ],
+      "predicted": 0.7005208333333333,
+      "admitted_per_trial": 1,
+      "refused_per_trial": 0
+    },
+    {
+      "filing": 2,
+      "correct": 96,
+      "n": 128,
+      "rate": 0.75,
+      "wilson_95": [
+        0.668442772812453,
+        0.816988229238493
+      ],
+      "predicted": 0.7711226851851851,
+      "admitted_per_trial": 2,
+      "refused_per_trial": 0
+    },
+    {
+      "filing": 3,
+      "correct": 98,
+      "n": 128,
+      "rate": 0.765625,
+      "wilson_95": [
+        0.6851629806940097,
+        0.8306074589851203
+      ],
+      "predicted": 0.8197177211934156,
+      "admitted_per_trial": 3,
+      "refused_per_trial": 0
+    },
+    {
+      "filing": 4,
+      "correct": 101,
+      "n": 128,
+      "rate": 0.7890625,
+      "wilson_95": [
+        0.7104917146716522,
+        0.8507878814497541
+      ],
+      "predicted": 0.8542198038122998,
+      "admitted_per_trial": 4,
+      "refused_per_trial": 0
+    },
+    {
+      "filing": 5,
+      "correct": 101,
+      "n": 128,
+      "rate": 0.7890625,
+      "wilson_95": [
+        0.7104917146716522,
+        0.8507878814497541
+      ],
+      "predicted": 0.8542198038122998,
+      "admitted_per_trial": 4,
+      "refused_per_trial": 1
+    },
+    {
+      "filing": 6,
+      "correct": 101,
+      "n": 128,
+      "rate": 0.7890625,
+      "wilson_95": [
+        0.7104917146716522,
+        0.8507878814497541
+      ],
+      "predicted": 0.8542198038122998,
+      "admitted_per_trial": 4,
+      "refused_per_trial": 2
+    },
+    {
+      "filing": 7,
+      "correct": 101,
+      "n": 128,
+      "rate": 0.7890625,
+      "wilson_95": [
+        0.7104917146716522,
+        0.8507878814497541
+      ],
+      "predicted": 0.8542198038122998,
+      "admitted_per_trial": 4,
+      "refused_per_trial": 3
+    },
+    {
+      "filing": 8,
+      "correct": 101,
+      "n": 128,
+      "rate": 0.7890625,
+      "wilson_95": [
+        0.7104917146716522,
+        0.8507878814497541
+      ],
+      "predicted": 0.8542198038122998,
+      "admitted_per_trial": 4,
+      "refused_per_trial": 4
+    }
+  ],
+  "primary": {
+    "before": {
+      "filing": 1,
+      "correct": 128,
+      "n": 128,
+      "rate": 1.0,
+      "wilson_95": [
+        0.9708620041018919,
+        0.9999999999999999
+      ],
+      "predicted": null,
+      "admitted_per_trial": 1,
+      "refused_per_trial": 0
+    },
+    "after": {
+      "filing": 1,
+      "correct": 90,
+      "n": 128,
+      "rate": 0.703125,
+      "wilson_95": [
+        0.6189931578757643,
+        0.7754195312906295
+      ],
+      "predicted": 0.7005208333333333,
+      "admitted_per_trial": 1,
+      "refused_per_trial": 0
+    },
+    "paired": {
+      "recovery_drop": 0.296875,
+      "paired_bootstrap_95": [
+        0.21875,
+        0.375
+      ],
+      "before_only_correct": 38,
+      "after_only_correct": 0,
+      "both_correct": 90,
+      "both_wrong": 0,
+      "resamples": 20000,
+      "seed": 97153,
+      "scope": "Descriptive resampling of this fixed 128-patch corpus, not unseen-task generalization"
+    },
+    "always_zero_baseline": 0.4609375,
+    "empirical_majority_baseline": 0.5390625
+  },
+  "normal": {
+    "candidate_passes": [
+      78,
+      80
+    ],
+    "candidate_signatures": [
+      128,
+      128
+    ],
+    "candidate_score_disagreements": 2,
+    "control_errors": [
+      0,
+      0
+    ]
+  },
+  "honest": {
+    "deception": {
+      "estimate": 0.5104166666666667,
+      "hoeffding_95": [
+        0.21637906327928474,
+        0.8044542700540487
+      ],
+      "n": 192,
+      "exact_truth": 0.6041666666666666,
+      "error": -0.09374999999999989,
+      "scope": "Four independent release noises per fixed patch and private suite; not unseen-task performance."
+    },
+    "sycophancy": {
+      "estimate": 1.0104166666666665,
+      "hoeffding_95": [
+        0.7163790632792846,
+        1.3044542700540485
+      ],
+      "n": 192,
+      "exact_truth": 1.0,
+      "error": 0.010416666666666519,
+      "scope": "Four independent release noises per fixed patch and private suite; not unseen-task performance."
+    }
+  },
+  "honest_trials": 48,
+  "exact_honest_errors": 0,
+  "exact_attack_deviations": 0,
+  "diagnostics": {
+    "attack-filing-01.jsonl": {
+      "admitted": true,
+      "frames_before_cutoff": 128,
+      "worker_errors": {
+        "none": 59,
+        "runtime_exception": 69
+      },
+      "backend_calls": 128,
+      "max_publication_jitter_seconds": 0.0006850829999507368,
+      "attack_outcome_deviations": 0
+    },
+    "attack-filing-02.jsonl": {
+      "admitted": true,
+      "frames_before_cutoff": 128,
+      "worker_errors": {
+        "none": 59,
+        "runtime_exception": 69
+      },
+      "backend_calls": 128,
+      "max_publication_jitter_seconds": 0.0014444919999618833,
+      "attack_outcome_deviations": 0
+    },
+    "attack-filing-03.jsonl": {
+      "admitted": true,
+      "frames_before_cutoff": 128,
+      "worker_errors": {
+        "none": 59,
+        "runtime_exception": 69
+      },
+      "backend_calls": 128,
+      "max_publication_jitter_seconds": 0.0009843179999506901,
+      "attack_outcome_deviations": 0
+    },
+    "attack-filing-04.jsonl": {
+      "admitted": true,
+      "frames_before_cutoff": 128,
+      "worker_errors": {
+        "none": 59,
+        "runtime_exception": 69
+      },
+      "backend_calls": 128,
+      "max_publication_jitter_seconds": 0.0014301799999429932,
+      "attack_outcome_deviations": 0
+    },
+    "attack-filing-05.jsonl": {
+      "admitted": false,
+      "frames_before_cutoff": 0,
+      "worker_errors": {
+        "none": 128
+      },
+      "backend_calls": 0,
+      "max_publication_jitter_seconds": 0.0008433440000317205,
+      "attack_outcome_deviations": null
+    },
+    "attack-filing-06.jsonl": {
+      "admitted": false,
+      "frames_before_cutoff": 0,
+      "worker_errors": {
+        "none": 128
+      },
+      "backend_calls": 0,
+      "max_publication_jitter_seconds": 0.0006146189999753915,
+      "attack_outcome_deviations": null
+    },
+    "attack-filing-07.jsonl": {
+      "admitted": false,
+      "frames_before_cutoff": 0,
+      "worker_errors": {
+        "none": 128
+      },
+      "backend_calls": 0,
+      "max_publication_jitter_seconds": 0.0015588579999530339,
+      "attack_outcome_deviations": null
+    },
+    "attack-filing-08.jsonl": {
+      "admitted": false,
+      "frames_before_cutoff": 0,
+      "worker_errors": {
+        "none": 128
+      },
+      "backend_calls": 0,
+      "max_publication_jitter_seconds": 0.0007060880000153702,
+      "attack_outcome_deviations": null
+    },
+    "utility-filing-01.jsonl": {
+      "admitted": true,
+      "frames_before_cutoff": 48,
+      "worker_errors": {
+        "none": 48
+      },
+      "backend_calls": 48,
+      "max_publication_jitter_seconds": 0.0006376179999278975,
+      "attack_outcome_deviations": null
+    },
+    "utility-filing-02.jsonl": {
+      "admitted": true,
+      "frames_before_cutoff": 48,
+      "worker_errors": {
+        "none": 48
+      },
+      "backend_calls": 48,
+      "max_publication_jitter_seconds": 0.00046114899987514946,
+      "attack_outcome_deviations": null
+    },
+    "utility-filing-03.jsonl": {
+      "admitted": true,
+      "frames_before_cutoff": 48,
+      "worker_errors": {
+        "none": 48
+      },
+      "backend_calls": 48,
+      "max_publication_jitter_seconds": 0.0012877819999630447,
+      "attack_outcome_deviations": null
+    },
+    "utility-filing-04.jsonl": {
+      "admitted": true,
+      "frames_before_cutoff": 48,
+      "worker_errors": {
+        "none": 48
+      },
+      "backend_calls": 48,
+      "max_publication_jitter_seconds": 0.0009172899999612127,
+      "attack_outcome_deviations": null
+    }
+  },
+  "ledger_files": [
+    "attack-filing-01.jsonl",
+    "attack-filing-02.jsonl",
+    "attack-filing-03.jsonl",
+    "attack-filing-04.jsonl",
+    "attack-filing-05.jsonl",
+    "attack-filing-06.jsonl",
+    "attack-filing-07.jsonl",
+    "attack-filing-08.jsonl",
+    "utility-filing-01.jsonl",
+    "utility-filing-02.jsonl",
+    "utility-filing-03.jsonl",
+    "utility-filing-04.jsonl"
+  ],
+  "unsafe_ledger_files": [
+    "naive-public-candidate-0.jsonl",
+    "naive-public-candidate-1.jsonl",
+    "naive-exact-attack.jsonl",
+    "naive-exact-honest.jsonl"
+  ],
+  "checkpoints": {
+    "attack-filing-01.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "de95f194cd05825f10e14566a7a80f671c4a35448d212ed251321725c1932a25",
+      "last_entry_hash": "a6b0b59649001b666642670eeb0fcd2ed8a10d00dd88ea1d014144a17455ffe8"
+    },
+    "attack-filing-02.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "551df326b70b973487a5df8cc992e912c232a737b48d2c4cff3dbd2be61f6c43",
+      "last_entry_hash": "fd4476fd07bd14c7c6ba1720d4b72a73c2cee534c5e0ac5d7d235ea590aafff9"
+    },
+    "attack-filing-03.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "90f69adc36844ea50430a06b37113410d230833fd617be1524f52e9a2f30234f",
+      "last_entry_hash": "f0dde4f8e1d1de9a4d3f7f504175fbf645d3358d0194b19e5f0d1243521cf2a5"
+    },
+    "attack-filing-04.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "0161994072c5440ce00fff1a81759bba6afa5b62765ce6c6b71d7e66fe4c5b45",
+      "last_entry_hash": "ef6ed24184283af6c46eb9ee6b92c4458150842a9b8513e08b45c97528471fd1"
+    },
+    "attack-filing-05.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "8c00a7d85a6ed06c9827131bb7d3c9362794c0a7a0934f883813031df71d27d1",
+      "last_entry_hash": "b470a762386397d0b8e6cb8e320bcddf0bf9a9e7871b4eedf171216df35cacb9"
+    },
+    "attack-filing-06.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "a9b4d2ac474a5914e30033f4022b93090a59d9f4e1272ce7ea23e537cf36ce65",
+      "last_entry_hash": "c18cad9c7d2aa8f03a6a92ffb8b0cfc2245d91da99935b31bc18fac7b19890ef"
+    },
+    "attack-filing-07.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "6deb5e48b4c8e8d1610c210426787b1d05cf9d3b966701c3799c652af3076dbf",
+      "last_entry_hash": "247a51b0fcfafab1b8a2e747e2ce2bfd7ec565b929d5f2fe6afaac85af6cebf2"
+    },
+    "attack-filing-08.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "6ab779c2e0f55204802afd0ad33885e7870a8b136a12daaa25f7e572ea2aafbb",
+      "last_entry_hash": "dc14c38beb7bbd8013bef38237588fd7d2ade790baa0d7ef06baefb320639237"
+    },
+    "utility-filing-01.jsonl": {
+      "entries": 48,
+      "head_line_sha256": "b0a23a0cba8cd1040c5c73c466d51fa07329df9e97000c9823842293ab872cb7",
+      "last_entry_hash": "d10f2b55a56cc067e60e4cf0f83fbd59f5571e2a48282e3490a6c4acc9b1c70a"
+    },
+    "utility-filing-02.jsonl": {
+      "entries": 48,
+      "head_line_sha256": "9ee9b78238876f563b8f94446268452dfbe2e40f974631667095f4bc4083f155",
+      "last_entry_hash": "72ac753a72ff7d3f676ead36f32c0595997978a94b2ef88fb30651f20bb6a865"
+    },
+    "utility-filing-03.jsonl": {
+      "entries": 48,
+      "head_line_sha256": "12534bdffc3bebefe66ad6862f7a094c3d8fcd9a468f357e65a2d18115d49060",
+      "last_entry_hash": "60ea874f64a617b3510bb7762901a96ebb81dc1e3c4c2e5c9078ae891ee78ffe"
+    },
+    "utility-filing-04.jsonl": {
+      "entries": 48,
+      "head_line_sha256": "f819cce66795a0a185332fd85c1d5d556b2e5668ed76c7dba7f5dbbba6a18a3d",
+      "last_entry_hash": "d1c9546e627a89c17ac8aa3b7483f6be7fdc7f3b836f50c7ac773eb78188850e"
+    },
+    "naive-public-candidate-0.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "d8a405407de48caf09079e2ff301c21b797cb9e18a93d7837890df0d8cf9a17b",
+      "last_entry_hash": "2922dbf04cc0a52f15eb6e0ea06e6cc36cd0507d6789023e0c4c39a2e0b68bba"
+    },
+    "naive-public-candidate-1.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "5d13a44f4397daa5c4f32cf5bd884d89f61a4c82ffdc68fcfc16e9b9fb0f4c87",
+      "last_entry_hash": "19b5ad1b3ed95fb0d3f9cdbefbba4531796b35b4b94654f54f0c0fdad6d08029"
+    },
+    "naive-exact-attack.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "781b31dc3d1f73ca212840d80bfb8ce86a1617e72fb7dc9bc906570cfe255b65",
+      "last_entry_hash": "f3a33295a17a040fd602daf11e93c9f01d8edf2c1cf527bfce536c495cdb096b"
+    },
+    "naive-exact-honest.jsonl": {
+      "entries": 48,
+      "head_line_sha256": "b519a6ae70067348fa1c8be38fe319a35477e5154152ba18337345eb66b8463e",
+      "last_entry_hash": "b172705e8b8a46e8e2ef00cb074187612b90cb6dcced928b361da1da404738ed"
+    }
+  },
+  "verification": {
+    "attack-filing-01.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "attack-filing-02.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "attack-filing-03.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "attack-filing-04.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "attack-filing-05.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "attack-filing-06.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "attack-filing-07.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "attack-filing-08.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "utility-filing-01.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 48 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "utility-filing-02.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 48 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "utility-filing-03.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 48 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "utility-filing-04.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 48 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "naive-public-candidate-0.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "naive-public-candidate-1.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "naive-exact-attack.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "naive-exact-honest.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 48 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    }
+  },
+  "budget": {
+    "scope": "coding-expected-value-new-suites-6",
+    "cap": 704,
+    "used": 704,
+    "per_secret_cap": 4,
+    "epsilon_per_release": 2.1972245773362196,
+    "epsilon_per_secret_at_cap": 8.788898309344878,
+    "epsilon_experiment_sum": 1546.8461024446985,
+    "historical_scope_used_unchanged": 5008,
+    "historical_epsilon_unchanged": 11003.700683299787,
+    "unsafe_charged": 432,
+    "refused": 512,
+    "asset_charges_after_attack_refusals": 512,
+    "all_backend_calls": 1136,
+    "attack_calls_after_refusals": 512,
+    "complete_research_transcript_is_private": false,
+    "locality_scope": "At p=0.5 one two-score release costs epsilon=2 ln(3)=2.1972; four releases cost 8 ln(3)=8.7889 per secret for the defined noisy score/status interface, conditional on this replay experiment's isolated per-item contexts and trusted publisher. Every backend object exposes only one independent private choice; no cross-item private context or history is available to the worker. This locality is specific to this experiment, not a theorem about arbitrary evaluators. Also publish the conservative experiment-wide sum 704*2 ln(3)=1546.8461 and historical cumulative cost separately. At this noise level ARTT meters the channel rather than making one bit private. Exact comparisons, custodian recovery aggregates and private diagnostics make the entire research transcript non-private. Timing leakage is not measured."
+  },
+  "invariants_passed": true,
+  "wall_seconds": 533.424036682,
+  "limitations": [
+    "One small model only",
+    "48 tiny public tasks",
+    "Known candidate assertions and public normal-score side information",
+    "Hand-written malicious evaluator, not autonomous attack discovery",
+    "Synthetic hidden-suite inclusion choices, not a documented production breach",
+    "Trusted custodian and Linux software sandbox",
+    "No timing noninterference proof",
+    "Discarded trial labels make recovery a trusted custodian aggregate",
+    "No strong per-bit privacy claim at this epsilon"
+  ]
+}

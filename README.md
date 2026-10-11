@@ -2,13 +2,17 @@
 
 [Paper](https://doi.org/10.5281/zenodo.23180546) · [Paper source](paper/draft.tex) · [Coding demo and recorded results](demos/coding_agent/README.md) · [Evidence index](results/README.md)
 
-Let outsiders run evaluations while protecting what the evaluator can read. This coding demo protects the **hidden test suite**: a malicious judge tries to publish a private bit through a crash or a score. ARTT hides admitted error status, adds noise to scores, and charges each admitted release against a declared budget. We report both equal-score and useful-score crash scenarios.
+Let outsiders run evaluations while protecting what the evaluator can read. This coding demo protects the **hidden test suite**: a malicious judge publishes a private suite choice through a crash or a score. ARTT suppresses admitted error status, adds score noise and charges each release against a declared budget.
 
-![Separate crash cohorts: equal-score status recovery falls from 128/128 to 64/128; useful-score joint recovery falls from 128/128 to 98/128](demos/coding_agent/assets/useful-crash-comparison.svg)
+![Separate equal-score, useful-score and expected-value crash experiments](results/coding-expected-value-2026-10-12/report/scenarios.svg)
 
-The equal-score scenario isolates status leakage in the retained live Qwen3-0.6B cohort: **128/128 → 64/128** with a status-only decoder. The useful-score scenario retains genuine test and signature scores on success and uses zero fallback on a crash: **128/128 → 98/128 (76.6%)** using status and scores together, with public normal-score controls. Its first-release Wilson 95% interval is 68.5%–83.1%. Comparisons are paired within each scenario; the two cohorts are separate and are not pooled. Whiskers are descriptive Wilson intervals. Earlier evidence is retained.
+The new, predeclared experiment protects **which valid expected value a hidden assertion checks**, using a private choice between two different correctness checks. Recovery is **128/128 → 90/128 (70.3%)** after one ARTT release, and **101/128 (78.9%)** after four. Its first-release Wilson 95% interval is 61.9%–77.5%. Useful scores still leak after error status is hidden.
 
-The useful-score run replays all 128 pinned public Qwen patches across 48 tiny tasks, including the 50 incorrect patches, with zero fresh GPU generations. Its private bit selects the order of executable hidden assertions. It remains a controlled, hand-written attack rather than a production incident or autonomous test theft. See [both scenarios and the committed protocol](demos/coding_agent/README.md#equal-score-and-useful-score-crash-results).
+The optimal equal-score case remains visible: status-only recovery falls from **128/128 to 64/128**, with identical successful and fallback score distributions by construction. The earlier assertion-order case falls from **128/128 to 98/128** with a joint status/score decoder. Comparisons are paired within each experiment; the three cohorts and decoders are separate and their counts are not pooled.
+
+The new run uses every pinned attack patch and 48 honest patches from **Qwen3-0.6B only**, across 48 tiny public tasks, with zero new GPU generations. Candidate suites and ordinary candidate-zero scores are known to the attacker. This remains a controlled, hand-written attack on synthetic private suite choices, with a trusted custodian and software sandbox; it does not demonstrate a production breach or larger-model generalization.
+
+[Open the combined offline report](results/coding-expected-value-2026-10-12/report/report.html) · [Protocol and detailed results](demos/coding_agent/README.md#expected-value-secret-and-honest-utility) · [Published historical evidence](results/coding-agent-history-2026-10-11/README.md)
 
 ## Quick start: coding demo
 
@@ -27,15 +31,19 @@ The [live model option](demos/coding_agent/README.md#optional-live-local-model) 
 
 ## What the result means
 
+The expected-value experiment has its own fixed **704-admission budget** for fresh, independent suite choices: 512 attack and 192 honest releases. Every secret has a cap of four. Its 512 later attack refusals add no charge or backend call while honest capacity remains. At p = 0.5, four releases cost **ε = 8.7889 per secret**, conditional on this experiment's isolated private contexts and defined noisy score/status interface; timing is excluded. The conservative experiment-wide sum is ε = 1,546.8461. **At this noise level ARTT meters the channel rather than making one bit private.** Shared secrets across accounts, models or later runs would need composition.
+
+Honest utility is measured in the same scenario: **29/48 patches pass**, and all 48 match the declared signature. Across 192 noisy observations, the pass estimate is **0.510** versus exact truth **0.604**, with a conservative untruncated 95% interval of **0.216–0.804**. The signature estimate is 1.010 versus exact truth 1.000. Intervals concern release noise on this fixed corpus, not unseen-task performance or a comparison between models.
+
 In the equal-score scenario, the judge crashes for bit 1 and succeeds for bit 0. Public error status reveals the bit. ARTT publishes the same admitted record shape in both cases. The status decoder always guesses 0, and the balanced sample has 64 zeros: **64/128 is exactly half by construction**. Both branches have identical raw scores and therefore identical noisy-score distributions. This assumption isolates the benefit of suppressing status; it does not establish chance-level recovery for arbitrary evaluators.
 
 In the useful-score scenario, status suppression still works, but scores retain a signal. The capped arm recovers 98/128 after one admission and 102/128 after four, then refuses 512 later attempts without increasing its 512 protected replay calls. The eight-admission control recovers 120/128. All prefixes, including decreases in recovery, are retained. One late proposal in the first capped batch is included; maximum publication jitter was 0.474 seconds. Timing leakage is not measured.
 
 The deliberate score attack still leaks. At the demo's noise setting, each admitted two-score record costs **ε = 2 ln 3 ≈ 2.1972**. Refusals cost zero additional release epsilon. The budget limits the number of releases an attacker can combine; the ledger records the cost and detects editing. A retained checkpoint is needed to detect deletion of a final row. Large experimental caps are not strong privacy settings.
 
-The coding runs used one shared counter, raised from 352 to 2,656, then 2,960, then 3,472, then 5,008 by committed protocols. Both new noisy arms contribute all 1,536 admissions to that total. The [accounting note](demos/coding_agent/README.md#privacy-accounting-and-policy-history) shows model attribution and all four cap raises. Exact/status-visible comparators make the combined experimental transcript non-private; finite epsilon accounting applies only to the noisy channels. Separate model attribution does not create independent allowances for the same protected test suite.
+The historical coding runs used one shared counter, raised from 352 to 2,656, then 2,960, then 3,472, then 5,008 by committed protocols. The assertion-order experiment contributed all 1,536 admissions from both noisy arms to that total. The new expected-value scope does not reset those 5,008 charges. The [accounting note](demos/coding_agent/README.md#privacy-accounting-and-policy-history) shows model attribution and all four cap raises. Exact/status-visible comparators make the combined experimental transcript non-private; finite epsilon accounting applies only to the noisy channels. Separate model attribution does not create independent allowances for the same protected test suite.
 
-The first fixture utility interval includes zero. A separately predeclared utility-only follow-up used 1,152 admissions per fixture and measured A minus B as 0.3524, with a conservative 95% interval of 0.1827 to 0.5222. It concerns the fixed 48-task corpus and repeated release noise. The learned-model run has only one model and makes no A/B utility claim.
+The first fixture utility interval includes zero. A separately predeclared utility-only follow-up used 1,152 admissions per fixture and measured A minus B as 0.3524, with a conservative 95% interval of 0.1827 to 0.5222. It concerns the fixed 48-task corpus and repeated release noise. The learned-model studies use one model and make no A/B utility claim.
 
 ## FAQ
 

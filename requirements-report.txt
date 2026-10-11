@@ -1,0 +1,3 @@
+# Optional: regenerate coding-agent figures and offline reports from published evidence.
+# Opening the published HTML requires no Python packages.
+matplotlib==3.11.2

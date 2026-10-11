@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "ledger_and_checkpoint_verification": true,
+  "archived_source_hashes": true,
+  "durable_budget_accounting": true,
+  "utility_recomputed_from_192_records": true,
+  "historical_publication_hashes": true,
+  "private_accesses": 0,
+  "model_generations": 0,
+  "recovery": "trusted custodian aggregates; private choices discarded"
+}

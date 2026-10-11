@@ -8,6 +8,8 @@ authenticated measurements. Hash verification proves integrity, not truth.
 
 | Directory | Evidence and interpretation |
 |---|---|
+| [coding-expected-value-2026-10-12](coding-expected-value-2026-10-12/report/report.html) | Committed expected-value suite choice; one Qwen3-0.6B model, 128 attacks, 48 honest patches, 704 noisy admissions, ε = 8.7889 per secret at four releases, all 16 merged chains verified. Exact 128/128, first release 90/128, at cap 101/128. |
+| [coding-agent-history-2026-10-11](coding-agent-history-2026-10-11/README.md) | All five original coding cohorts, durable budgets, raw ledgers, source archives and a hash manifest. Original bytes and the 5,008 historical charges are preserved. |
 | `run-2026-10-05` | Original fixture schema, byte payload, honest stability and 20-filing completeness study. Its 52-test receipt is historical. |
 | `upgrade-analysis-2026-10-05` | Program-hash aliases and historical kernel analysis. |
 | `qwen-curve-2026-10-05` | Development learned-model curve; read `SOURCE-INTEGRITY-NOTE.md`. Excluded from the frozen-curve claim. |
@@ -32,7 +34,9 @@ frozen scheduled study also retains a verified source snapshot.
 The status-attack equality concerns releases whose successful and fallback raw
 vectors are both zero. It does not assert that every useful score is independent
 of the secret. Generic privacy composes over all potentially affected releases;
-the concurrent runner has not proved per-item locality. Timing/delivery,
+the concurrent runner has not proved generic per-item locality. The new
+expected-value replay experiment separately declares isolated private contexts
+and reports a conditional per-secret bound. Timing/delivery,
 availability and rollback remain explicit boundaries.
 
 All experiment commands require new paths and must not overwrite evidence.
@@ -43,6 +47,8 @@ $REPO = (Resolve-Path .).Path
 python -m tools.research_audit --output "$REPO/results/research-audit-2026-10-05/recheck.json"
 ```
 
-This rechecks retained model asset hashes on the local machine. A remote reader
+Set `--model-path /path/to/Qwen3-0.6B` or `ARTT_MODEL_PATH` to also recheck
+retained model asset hashes; otherwise their status is explicitly unavailable.
+A remote reader
 without those assets can verify public chains and archived-source hashes, but
 cannot independently recover discarded private labels or certify inference.

@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "source_freeze_verified": true,
+  "prior_evidence_preserved_byte_for_byte": true,
+  "private_choices_persisted": false,
+  "backend_calls": 1136,
+  "fresh_gpu_generations": 0,
+  "refusal_added_charges_or_calls": false
+}

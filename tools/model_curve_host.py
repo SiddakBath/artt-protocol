@@ -20,7 +20,6 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 ROOT = Path(__file__).resolve().parents[1]
-MODEL = ROOT.parent / "research/adversarial-auditor-independence/models/Qwen3-0.6B"
 OUT = ROOT / "results/qwen-curve-frozen-2026-10-05"
 PHRASES = ("amber lantern", "violet compass")
 
@@ -38,10 +37,14 @@ def digest(path):
 
 
 def main():
-    global OUT
+    global OUT, MODEL
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-name",default=OUT.name)
+    parser.add_argument("--model-path", default=os.environ.get("ARTT_MODEL_PATH"))
     args = parser.parse_args()
+    if not args.model_path:
+        parser.error("set --model-path or ARTT_MODEL_PATH")
+    MODEL = Path(args.model_path).expanduser().resolve()
     if not re.fullmatch("[a-z0-9-]+",args.run_name):
         parser.error("run name must contain only lowercase letters, digits and hyphens")
     OUT = ROOT/"results"/args.run_name
