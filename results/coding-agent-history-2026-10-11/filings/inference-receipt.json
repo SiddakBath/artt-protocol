@@ -1,0 +1,140 @@
+{
+  "model_inferences": 128,
+  "expected_inferences": 128,
+  "batches": [
+    {
+      "size": 4,
+      "seconds": 28.610000000015134
+    },
+    {
+      "size": 4,
+      "seconds": 14.562000000005355
+    },
+    {
+      "size": 4,
+      "seconds": 19.76600000000326
+    },
+    {
+      "size": 4,
+      "seconds": 14.905999999988126
+    },
+    {
+      "size": 4,
+      "seconds": 10.437000000005355
+    },
+    {
+      "size": 4,
+      "seconds": 10.5
+    },
+    {
+      "size": 4,
+      "seconds": 20.421999999991385
+    },
+    {
+      "size": 4,
+      "seconds": 17.375
+    },
+    {
+      "size": 4,
+      "seconds": 12.344000000011874
+    },
+    {
+      "size": 4,
+      "seconds": 29.09399999998277
+    },
+    {
+      "size": 4,
+      "seconds": 21.35899999999674
+    },
+    {
+      "size": 4,
+      "seconds": 20.187000000005355
+    },
+    {
+      "size": 4,
+      "seconds": 23.89100000000326
+    },
+    {
+      "size": 4,
+      "seconds": 12.312000000005355
+    },
+    {
+      "size": 4,
+      "seconds": 20.48399999999674
+    },
+    {
+      "size": 4,
+      "seconds": 17.437000000005355
+    },
+    {
+      "size": 4,
+      "seconds": 9.937000000005355
+    },
+    {
+      "size": 4,
+      "seconds": 10.953000000008615
+    },
+    {
+      "size": 4,
+      "seconds": 18.937999999994645
+    },
+    {
+      "size": 4,
+      "seconds": 16.98499999998603
+    },
+    {
+      "size": 4,
+      "seconds": 12.265999999974156
+    },
+    {
+      "size": 4,
+      "seconds": 28.25
+    },
+    {
+      "size": 4,
+      "seconds": 20.859000000025844
+    },
+    {
+      "size": 4,
+      "seconds": 22.26500000001397
+    },
+    {
+      "size": 4,
+      "seconds": 23.78200000000652
+    },
+    {
+      "size": 4,
+      "seconds": 11.75
+    },
+    {
+      "size": 4,
+      "seconds": 20.70299999997951
+    },
+    {
+      "size": 4,
+      "seconds": 15.171999999991385
+    },
+    {
+      "size": 4,
+      "seconds": 10.40600000001723
+    },
+    {
+      "size": 4,
+      "seconds": 11.297000000020489
+    },
+    {
+      "size": 4,
+      "seconds": 20.578000000008615
+    },
+    {
+      "size": 4,
+      "seconds": 18.39100000000326
+    }
+  ],
+  "all_inference_after_admission": true,
+  "source_freeze_verified": true,
+  "retained_evidence_preserved_byte_for_byte": true,
+  "private_canary_schedules_persisted": false,
+  "public_patches_sha256": "dc59e1984f825ac3f875604dec1963cd3c45e022811064b3638717afc5f07a86",
+  "wall_seconds_including_model_load": 1472.5780000000086
+}

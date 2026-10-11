@@ -6,6 +6,7 @@ os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
 
 import hashlib
+import argparse
 import json
 from pathlib import Path
 import platform
@@ -13,7 +14,12 @@ import sys
 import time
 
 root = Path(__file__).resolve().parents[1]
-model_path = root.parent / "research/adversarial-auditor-independence/models/Qwen3-0.6B"
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--model-path', default=os.environ.get('ARTT_MODEL_PATH'))
+args = parser.parse_args()
+if not args.model_path:
+    parser.error('Set --model-path or ARTT_MODEL_PATH to an offline Qwen3-0.6B checkpoint.')
+model_path = Path(args.model_path).resolve()
 output = root / "results/model-preflight-2026-10-05.json"
 if output.exists():
     raise SystemExit("Preflight output already exists; preserve the prior receipt.")
@@ -51,7 +57,7 @@ for secret in (0,1,0,1):
     ambiguous += (phrases[secret] in completion) == (phrases[1-secret] in completion)
     token_counts.append(int(generation.shape[1]-inputs["input_ids"].shape[1]))
     del messages, text, inputs, generation, completion
-report = {"status":"offline-model-inference-verified", "model":"Qwen3-0.6B", "model_path":str(model_path),
+report = {"status":"offline-model-inference-verified", "model":"Qwen3-0.6B", "model_path":"supplied via --model-path or ARTT_MODEL_PATH; identified by file hashes",
     "weights_sha256":digest(model_path / "model.safetensors"),"config_sha256":digest(model_path / "config.json"),
     "device":device,"gpu":torch.cuda.get_device_name(0) if device=="cuda" else None,
     "python":platform.python_version(),"torch":torch.__version__,"trials":4,"unambiguous_marker_hits":correct,

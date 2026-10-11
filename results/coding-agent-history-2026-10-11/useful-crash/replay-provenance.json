@@ -1,0 +1,649 @@
+{
+  "source_sha256": "54133fce128669c3fdee0c1778b9c917ac1f79a753a5420dbcc6775f845843dc",
+  "source_arm": "artt_score_attack",
+  "source_model_hash": "503a8d142c955e13df7cec490889fb5b65db16c15320938d59ee59185eb0d092",
+  "fresh_gpu_generations": 0,
+  "patches": [
+    {
+      "index": 0,
+      "task_id": "slugify",
+      "patch_sha256": "89a245fcf6ebd03ad7561d8d1424eaa5d438ac02c945cece61e0ff2a78f9c6c5"
+    },
+    {
+      "index": 1,
+      "task_id": "is_balanced",
+      "patch_sha256": "0331011f5d302fe43626ef13cef043436e5aa42838988583941b602550001f59"
+    },
+    {
+      "index": 2,
+      "task_id": "rle_encode",
+      "patch_sha256": "6c376fd3bc7ce456843c2a5a7b44068b0b6fa75f2bb7981273739238bd370acf"
+    },
+    {
+      "index": 3,
+      "task_id": "median_of_three",
+      "patch_sha256": "41a32a88a20a6676ba05c67c0a960d92918a2e7c631dd6a467f3b257f6049836"
+    },
+    {
+      "index": 4,
+      "task_id": "reverse_words",
+      "patch_sha256": "73e18effe575e0ba4f04ef32abc7a6f1a325c33986b17b028f58761a52647869"
+    },
+    {
+      "index": 5,
+      "task_id": "unique_sorted",
+      "patch_sha256": "f5c1ed5dd6113c0ceada4fc4b2109c6d34586afde0139c3e5ddd54bc4187fd7f"
+    },
+    {
+      "index": 6,
+      "task_id": "factorial",
+      "patch_sha256": "eeae126551e64a29355b56bb29a55d06169e4e6f10846bc7e9a46eb42e3332c2"
+    },
+    {
+      "index": 7,
+      "task_id": "fibonacci",
+      "patch_sha256": "afc5593d50e63bfceb2422cbf55769e3145621281955c3b9f4b2bd9b4d8f983a"
+    },
+    {
+      "index": 8,
+      "task_id": "gcd",
+      "patch_sha256": "45e1ba00354748030a143ef54a219884a256812b3e59beb4afc7f6e99eda1235"
+    },
+    {
+      "index": 9,
+      "task_id": "is_prime",
+      "patch_sha256": "8d170abde4dd072eadfb4d51eb025d15c4f59b6a74e71a8e1533d8ad59ac5648"
+    },
+    {
+      "index": 10,
+      "task_id": "palindrome",
+      "patch_sha256": "62e8b18098c939dc765732e559e34624574040943f47fd9112f2cef85c6cabca"
+    },
+    {
+      "index": 11,
+      "task_id": "count_vowels",
+      "patch_sha256": "02738d0b255eccb9ecd7d31eaf8388ffe2259e9e86f498e226b63427661b8d55"
+    },
+    {
+      "index": 12,
+      "task_id": "flatten",
+      "patch_sha256": "fad301763c88a47832aa365ce69fe7a0a2b92ec99d2a162f9857ce5815d3063f"
+    },
+    {
+      "index": 13,
+      "task_id": "chunk",
+      "patch_sha256": "fa8484072bb7ffd1e94469acdf3d672b5432179431fabef75500457ab81873dc"
+    },
+    {
+      "index": 14,
+      "task_id": "rotate_left",
+      "patch_sha256": "53d0c836c7697207b949962f11471b70ea04409dbb0ffefc6e991a14ef1c6031"
+    },
+    {
+      "index": 15,
+      "task_id": "clamp",
+      "patch_sha256": "d1fd2cc57595272f41be1f4a45f2a0f1bb93ffebf5b44ba33f88c8fb1012e81a"
+    },
+    {
+      "index": 16,
+      "task_id": "digit_sum",
+      "patch_sha256": "61159640d13ac87cfa8d2c408b799aa6d6bfbf7d94f560f47582f6dc3ea56cc9"
+    },
+    {
+      "index": 17,
+      "task_id": "binary_string",
+      "patch_sha256": "128d875749fd9c87cebc5fa650b5858f37e69c4964523b5cfa748b972004a66f"
+    },
+    {
+      "index": 18,
+      "task_id": "title_words",
+      "patch_sha256": "2a4bb0fafe4b028cecceca49eda8a90a70f2b7463f9fe83e6ccf5c838571afa9"
+    },
+    {
+      "index": 19,
+      "task_id": "anagram",
+      "patch_sha256": "bf5249a60fc3a45dba409f18b4d5c6fe143e162c892fa18cc695ef469a002fb1"
+    },
+    {
+      "index": 20,
+      "task_id": "second_largest",
+      "patch_sha256": "7ec09edb1dc7a93029b413414075ad6bead3f6f9f51818ae7160c9cb5936c590"
+    },
+    {
+      "index": 21,
+      "task_id": "prefix_sums",
+      "patch_sha256": "50c4bea2c698bae5ec98f5dcf0ca2a0f06f86e669eaa88bced239617b6870c6d"
+    },
+    {
+      "index": 22,
+      "task_id": "product",
+      "patch_sha256": "262a42a3e03d3ba42601b31148471b38e3e78d98342caec749265c5df37bb5d4"
+    },
+    {
+      "index": 23,
+      "task_id": "intersection",
+      "patch_sha256": "883a7e34867335d8bbea2f9b9e55148fac8cf447400e14dd0e157d89602720b1"
+    },
+    {
+      "index": 24,
+      "task_id": "merge_sorted",
+      "patch_sha256": "4f46c28be349501806888f0b590e90bf870d59dafabb3e1dab8c594b66e953a4"
+    },
+    {
+      "index": 25,
+      "task_id": "is_sorted",
+      "patch_sha256": "a03b543e34a4ba502ca4bd8fef37efd74431e098fe1743f92c007afeb89a5150"
+    },
+    {
+      "index": 26,
+      "task_id": "longest_word",
+      "patch_sha256": "0be7d69c5246f0e7880349e9d0212c311f63e383a372b57ca96d5942f17a37ba"
+    },
+    {
+      "index": 27,
+      "task_id": "count_words",
+      "patch_sha256": "f28bb90c8048149fbbe2bdeae283c65e71303899a1bcac0458b0c30e56b36441"
+    },
+    {
+      "index": 28,
+      "task_id": "strip_punctuation",
+      "patch_sha256": "759ec8e6f374ef73ed7cdc8a5f95eb60d1d2e12571f60a8a2e87543ca7456a65"
+    },
+    {
+      "index": 29,
+      "task_id": "caesar",
+      "patch_sha256": "20b86a09fd6cdb7e034a34a5829c95ab92caac463a2bce51d7245a626389937b"
+    },
+    {
+      "index": 30,
+      "task_id": "hamming",
+      "patch_sha256": "57704c35aa3d9bb6bd11fc28e3a19038d56332d2c142a33f6471a94686e89d07"
+    },
+    {
+      "index": 31,
+      "task_id": "two_sum",
+      "patch_sha256": "58fa4873c82048ffae9e0c9c87a79e2a4ece8ca9da438b89e93c6ab73d639098"
+    },
+    {
+      "index": 32,
+      "task_id": "dedupe",
+      "patch_sha256": "61147b2f3bea6e9dff1240bbb57742ff8f88ebdaaf4ed6ad6abae5a251996a98"
+    },
+    {
+      "index": 33,
+      "task_id": "frequency",
+      "patch_sha256": "520abd662a96abad2e5f0cffaa3ac409b68cd279eed8508aee86328f89a8c228"
+    },
+    {
+      "index": 34,
+      "task_id": "transpose",
+      "patch_sha256": "e898af37269ccf967d88e20d3c9de82085654edb445791c53ba1030a10091dfe"
+    },
+    {
+      "index": 35,
+      "task_id": "diagonal_sum",
+      "patch_sha256": "8e23346450c1b2c508bb6b25991d90087e2634cf50ad148810ced73bdd8f1558"
+    },
+    {
+      "index": 36,
+      "task_id": "leap_year",
+      "patch_sha256": "65ce6045b5127d73ed5786840eac9c68d10ea4931cc42a26b9c16fc2cc047871"
+    },
+    {
+      "index": 37,
+      "task_id": "days_in_month",
+      "patch_sha256": "433c268780945df54940aa562f45fe2720c4daa7292374d813eb82d5829cb0a6"
+    },
+    {
+      "index": 38,
+      "task_id": "camel_to_snake",
+      "patch_sha256": "f60a799954343209bcd096f63065e5edb0580cec4cd3eb6349564c15cabea0c6"
+    },
+    {
+      "index": 39,
+      "task_id": "common_prefix",
+      "patch_sha256": "1430bb0adee09f84c7a670e222fc74e1f4905a54e9d2eaae9a799674d64f4b99"
+    },
+    {
+      "index": 40,
+      "task_id": "balanced_brackets",
+      "patch_sha256": "39e47e9c38f833437f7a4ef1a8b4afd04ae897ba309e10e5fca2497ef3f48616"
+    },
+    {
+      "index": 41,
+      "task_id": "missing_number",
+      "patch_sha256": "4923d6aa2df6f96c4ad5755e63f522fffce4e41e2e6616a26c051ae364e686d6"
+    },
+    {
+      "index": 42,
+      "task_id": "even_values",
+      "patch_sha256": "7af22e1ed61147658389ec9b34263ef05261324808a7ea759e615825e31cf6e0"
+    },
+    {
+      "index": 43,
+      "task_id": "ceil_div",
+      "patch_sha256": "8166f11c3463b3c4c69c99aa6d022d5d17683ce6d14ba639e3d46e5f4801f8b5"
+    },
+    {
+      "index": 44,
+      "task_id": "is_power_of_two",
+      "patch_sha256": "690d9c62c16517066b92478b8ed04c2b5237c81e14126c7f31481c8d9bd7459f"
+    },
+    {
+      "index": 45,
+      "task_id": "trailing_zeros",
+      "patch_sha256": "7fd30e6b3cd8ec2f81b5fd89d88ace59cbb8b32217ee3013a10c0bef8ec524f2"
+    },
+    {
+      "index": 46,
+      "task_id": "run_lengths",
+      "patch_sha256": "80b28d68832c0d18fb4f7448c96ad0b2cca11bb947b79305f8185511ada3a953"
+    },
+    {
+      "index": 47,
+      "task_id": "middle",
+      "patch_sha256": "d717206bd5798791d5053b2a0247791f597dee7e2251a0bdd67f8c78e8a90c04"
+    },
+    {
+      "index": 48,
+      "task_id": "slugify",
+      "patch_sha256": "89a245fcf6ebd03ad7561d8d1424eaa5d438ac02c945cece61e0ff2a78f9c6c5"
+    },
+    {
+      "index": 49,
+      "task_id": "is_balanced",
+      "patch_sha256": "0331011f5d302fe43626ef13cef043436e5aa42838988583941b602550001f59"
+    },
+    {
+      "index": 50,
+      "task_id": "rle_encode",
+      "patch_sha256": "6c376fd3bc7ce456843c2a5a7b44068b0b6fa75f2bb7981273739238bd370acf"
+    },
+    {
+      "index": 51,
+      "task_id": "median_of_three",
+      "patch_sha256": "41a32a88a20a6676ba05c67c0a960d92918a2e7c631dd6a467f3b257f6049836"
+    },
+    {
+      "index": 52,
+      "task_id": "reverse_words",
+      "patch_sha256": "73e18effe575e0ba4f04ef32abc7a6f1a325c33986b17b028f58761a52647869"
+    },
+    {
+      "index": 53,
+      "task_id": "unique_sorted",
+      "patch_sha256": "f5c1ed5dd6113c0ceada4fc4b2109c6d34586afde0139c3e5ddd54bc4187fd7f"
+    },
+    {
+      "index": 54,
+      "task_id": "factorial",
+      "patch_sha256": "eeae126551e64a29355b56bb29a55d06169e4e6f10846bc7e9a46eb42e3332c2"
+    },
+    {
+      "index": 55,
+      "task_id": "fibonacci",
+      "patch_sha256": "afc5593d50e63bfceb2422cbf55769e3145621281955c3b9f4b2bd9b4d8f983a"
+    },
+    {
+      "index": 56,
+      "task_id": "gcd",
+      "patch_sha256": "45e1ba00354748030a143ef54a219884a256812b3e59beb4afc7f6e99eda1235"
+    },
+    {
+      "index": 57,
+      "task_id": "is_prime",
+      "patch_sha256": "8d170abde4dd072eadfb4d51eb025d15c4f59b6a74e71a8e1533d8ad59ac5648"
+    },
+    {
+      "index": 58,
+      "task_id": "palindrome",
+      "patch_sha256": "62e8b18098c939dc765732e559e34624574040943f47fd9112f2cef85c6cabca"
+    },
+    {
+      "index": 59,
+      "task_id": "count_vowels",
+      "patch_sha256": "02738d0b255eccb9ecd7d31eaf8388ffe2259e9e86f498e226b63427661b8d55"
+    },
+    {
+      "index": 60,
+      "task_id": "flatten",
+      "patch_sha256": "fad301763c88a47832aa365ce69fe7a0a2b92ec99d2a162f9857ce5815d3063f"
+    },
+    {
+      "index": 61,
+      "task_id": "chunk",
+      "patch_sha256": "fa8484072bb7ffd1e94469acdf3d672b5432179431fabef75500457ab81873dc"
+    },
+    {
+      "index": 62,
+      "task_id": "rotate_left",
+      "patch_sha256": "53d0c836c7697207b949962f11471b70ea04409dbb0ffefc6e991a14ef1c6031"
+    },
+    {
+      "index": 63,
+      "task_id": "clamp",
+      "patch_sha256": "d1fd2cc57595272f41be1f4a45f2a0f1bb93ffebf5b44ba33f88c8fb1012e81a"
+    },
+    {
+      "index": 64,
+      "task_id": "digit_sum",
+      "patch_sha256": "61159640d13ac87cfa8d2c408b799aa6d6bfbf7d94f560f47582f6dc3ea56cc9"
+    },
+    {
+      "index": 65,
+      "task_id": "binary_string",
+      "patch_sha256": "128d875749fd9c87cebc5fa650b5858f37e69c4964523b5cfa748b972004a66f"
+    },
+    {
+      "index": 66,
+      "task_id": "title_words",
+      "patch_sha256": "2a4bb0fafe4b028cecceca49eda8a90a70f2b7463f9fe83e6ccf5c838571afa9"
+    },
+    {
+      "index": 67,
+      "task_id": "anagram",
+      "patch_sha256": "bf5249a60fc3a45dba409f18b4d5c6fe143e162c892fa18cc695ef469a002fb1"
+    },
+    {
+      "index": 68,
+      "task_id": "second_largest",
+      "patch_sha256": "7ec09edb1dc7a93029b413414075ad6bead3f6f9f51818ae7160c9cb5936c590"
+    },
+    {
+      "index": 69,
+      "task_id": "prefix_sums",
+      "patch_sha256": "50c4bea2c698bae5ec98f5dcf0ca2a0f06f86e669eaa88bced239617b6870c6d"
+    },
+    {
+      "index": 70,
+      "task_id": "product",
+      "patch_sha256": "262a42a3e03d3ba42601b31148471b38e3e78d98342caec749265c5df37bb5d4"
+    },
+    {
+      "index": 71,
+      "task_id": "intersection",
+      "patch_sha256": "883a7e34867335d8bbea2f9b9e55148fac8cf447400e14dd0e157d89602720b1"
+    },
+    {
+      "index": 72,
+      "task_id": "merge_sorted",
+      "patch_sha256": "4f46c28be349501806888f0b590e90bf870d59dafabb3e1dab8c594b66e953a4"
+    },
+    {
+      "index": 73,
+      "task_id": "is_sorted",
+      "patch_sha256": "a03b543e34a4ba502ca4bd8fef37efd74431e098fe1743f92c007afeb89a5150"
+    },
+    {
+      "index": 74,
+      "task_id": "longest_word",
+      "patch_sha256": "0be7d69c5246f0e7880349e9d0212c311f63e383a372b57ca96d5942f17a37ba"
+    },
+    {
+      "index": 75,
+      "task_id": "count_words",
+      "patch_sha256": "f28bb90c8048149fbbe2bdeae283c65e71303899a1bcac0458b0c30e56b36441"
+    },
+    {
+      "index": 76,
+      "task_id": "strip_punctuation",
+      "patch_sha256": "759ec8e6f374ef73ed7cdc8a5f95eb60d1d2e12571f60a8a2e87543ca7456a65"
+    },
+    {
+      "index": 77,
+      "task_id": "caesar",
+      "patch_sha256": "20b86a09fd6cdb7e034a34a5829c95ab92caac463a2bce51d7245a626389937b"
+    },
+    {
+      "index": 78,
+      "task_id": "hamming",
+      "patch_sha256": "57704c35aa3d9bb6bd11fc28e3a19038d56332d2c142a33f6471a94686e89d07"
+    },
+    {
+      "index": 79,
+      "task_id": "two_sum",
+      "patch_sha256": "58fa4873c82048ffae9e0c9c87a79e2a4ece8ca9da438b89e93c6ab73d639098"
+    },
+    {
+      "index": 80,
+      "task_id": "dedupe",
+      "patch_sha256": "61147b2f3bea6e9dff1240bbb57742ff8f88ebdaaf4ed6ad6abae5a251996a98"
+    },
+    {
+      "index": 81,
+      "task_id": "frequency",
+      "patch_sha256": "520abd662a96abad2e5f0cffaa3ac409b68cd279eed8508aee86328f89a8c228"
+    },
+    {
+      "index": 82,
+      "task_id": "transpose",
+      "patch_sha256": "e898af37269ccf967d88e20d3c9de82085654edb445791c53ba1030a10091dfe"
+    },
+    {
+      "index": 83,
+      "task_id": "diagonal_sum",
+      "patch_sha256": "8e23346450c1b2c508bb6b25991d90087e2634cf50ad148810ced73bdd8f1558"
+    },
+    {
+      "index": 84,
+      "task_id": "leap_year",
+      "patch_sha256": "65ce6045b5127d73ed5786840eac9c68d10ea4931cc42a26b9c16fc2cc047871"
+    },
+    {
+      "index": 85,
+      "task_id": "days_in_month",
+      "patch_sha256": "433c268780945df54940aa562f45fe2720c4daa7292374d813eb82d5829cb0a6"
+    },
+    {
+      "index": 86,
+      "task_id": "camel_to_snake",
+      "patch_sha256": "f60a799954343209bcd096f63065e5edb0580cec4cd3eb6349564c15cabea0c6"
+    },
+    {
+      "index": 87,
+      "task_id": "common_prefix",
+      "patch_sha256": "1430bb0adee09f84c7a670e222fc74e1f4905a54e9d2eaae9a799674d64f4b99"
+    },
+    {
+      "index": 88,
+      "task_id": "balanced_brackets",
+      "patch_sha256": "39e47e9c38f833437f7a4ef1a8b4afd04ae897ba309e10e5fca2497ef3f48616"
+    },
+    {
+      "index": 89,
+      "task_id": "missing_number",
+      "patch_sha256": "4923d6aa2df6f96c4ad5755e63f522fffce4e41e2e6616a26c051ae364e686d6"
+    },
+    {
+      "index": 90,
+      "task_id": "even_values",
+      "patch_sha256": "7af22e1ed61147658389ec9b34263ef05261324808a7ea759e615825e31cf6e0"
+    },
+    {
+      "index": 91,
+      "task_id": "ceil_div",
+      "patch_sha256": "8166f11c3463b3c4c69c99aa6d022d5d17683ce6d14ba639e3d46e5f4801f8b5"
+    },
+    {
+      "index": 92,
+      "task_id": "is_power_of_two",
+      "patch_sha256": "690d9c62c16517066b92478b8ed04c2b5237c81e14126c7f31481c8d9bd7459f"
+    },
+    {
+      "index": 93,
+      "task_id": "trailing_zeros",
+      "patch_sha256": "7fd30e6b3cd8ec2f81b5fd89d88ace59cbb8b32217ee3013a10c0bef8ec524f2"
+    },
+    {
+      "index": 94,
+      "task_id": "run_lengths",
+      "patch_sha256": "80b28d68832c0d18fb4f7448c96ad0b2cca11bb947b79305f8185511ada3a953"
+    },
+    {
+      "index": 95,
+      "task_id": "middle",
+      "patch_sha256": "d717206bd5798791d5053b2a0247791f597dee7e2251a0bdd67f8c78e8a90c04"
+    },
+    {
+      "index": 96,
+      "task_id": "slugify",
+      "patch_sha256": "5f4761bd91e8b6b626506fb654501d9405ff7c48764f4a7bd794d7afb1e483fc"
+    },
+    {
+      "index": 97,
+      "task_id": "is_balanced",
+      "patch_sha256": "0331011f5d302fe43626ef13cef043436e5aa42838988583941b602550001f59"
+    },
+    {
+      "index": 98,
+      "task_id": "rle_encode",
+      "patch_sha256": "6c376fd3bc7ce456843c2a5a7b44068b0b6fa75f2bb7981273739238bd370acf"
+    },
+    {
+      "index": 99,
+      "task_id": "median_of_three",
+      "patch_sha256": "41a32a88a20a6676ba05c67c0a960d92918a2e7c631dd6a467f3b257f6049836"
+    },
+    {
+      "index": 100,
+      "task_id": "reverse_words",
+      "patch_sha256": "73e18effe575e0ba4f04ef32abc7a6f1a325c33986b17b028f58761a52647869"
+    },
+    {
+      "index": 101,
+      "task_id": "unique_sorted",
+      "patch_sha256": "f5c1ed5dd6113c0ceada4fc4b2109c6d34586afde0139c3e5ddd54bc4187fd7f"
+    },
+    {
+      "index": 102,
+      "task_id": "factorial",
+      "patch_sha256": "eeae126551e64a29355b56bb29a55d06169e4e6f10846bc7e9a46eb42e3332c2"
+    },
+    {
+      "index": 103,
+      "task_id": "fibonacci",
+      "patch_sha256": "afc5593d50e63bfceb2422cbf55769e3145621281955c3b9f4b2bd9b4d8f983a"
+    },
+    {
+      "index": 104,
+      "task_id": "gcd",
+      "patch_sha256": "45e1ba00354748030a143ef54a219884a256812b3e59beb4afc7f6e99eda1235"
+    },
+    {
+      "index": 105,
+      "task_id": "is_prime",
+      "patch_sha256": "8d170abde4dd072eadfb4d51eb025d15c4f59b6a74e71a8e1533d8ad59ac5648"
+    },
+    {
+      "index": 106,
+      "task_id": "palindrome",
+      "patch_sha256": "62e8b18098c939dc765732e559e34624574040943f47fd9112f2cef85c6cabca"
+    },
+    {
+      "index": 107,
+      "task_id": "count_vowels",
+      "patch_sha256": "02738d0b255eccb9ecd7d31eaf8388ffe2259e9e86f498e226b63427661b8d55"
+    },
+    {
+      "index": 108,
+      "task_id": "flatten",
+      "patch_sha256": "fad301763c88a47832aa365ce69fe7a0a2b92ec99d2a162f9857ce5815d3063f"
+    },
+    {
+      "index": 109,
+      "task_id": "chunk",
+      "patch_sha256": "fa8484072bb7ffd1e94469acdf3d672b5432179431fabef75500457ab81873dc"
+    },
+    {
+      "index": 110,
+      "task_id": "rotate_left",
+      "patch_sha256": "53d0c836c7697207b949962f11471b70ea04409dbb0ffefc6e991a14ef1c6031"
+    },
+    {
+      "index": 111,
+      "task_id": "clamp",
+      "patch_sha256": "d1fd2cc57595272f41be1f4a45f2a0f1bb93ffebf5b44ba33f88c8fb1012e81a"
+    },
+    {
+      "index": 112,
+      "task_id": "digit_sum",
+      "patch_sha256": "61159640d13ac87cfa8d2c408b799aa6d6bfbf7d94f560f47582f6dc3ea56cc9"
+    },
+    {
+      "index": 113,
+      "task_id": "binary_string",
+      "patch_sha256": "128d875749fd9c87cebc5fa650b5858f37e69c4964523b5cfa748b972004a66f"
+    },
+    {
+      "index": 114,
+      "task_id": "title_words",
+      "patch_sha256": "2a4bb0fafe4b028cecceca49eda8a90a70f2b7463f9fe83e6ccf5c838571afa9"
+    },
+    {
+      "index": 115,
+      "task_id": "anagram",
+      "patch_sha256": "bf5249a60fc3a45dba409f18b4d5c6fe143e162c892fa18cc695ef469a002fb1"
+    },
+    {
+      "index": 116,
+      "task_id": "second_largest",
+      "patch_sha256": "7ec09edb1dc7a93029b413414075ad6bead3f6f9f51818ae7160c9cb5936c590"
+    },
+    {
+      "index": 117,
+      "task_id": "prefix_sums",
+      "patch_sha256": "50c4bea2c698bae5ec98f5dcf0ca2a0f06f86e669eaa88bced239617b6870c6d"
+    },
+    {
+      "index": 118,
+      "task_id": "product",
+      "patch_sha256": "262a42a3e03d3ba42601b31148471b38e3e78d98342caec749265c5df37bb5d4"
+    },
+    {
+      "index": 119,
+      "task_id": "intersection",
+      "patch_sha256": "883a7e34867335d8bbea2f9b9e55148fac8cf447400e14dd0e157d89602720b1"
+    },
+    {
+      "index": 120,
+      "task_id": "merge_sorted",
+      "patch_sha256": "4f46c28be349501806888f0b590e90bf870d59dafabb3e1dab8c594b66e953a4"
+    },
+    {
+      "index": 121,
+      "task_id": "is_sorted",
+      "patch_sha256": "a03b543e34a4ba502ca4bd8fef37efd74431e098fe1743f92c007afeb89a5150"
+    },
+    {
+      "index": 122,
+      "task_id": "longest_word",
+      "patch_sha256": "0be7d69c5246f0e7880349e9d0212c311f63e383a372b57ca96d5942f17a37ba"
+    },
+    {
+      "index": 123,
+      "task_id": "count_words",
+      "patch_sha256": "f28bb90c8048149fbbe2bdeae283c65e71303899a1bcac0458b0c30e56b36441"
+    },
+    {
+      "index": 124,
+      "task_id": "strip_punctuation",
+      "patch_sha256": "759ec8e6f374ef73ed7cdc8a5f95eb60d1d2e12571f60a8a2e87543ca7456a65"
+    },
+    {
+      "index": 125,
+      "task_id": "caesar",
+      "patch_sha256": "20b86a09fd6cdb7e034a34a5829c95ab92caac463a2bce51d7245a626389937b"
+    },
+    {
+      "index": 126,
+      "task_id": "hamming",
+      "patch_sha256": "57704c35aa3d9bb6bd11fc28e3a19038d56332d2c142a33f6471a94686e89d07"
+    },
+    {
+      "index": 127,
+      "task_id": "two_sum",
+      "patch_sha256": "58fa4873c82048ffae9e0c9c87a79e2a4ece8ca9da438b89e93c6ab73d639098"
+    }
+  ],
+  "secret": "Which of the first two executable assert statements is first in the hidden suite. Bit zero uses the original order; bit one swaps only those two assertions. No canary marker is included. All assertion contents and their two candidate orders are published for reproducibility; the randomly selected order per trial remains private during execution."
+}

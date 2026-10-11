@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "audit_file": "scratch/audit-after-demo-final.json",
+  "chains": 973,
+  "entries": 12898,
+  "committed_readme_hash_matches_audit": true,
+  "readme_sha256": "a74ea73d5a52ed73a811c54f3e7419848dd66f75af6d55b5f793df407238d140"
+}

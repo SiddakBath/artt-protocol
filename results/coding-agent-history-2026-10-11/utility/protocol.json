@@ -1,0 +1,41 @@
+{
+  "protocol_id": "coding-agent-utility-2",
+  "first_protocol_sha256": "de79dadef4712648eb8e8f71f04db2e17dee5e2bb70856d1ccee8149efbe73b8",
+  "first_run_commit": "3ed8b0203a3bc65080999ff02a472894c3f59506",
+  "task_count": 48,
+  "passes_per_agent": 24,
+  "admissions_per_agent": 1152,
+  "additional_admissions": 2304,
+  "arms": ["artt_honest_A", "artt_honest_B"],
+  "task_order": "task index modulo 48, exactly 24 full passes per agent; alternate A and B batches at each offset",
+  "batch_size": 256,
+  "fixture_seed": 4219,
+  "agents": {
+    "A": {"passing_tasks": 36, "total_tasks": 48, "pass_rate": 0.75},
+    "B": {"passing_tasks": 19, "total_tasks": 48, "pass_rate": 0.3958333333333333}
+  },
+  "sizing": {
+    "assumed_gap": 0.35,
+    "target_difference_radius_at_most": 0.175,
+    "rule": "choose a multiple of 48 with sqrt(9*ln(40)/n) <= assumed_gap/2",
+    "power_bound": "one-sided Hoeffding probability of failing positive separation at the assumed gap is at most exp(-n*(assumed_gap-sqrt(9*ln(40)/n))**2/9); no observed results used in sizing"
+  },
+  "estimator": "per axis: mean(released bucket) - 1; first axis estimates pass rate on this fixed task corpus",
+  "interval": "two-sided conservative Hoeffding 95%; per-agent radius sqrt(9*ln(40)/(2*n)); difference radius sqrt(9*ln(40)*(1/n_A+1/n_B)/2); untruncated",
+  "target_population": "the same fixed 48-task fixture corpus, not unseen tasks or learned agents; repeated admissions reduce release-noise uncertainty",
+  "noise_sampling": "fresh OS randomness in the shipped release kernel, independent per admitted record",
+  "canary_sampling": "fresh balanced SystemRandom-shuffled honest cohorts; private schedules never persisted",
+  "p": 0.5,
+  "period": 0.1,
+  "window": 2.5,
+  "margin": 0.05,
+  "lead": 2.55,
+  "max_seconds": 2,
+  "max_complete_calls": 1,
+  "budget_scope": "coding-demo-corpus",
+  "original_cap_and_used": 352,
+  "extended_admission_cap": 2656,
+  "budget_extension": "Copy the retained first-run SQLite budget into a fresh evidence directory and extend its cap from 352 to 2656 before access. Preserve used=352. The original ledger is never modified. This publicly predeclared extra allowance does not reset privacy accounting.",
+  "reporting": "One utility-only cohort. Preserve all attempts and failures. Keep the first run and its original utility interval in the receipt. Report the observed interval even if it includes zero. No attack rerun or pooling with the first utility sample.",
+  "scope": ["deterministic fixture agent", "fixed corpus", "trusted custodian", "single call per admission", "software sandbox, not hardware", "timing noninterference is not proven"]
+}

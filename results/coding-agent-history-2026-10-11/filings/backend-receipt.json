@@ -1,0 +1,30 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "model_hash": "503a8d142c955e13df7cec490889fb5b65db16c15320938d59ee59185eb0d092",
+  "model_files_sha256": {
+    "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+    "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+    "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+    "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+  },
+  "adapter_sha256": "1b8682a02ae6a038b0c6e36068da3116eb8d9d2124ebd0c38aacaf4513e3b2df",
+  "python": "3.12.14",
+  "torch": "2.14.1+cu130",
+  "transformers": "5.18.0",
+  "gpu": "NVIDIA GeForce RTX 3050 Ti Laptop GPU",
+  "generation": {
+    "max_new_tokens": 256,
+    "do_sample": false,
+    "enable_thinking": false,
+    "dtype": "float16",
+    "attention": "sdpa"
+  },
+  "system_prompt": "You write small Python functions. Return only the complete function source, with the exact requested signature. No explanation, tests, or Markdown.",
+  "model_input": "public task description, signature and example only",
+  "hidden_tests_supplied_to_model": false,
+  "canary_supplied_to_model": false,
+  "patch_cache": false,
+  "network_downloads": false,
+  "source": "https://huggingface.co/Qwen/Qwen3-0.6B"
+}

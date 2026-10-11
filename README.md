@@ -43,7 +43,7 @@ The first fixture utility interval includes zero. A separately predeclared utili
 
 **Can two accounts split a secret?** They can combine their observations, so the custodian must charge them to the same protected scope. Budgets must be shared across accounts and program aliases, keyed to the protected asset and committed model snapshot. If multiple model paths access the same hidden tests, those paths need shared asset accounting too. Giving each account a fresh cap would break the intended protection.
 
-**Was this a real problem?** The crash and score leaks ran through actual evaluators and a Linux sandbox, with real local Qwen-generated patches in the learned-model experiment. The equal-score scenario uses a planted canary; the useful-score scenario uses a synthetic private assertion order and frozen public patch replay. These demonstrate reproducible leak mechanisms in an evaluation interface; they do not document a production breach or stolen proprietary tests. The custodian, isolation and delivery are trusted, and timing noninterference is not proven.
+**What real confidential information could this expose?** A hidden assertion's expected value or inclusion can reveal which boundary case a benchmark tests and help an outsider target that check. The new protocol tests which of two valid assertions with different expected values is included, and measures genuine correctness scores. The earlier equal-score and assertion-order experiments remain diagnostic controls. This is a controlled evaluation-interface attack using public model-generated patches, not a documented production incident. The custodian and software sandbox are trusted; timing leakage is not measured.
 
 ## Verify and explore
 

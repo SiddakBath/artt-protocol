@@ -1,0 +1,1006 @@
+{
+  "git_commit": "969651c9cb47e36c8c0c0675fcb38fa8417ebb4e",
+  "protocol_commit": "b52a68138ea6ca7b90c384afbbcbdce051743afb",
+  "protocol_sha256": "9a300dc3eda40ccdabe67e2c5ddd3727a36e4a316d7b39e7ff5f518664101f66",
+  "runner_version": "d3764e25fe3a9940b36b8f289e4ed2f4f09463b5b1f4e1d66232ee7ed8f1316d",
+  "protocol_id": "coding-agent-exact-baseline-and-filings-4",
+  "model_hash": "503a8d142c955e13df7cec490889fb5b65db16c15320938d59ee59185eb0d092",
+  "exact_baseline": {
+    "status": {
+      "correct": 64,
+      "n": 128,
+      "rate": 0.5,
+      "wilson_95": [
+        0.41465072364379996,
+        0.5853492763562
+      ],
+      "predicted": 0.5
+    },
+    "score": {
+      "correct": 128,
+      "n": 128,
+      "rate": 1.0,
+      "wilson_95": [
+        0.9708620041018919,
+        0.9999999999999999
+      ],
+      "predicted": 1.0
+    }
+  },
+  "curve": {
+    "uncapped": [
+      {
+        "filing": 0,
+        "correct": 64,
+        "n": 128,
+        "rate": 0.5,
+        "wilson_95": [
+          0.41465072364379996,
+          0.5853492763562
+        ],
+        "admitted_per_trial": 0,
+        "refused_per_trial": 0,
+        "predicted": 0.5
+      },
+      {
+        "filing": 1,
+        "correct": 90,
+        "n": 128,
+        "rate": 0.703125,
+        "wilson_95": [
+          0.6189931578757643,
+          0.7754195312906295
+        ],
+        "admitted_per_trial": 1,
+        "refused_per_trial": 0,
+        "predicted": 0.7222222222222221
+      },
+      {
+        "filing": 2,
+        "correct": 99,
+        "n": 128,
+        "rate": 0.7734375,
+        "wilson_95": [
+          0.6935716289452745,
+          0.8373685295479476
+        ],
+        "admitted_per_trial": 2,
+        "refused_per_trial": 0,
+        "predicted": 0.802469135802469
+      },
+      {
+        "filing": 3,
+        "correct": 108,
+        "n": 128,
+        "rate": 0.84375,
+        "wilson_95": [
+          0.7709503846480996,
+          0.896517243171951
+        ],
+        "admitted_per_trial": 3,
+        "refused_per_trial": 0,
+        "predicted": 0.8525377229080932
+      },
+      {
+        "filing": 4,
+        "correct": 110,
+        "n": 128,
+        "rate": 0.859375,
+        "wilson_95": [
+          0.7886460265596023,
+          0.9091610388886326
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 0,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 5,
+        "correct": 113,
+        "n": 128,
+        "rate": 0.8828125,
+        "wilson_95": [
+          0.8156324042590186,
+          0.9276838176314923
+        ],
+        "admitted_per_trial": 5,
+        "refused_per_trial": 0,
+        "predicted": 0.9128067897000793
+      },
+      {
+        "filing": 6,
+        "correct": 116,
+        "n": 128,
+        "rate": 0.90625,
+        "wilson_95": [
+          0.8432686438028733,
+          0.945556734529914
+        ],
+        "admitted_per_trial": 6,
+        "refused_per_trial": 0,
+        "predicted": 0.9318347647598696
+      },
+      {
+        "filing": 7,
+        "correct": 119,
+        "n": 128,
+        "rate": 0.9296875,
+        "wilson_95": [
+          0.871763878213073,
+          0.9625706565619905
+        ],
+        "admitted_per_trial": 7,
+        "refused_per_trial": 0,
+        "predicted": 0.946332117894502
+      },
+      {
+        "filing": 8,
+        "correct": 121,
+        "n": 128,
+        "rate": 0.9453125,
+        "wilson_95": [
+          0.8914138332864409,
+          0.9732601391168066
+        ],
+        "admitted_per_trial": 8,
+        "refused_per_trial": 0,
+        "predicted": 0.957514704259047
+      },
+      {
+        "filing": 9,
+        "correct": 123,
+        "n": 128,
+        "rate": 0.9609375,
+        "wilson_95": [
+          0.9118117730873819,
+          0.9832016369440498
+        ],
+        "admitted_per_trial": 9,
+        "refused_per_trial": 0,
+        "predicted": 0.9662201309182427
+      },
+      {
+        "filing": 10,
+        "correct": 124,
+        "n": 128,
+        "rate": 0.96875,
+        "wilson_95": [
+          0.9224011964206393,
+          0.9877819324248844
+        ],
+        "admitted_per_trial": 10,
+        "refused_per_trial": 0,
+        "predicted": 0.9730455806022891
+      },
+      {
+        "filing": 11,
+        "correct": 125,
+        "n": 128,
+        "rate": 0.9765625,
+        "wilson_95": [
+          0.9333551190997279,
+          0.9919977285598879
+        ],
+        "admitted_per_trial": 11,
+        "refused_per_trial": 0,
+        "predicted": 0.9784275256340645
+      },
+      {
+        "filing": 12,
+        "correct": 127,
+        "n": 128,
+        "rate": 0.9921875,
+        "wilson_95": [
+          0.9570726816506786,
+          0.998619603637121
+        ],
+        "admitted_per_trial": 12,
+        "refused_per_trial": 0,
+        "predicted": 0.9826909687065478
+      },
+      {
+        "filing": 13,
+        "correct": 127,
+        "n": 128,
+        "rate": 0.9921875,
+        "wilson_95": [
+          0.9570726816506786,
+          0.998619603637121
+        ],
+        "admitted_per_trial": 13,
+        "refused_per_trial": 0,
+        "predicted": 0.986081408235896
+      },
+      {
+        "filing": 14,
+        "correct": 127,
+        "n": 128,
+        "rate": 0.9921875,
+        "wilson_95": [
+          0.9570726816506786,
+          0.998619603637121
+        ],
+        "admitted_per_trial": 14,
+        "refused_per_trial": 0,
+        "predicted": 0.9887864000266009
+      },
+      {
+        "filing": 15,
+        "correct": 128,
+        "n": 128,
+        "rate": 1.0,
+        "wilson_95": [
+          0.9708620041018919,
+          0.9999999999999999
+        ],
+        "admitted_per_trial": 15,
+        "refused_per_trial": 0,
+        "predicted": 0.9909505462515695
+      },
+      {
+        "filing": 16,
+        "correct": 128,
+        "n": 128,
+        "rate": 1.0,
+        "wilson_95": [
+          0.9708620041018919,
+          0.9999999999999999
+        ],
+        "admitted_per_trial": 16,
+        "refused_per_trial": 0,
+        "predicted": 0.9926861689327532
+      }
+    ],
+    "artt": [
+      {
+        "filing": 0,
+        "correct": 64,
+        "n": 128,
+        "rate": 0.5,
+        "wilson_95": [
+          0.41465072364379996,
+          0.5853492763562
+        ],
+        "admitted_per_trial": 0,
+        "refused_per_trial": 0,
+        "predicted": 0.5
+      },
+      {
+        "filing": 1,
+        "correct": 84,
+        "n": 128,
+        "rate": 0.65625,
+        "wilson_95": [
+          0.5704946622111811,
+          0.7328997140706601
+        ],
+        "admitted_per_trial": 1,
+        "refused_per_trial": 0,
+        "predicted": 0.7222222222222221
+      },
+      {
+        "filing": 2,
+        "correct": 104,
+        "n": 128,
+        "rate": 0.8125,
+        "wilson_95": [
+          0.7361492727731167,
+          0.8706394797905659
+        ],
+        "admitted_per_trial": 2,
+        "refused_per_trial": 0,
+        "predicted": 0.802469135802469
+      },
+      {
+        "filing": 3,
+        "correct": 105,
+        "n": 128,
+        "rate": 0.8203125,
+        "wilson_95": [
+          0.7447821997086049,
+          0.8771762716691697
+        ],
+        "admitted_per_trial": 3,
+        "refused_per_trial": 0,
+        "predicted": 0.8525377229080932
+      },
+      {
+        "filing": 4,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 0,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 5,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 1,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 6,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 2,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 7,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 3,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 8,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 4,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 9,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 5,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 10,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 6,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 11,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 7,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 12,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 8,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 13,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 9,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 14,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 10,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 15,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 11,
+        "predicted": 0.8873933089468067
+      },
+      {
+        "filing": 16,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "admitted_per_trial": 4,
+        "refused_per_trial": 12,
+        "predicted": 0.8873933089468067
+      }
+    ]
+  },
+  "ledger_files": [
+    "artt-filing-01.jsonl",
+    "artt-filing-02.jsonl",
+    "artt-filing-03.jsonl",
+    "artt-filing-04.jsonl",
+    "artt-filing-05.jsonl",
+    "artt-filing-06.jsonl",
+    "artt-filing-07.jsonl",
+    "artt-filing-08.jsonl",
+    "artt-filing-09.jsonl",
+    "artt-filing-10.jsonl",
+    "artt-filing-11.jsonl",
+    "artt-filing-12.jsonl",
+    "artt-filing-13.jsonl",
+    "artt-filing-14.jsonl",
+    "artt-filing-15.jsonl",
+    "artt-filing-16.jsonl"
+  ],
+  "unsafe_ledger_files": [
+    "naive-exact-score-attack.jsonl",
+    "uncapped-filing-01.jsonl",
+    "uncapped-filing-02.jsonl",
+    "uncapped-filing-03.jsonl",
+    "uncapped-filing-04.jsonl",
+    "uncapped-filing-05.jsonl",
+    "uncapped-filing-06.jsonl",
+    "uncapped-filing-07.jsonl",
+    "uncapped-filing-08.jsonl",
+    "uncapped-filing-09.jsonl",
+    "uncapped-filing-10.jsonl",
+    "uncapped-filing-11.jsonl",
+    "uncapped-filing-12.jsonl",
+    "uncapped-filing-13.jsonl",
+    "uncapped-filing-14.jsonl",
+    "uncapped-filing-15.jsonl",
+    "uncapped-filing-16.jsonl"
+  ],
+  "checkpoints": {
+    "artt-filing-01.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "1fc6d5f1f3acbd1ca244bb71675b719d9f57bd3bbd860540a3b7f8bb5783bc35",
+      "last_entry_hash": "20586a81338911bcc2d6e628feae597f01f3c5ef7715439599e9b24cc4e63877"
+    },
+    "artt-filing-02.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "4d229466b9ef36237c0c191768ea8151d00f7ef5327c61298c5db5c21302fc1b",
+      "last_entry_hash": "96e2927b4c1e79060c267c84c1ff609d414c0a5b84b90522a52a19e1d32334b8"
+    },
+    "artt-filing-03.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "36ea9fd65247b28340464b9d43ccb07501189aecf193a48f6f5384dcbef517f9",
+      "last_entry_hash": "59e4ea41f8dffb2035fb25a7251e3765a1daa07a625eda971f5ac8cc98901d51"
+    },
+    "artt-filing-04.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "ee06393a7152762d224356985baeefe01743a088d3633f5ace409ff74b99d09e",
+      "last_entry_hash": "f23aa663b0ce18995de2a3dc355be2584e03464507b85f2875deb4e44b105b9b"
+    },
+    "artt-filing-05.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "f581f90f83e89a0353a886347f6c6fc415b556229d92b184d9aeabb58b2706f0",
+      "last_entry_hash": "7fd74e45ad106f9ff9a81c08648fd81ff58afafa53d48fc78ed2930299b3c56d"
+    },
+    "artt-filing-06.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "f60fe428dea872756ecbd8d001425b7db806ed72187caeec4791baea3035de8f",
+      "last_entry_hash": "bf1783712950a731aaa6cf185063d810d19d32130b14970abb279871a3289ba2"
+    },
+    "artt-filing-07.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "943a06c3fb7b706076158cb37935b016e91262f074defbc566a8f65566adba92",
+      "last_entry_hash": "16f558ca936d912512b3e96891229dce7378a9cee56c45b13c82a0abf1357e8d"
+    },
+    "artt-filing-08.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "e19218427538aeb2013cfa2dd07ba745d553eb42c73289b762a6c6f1e05b7dde",
+      "last_entry_hash": "8d4bd53e79ba5d90148207f01593f689cde6b9d0ebf108f8b67bd5aabfb92506"
+    },
+    "artt-filing-09.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "392bf8e53c9da7be10ae83c9f9ef0cd796282782ddf3ec888936ec02fabb7b81",
+      "last_entry_hash": "296701e93e86b44d19dd75ab8b89e220383c71e49c6e4b806e94c3f628dbd1da"
+    },
+    "artt-filing-10.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "ea785f4ec5de52a54892c404650e9787103c9096dcd86a423e50a5530da99f89",
+      "last_entry_hash": "54b53d947df0aa4b343337c1598d1fe3851c9e8ef62b6fc3b331d3e605526bd8"
+    },
+    "artt-filing-11.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "c931c345bda65ce7eeec409655d6442f570d5767d7ce955d78336c91ed30cb80",
+      "last_entry_hash": "a313a3ddbe307dcc6f020fac6c91f729e6db77ed2aa707a6fc7c7799f52e3afc"
+    },
+    "artt-filing-12.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "e8c6dcb9d17d23752ee6e84dce3a465df403b784a6987b907320226711173c9a",
+      "last_entry_hash": "9ae41256e57d0f4eeedbc3a497d8e9c6d7fe17ef9f7536d1e96c8b3526383db8"
+    },
+    "artt-filing-13.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "02daf002fddd792b71814af13d0c3882e390c788adef672dcc6a06836efaaaf2",
+      "last_entry_hash": "6912a8b81c8886ad019b05281d77ca4111a40cef6ca92e927f9a494464d78a43"
+    },
+    "artt-filing-14.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "4c34aab2d16bcc51f8036957509041896e3d4874c2a189af981835f41453bd94",
+      "last_entry_hash": "7886212001b51339000df129e13957bf36a4c168dd1a7487b7c8fe23ab5b006d"
+    },
+    "artt-filing-15.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "cdddfc5705603c9eb3c108a2c7eedb522464c28b1d6657d31cba6a423ee39f0c",
+      "last_entry_hash": "3a22cfb378e5f9bd316f0d607f3901befbe6ed6aefa9b2069af5853fc8a27ab1"
+    },
+    "artt-filing-16.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "c6bbe8661c470456004793c7cd2766c420010b7dedc02502eb61896ae3e51bf1",
+      "last_entry_hash": "1b9c0167521d8ae0ff12292de20e2e45e55346f7d511917d1e2de2e78ad30672"
+    },
+    "naive-exact-score-attack.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "fcef03fdcb2de0b318a2d8867be87bf16ab0e05aacd865e9083fb7d17d4602e2",
+      "last_entry_hash": "3b81979a9594bff31009c6ce2f89a50f4770d9bb0b985aaef35d8c8cb1d87e11"
+    },
+    "uncapped-filing-01.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "4e14472fb05c0f5d2e6b8d46bacb9915c0f7eb584c7832a412cf41da08ae7576",
+      "last_entry_hash": "56160449e6b61b9fdd88aebef0423b66bf1336204e25b8d56519cc546bfdda93"
+    },
+    "uncapped-filing-02.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "05ce4a115da2531b7fd9725251c8fdfdc4d081c9a0bdc24508db14273635e050",
+      "last_entry_hash": "5854c729f81290fd7f24778a4ceb7709518523c73da03165dba5a0367861ff49"
+    },
+    "uncapped-filing-03.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "1eb8f2092143d7686a77bbabc24bc994cf618e238b99d70dc4c5af1f3ec00892",
+      "last_entry_hash": "e9020d7fc49ab7f5643982da575af3d2497ef4e3826bd4d054b92568242edc38"
+    },
+    "uncapped-filing-04.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "4872f903c224a879c17a8bb522f0e41f010e029091012aa535970a4af0ee02c8",
+      "last_entry_hash": "67cc4cc9eabe7d57fbbf8236c2f7e5f7e8712769d5c5743b3a8847c01fbe52d1"
+    },
+    "uncapped-filing-05.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "78dd0638e6f0138943c5f27c9376f5e8d6bd796b445d27912491e8ea4d0688f3",
+      "last_entry_hash": "f1f72c9bd48c00260707417f8c77245722dea764eff3603ba0b87469eb3e40dd"
+    },
+    "uncapped-filing-06.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "d4b11a50a286d6778353769ab96f4dcc5dbbe0f373f4a1c6a587b9e899e1c9e8",
+      "last_entry_hash": "8d891519aa80aa073e8e071486664d4c88a9408cc4d34613c6afdf61dd56252a"
+    },
+    "uncapped-filing-07.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "d226f012cf9454096f60eecc6ee54f9e3372bddfb739f9ebdea7cdd40e9fa7f6",
+      "last_entry_hash": "d395c35dc06bbec124b6f149ac9078581e2109f82c6bc33f82c5e6a177bd3e1f"
+    },
+    "uncapped-filing-08.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "d1ff66466dc2f20878965e5167db7991de4f582378e92ea312008ea5264fe9bd",
+      "last_entry_hash": "7e03c1b382e9909a122df3bf6d387575c447fec14bd117cfe75a9167e21299c3"
+    },
+    "uncapped-filing-09.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "9b7e554cf6e5b8f50146bdd6832c34e6ea024bce03c7424a6038edf5b4476131",
+      "last_entry_hash": "bcc6feac2ab19bcfd805c6f5ecb673738d8bab91f98de7f15461b63450bedaa9"
+    },
+    "uncapped-filing-10.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "1ee8687ab97af331128c98057f05c638ff420c0fed933dbcb2932ed8700412eb",
+      "last_entry_hash": "0a4aab45203d5961904f2459397f94719aa19b70bcf8b2fda8f2babcd2c10af5"
+    },
+    "uncapped-filing-11.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "d6a7c344cf5a3b1c42f715176a0b1a7189e99cbcfd41add15244f08dc7f31101",
+      "last_entry_hash": "03fbbe32c91da9572e7ca0936183aa15e9bc9278b8ff16b16d70c1bf781794eb"
+    },
+    "uncapped-filing-12.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "bd87bfe95ae37192a0a9a6c5c9af56c73cfcad3d1c4372e1e4926e24e04076f5",
+      "last_entry_hash": "d9bb52b47fd51778da3193b326d4e973720d99c8bb4e446cae53cf02eabba466"
+    },
+    "uncapped-filing-13.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "4d6843edccd4ae6cd1d864828b5b3f2c1ccc91959588f0aae4bda8237f96affd",
+      "last_entry_hash": "39b51bdb5c63a2830c207a9e3651a09ec24b7bd8983522b6e869b3d62abc954e"
+    },
+    "uncapped-filing-14.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "74b3e62795c71069ecf2ae46ab5fe75d1174111088eabef2aa498d83f4137350",
+      "last_entry_hash": "d5101518fd98e0565b6364136a878f879d80838758fe053e0499f63151fdce57"
+    },
+    "uncapped-filing-15.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "a573495f6d1d34a5ede07cd1b4e275cfd9009f7b1f9e55011131f9c8f953a4b8",
+      "last_entry_hash": "04b3751ed8ff3f478ae3271cb986a2383b7f54b5acb90e5b7f11ca46be6e1e33"
+    },
+    "uncapped-filing-16.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "e0c66bfc84be80c44ec275722d2bbecd2c3a5a82cf4773aed0fae45715d1c844",
+      "last_entry_hash": "3a679470671a3ddaebbe8ebcff35ef93d8b2734bde5b38ecfeaa52d7d2962e19"
+    }
+  },
+  "verification": {
+    "artt-filing-01.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-02.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-03.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-04.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-05.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-06.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-07.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-08.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-09.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-10.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-11.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-12.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-13.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-14.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-15.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-16.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "naive-exact-score-attack.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-01.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-02.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-03.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-04.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-05.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-06.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-07.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-08.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-09.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-10.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-11.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-12.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-13.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-14.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-15.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-16.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    }
+  },
+  "diagnostics": {
+    "exact_baseline_worker_errors": 0,
+    "uncapped_worker_errors": 0,
+    "uncapped_backend_accesses": 2048,
+    "proposals_before_cutoff": 512,
+    "scheduled_releases": 512,
+    "scheduled_refusals": 1536,
+    "private_worker_errors": 0,
+    "private_timeouts": 0
+  },
+  "budget": {
+    "scope": "coding-demo-corpus",
+    "used_before": 2960,
+    "used": 3472,
+    "cap": 3472,
+    "admitted": 512,
+    "refused": 1536,
+    "cap_per_secret": 4,
+    "epsilon_per_record": 2.1972245773362196,
+    "epsilon_new": 1124.9789835961444,
+    "epsilon_composed": 7628.763732511355,
+    "protected_replay_calls_at_cap": 512,
+    "protected_replay_calls_after_refusals": 512,
+    "live_gpu_calls_before_repeated": 128,
+    "live_gpu_calls_after_repeated": 128,
+    "item_consumption": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+    ]
+  },
+  "wall_seconds": 1290.4237484149999
+}

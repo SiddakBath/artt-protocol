@@ -2,6 +2,7 @@
 import os
 os.environ.update(HF_HUB_OFFLINE="1",TRANSFORMERS_OFFLINE="1",HF_HUB_DISABLE_TELEMETRY="1",HF_HUB_DISABLE_PROGRESS_BARS="1")
 from fractions import Fraction
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -15,6 +16,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--model-path', default=os.environ.get('ARTT_MODEL_PATH'))
+    args = parser.parse_args()
+    if not args.model_path:
+        parser.error('Set --model-path or ARTT_MODEL_PATH to an offline Qwen3-0.6B checkpoint.')
     out = ROOT/"results/qwen-behavior-2026-10-05"
     out.mkdir(exist_ok=False)
     protocol = {"model":"Qwen3-0.6B","n":64,"generation":"greedy CUDA float16 SDPA, batch 8, max_new_tokens=64, thinking disabled",
@@ -25,7 +31,7 @@ def main():
                   "expected":"YES" if i%2==0 else "NO"} for i in range(100,164)]}
     registration = out/"protocol.json"
     registration.write_text(json.dumps(protocol,indent=2)+"\n")  # before any inference
-    model_path = ROOT.parent/"research/adversarial-auditor-independence/models/Qwen3-0.6B"
+    model_path = Path(args.model_path).resolve()
     torch.set_num_threads(4)
     tokenizer = AutoTokenizer.from_pretrained(model_path,local_files_only=True,trust_remote_code=False)
     tokenizer.padding_side="left"

@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "released_fixed_shapes": 352,
+  "refusals": 8,
+  "report_matches_summary_and_ledgers": true,
+  "readme_matches_generated_numbers": true,
+  "passport_matches_ledgers": true,
+  "budget_matches_sqlite": true,
+  "canaries_absent_from_public_ledgers": true,
+  "checkpoints_match": true,
+  "full_suite": "94 passed in 57.98s",
+  "research_audit_passed": true,
+  "final_commit": "34a29c88f50e4da590a752905f7f5fd9712672b8",
+  "screenshots": [
+    "01-setup.jpg",
+    "02-recovery.jpg",
+    "03-utility.jpg",
+    "04-ledger-refusals.jpg",
+    "05-budget.jpg",
+    "06-original-verification.jpg",
+    "07-tampered-verification.jpg",
+    "08-passport.jpg",
+    "09-provenance.jpg"
+  ]
+}

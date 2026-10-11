@@ -211,13 +211,14 @@ the synthetic private canary for the judge after inference. The attack is
 therefore a judge leaking its private test context, rather than a claim about
 extracting Qwen's training data.
 
-On this Windows host, use the existing CUDA environment and local checkpoint:
+On Windows, provide the installed CUDA Python runtime and checkpoint paths:
 
 ```powershell
-./scripts/demo.ps1 -Backend local-qwen -Output scratch/coding-demo-qwen
+./scripts/demo.ps1 -Backend local-qwen -ModelPath $ModelPath -ModelPython $ModelPython -Output scratch/coding-demo-qwen
 ```
 
-Set `-ModelPath` and `-ModelPython` for other installed checkpoint/runtime paths.
+Set `$ModelPath` and `$ModelPython` to your installed checkpoint and Python executable,
+or set `ARTT_MODEL_PATH` and `ARTT_MODEL_PYTHON`.
 The runtime requirements are in `requirements-runtime.txt`; the demo does not
 download a model or install packages. A Linux CUDA host can run the same flag:
 
@@ -283,8 +284,8 @@ Execute the committed protocol once on the pinned host, with the latest retained
 live evidence (the shipped protocol pins those exact evidence hashes):
 
 ```powershell
-& ../.venv/Scripts/python.exe -u -m demos.coding_agent.real_model_host --filings --model-path ../research/adversarial-auditor-independence/models/Qwen3-0.6B --prior-run scratch/coding-demo-qwen-02 --output scratch/coding-demo-filings
-& ../.venv/Scripts/python.exe -m demos.coding_agent.filings_report --input scratch/coding-demo-filings --output scratch/coding-demo-filings-report
+& $ModelPython -u -m demos.coding_agent.real_model_host --filings --model-path $ModelPath --prior-run scratch/coding-demo-qwen-02 --output scratch/coding-demo-filings
+& $ModelPython -m demos.coding_agent.filings_report --input scratch/coding-demo-filings --output scratch/coding-demo-filings-report
 ```
 
 A later experiment must predeclare a new protocol and carry the newest budget

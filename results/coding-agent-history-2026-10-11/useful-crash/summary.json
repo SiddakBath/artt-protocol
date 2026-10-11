@@ -1,0 +1,963 @@
+{
+  "protocol_id": "coding-agent-useful-score-crash-5",
+  "git_commit": "02f8e3009d4cc99d6645127961ad5fba446ae451",
+  "protocol_commit": "02f8e3009d4cc99d6645127961ad5fba446ae451",
+  "protocol_sha256": "1971cf2b2c6a94d35270815365e1eb06fb5e366296a2bbd572d6dde3809f7218",
+  "runner_version": "d3764e25fe3a9940b36b8f289e4ed2f4f09463b5b1f4e1d66232ee7ed8f1316d",
+  "model_hash": "503a8d142c955e13df7cec490889fb5b65db16c15320938d59ee59185eb0d092",
+  "primary": {
+    "before_joint": {
+      "filing": 1,
+      "correct": 128,
+      "n": 128,
+      "rate": 1.0,
+      "wilson_95": [
+        0.9708620041018919,
+        0.9999999999999999
+      ],
+      "predicted": null,
+      "admitted_per_trial": 1,
+      "refused_per_trial": 0
+    },
+    "after_joint": {
+      "filing": 1,
+      "correct": 98,
+      "n": 128,
+      "rate": 0.765625,
+      "wilson_95": [
+        0.6851629806940097,
+        0.8306074589851203
+      ],
+      "predicted": 0.7005208333333333,
+      "admitted_per_trial": 1,
+      "refused_per_trial": 0
+    },
+    "before_status_only": {
+      "filing": 1,
+      "correct": 128,
+      "n": 128,
+      "rate": 1.0,
+      "wilson_95": [
+        0.9708620041018919,
+        0.9999999999999999
+      ],
+      "predicted": null,
+      "admitted_per_trial": 1,
+      "refused_per_trial": 0
+    },
+    "after_status_only": {
+      "filing": 1,
+      "correct": 64,
+      "n": 128,
+      "rate": 0.5,
+      "wilson_95": [
+        0.41465072364379996,
+        0.5853492763562
+      ],
+      "predicted": 0.5,
+      "admitted_per_trial": 1,
+      "refused_per_trial": 0
+    },
+    "paired": {
+      "recovery_drop": 0.234375,
+      "paired_bootstrap_95": [
+        0.1640625,
+        0.3125
+      ],
+      "before_only_correct": 30,
+      "after_only_correct": 0,
+      "both_correct": 98,
+      "both_wrong": 0,
+      "resamples": 20000,
+      "seed": 97153,
+      "scope": "Descriptive resampling of this fixed 128-patch corpus, not unseen-task generalization"
+    }
+  },
+  "curve": {
+    "uncapped": [
+      {
+        "filing": 0,
+        "correct": 64,
+        "n": 128,
+        "rate": 0.5,
+        "wilson_95": [
+          0.41465072364379996,
+          0.5853492763562
+        ],
+        "predicted": 0.5,
+        "admitted_per_trial": 0,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 1,
+        "correct": 88,
+        "n": 128,
+        "rate": 0.6875,
+        "wilson_95": [
+          0.602727327674739,
+          0.7613459238634704
+        ],
+        "predicted": 0.7005208333333333,
+        "admitted_per_trial": 1,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 2,
+        "correct": 101,
+        "n": 128,
+        "rate": 0.7890625,
+        "wilson_95": [
+          0.7104917146716522,
+          0.8507878814497541
+        ],
+        "predicted": 0.7711226851851851,
+        "admitted_per_trial": 2,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 3,
+        "correct": 105,
+        "n": 128,
+        "rate": 0.8203125,
+        "wilson_95": [
+          0.7447821997086049,
+          0.8771762716691697
+        ],
+        "predicted": 0.8197177211934156,
+        "admitted_per_trial": 3,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 4,
+        "correct": 109,
+        "n": 128,
+        "rate": 0.8515625,
+        "wilson_95": [
+          0.7797712148689779,
+          0.902866131765165
+        ],
+        "predicted": 0.8542198038122998,
+        "admitted_per_trial": 4,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 5,
+        "correct": 114,
+        "n": 128,
+        "rate": 0.890625,
+        "wilson_95": [
+          0.8247641281996283,
+          0.9337218125049749
+        ],
+        "predicted": 0.8804563686977657,
+        "admitted_per_trial": 5,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 6,
+        "correct": 117,
+        "n": 128,
+        "rate": 0.9140625,
+        "wilson_95": [
+          0.852657726143762,
+          0.9513373710031172
+        ],
+        "predicted": 0.9008593577865194,
+        "admitted_per_trial": 6,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 7,
+        "correct": 116,
+        "n": 128,
+        "rate": 0.90625,
+        "wilson_95": [
+          0.8432686438028733,
+          0.945556734529914
+        ],
+        "predicted": 0.9170670194728492,
+        "admitted_per_trial": 7,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 8,
+        "correct": 120,
+        "n": 128,
+        "rate": 0.9375,
+        "wilson_95": [
+          0.8815107956585421,
+          0.9679934579306134
+        ],
+        "predicted": 0.9301235342152031,
+        "admitted_per_trial": 8,
+        "refused_per_trial": 0
+      }
+    ],
+    "artt": [
+      {
+        "filing": 0,
+        "correct": 64,
+        "n": 128,
+        "rate": 0.5,
+        "wilson_95": [
+          0.41465072364379996,
+          0.5853492763562
+        ],
+        "predicted": 0.5,
+        "admitted_per_trial": 0,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 1,
+        "correct": 98,
+        "n": 128,
+        "rate": 0.765625,
+        "wilson_95": [
+          0.6851629806940097,
+          0.8306074589851203
+        ],
+        "predicted": 0.7005208333333333,
+        "admitted_per_trial": 1,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 2,
+        "correct": 104,
+        "n": 128,
+        "rate": 0.8125,
+        "wilson_95": [
+          0.7361492727731167,
+          0.8706394797905659
+        ],
+        "predicted": 0.7711226851851851,
+        "admitted_per_trial": 2,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 3,
+        "correct": 108,
+        "n": 128,
+        "rate": 0.84375,
+        "wilson_95": [
+          0.7709503846480996,
+          0.896517243171951
+        ],
+        "predicted": 0.8197177211934156,
+        "admitted_per_trial": 3,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 4,
+        "correct": 102,
+        "n": 128,
+        "rate": 0.796875,
+        "wilson_95": [
+          0.7190057513712909,
+          0.8574435635642075
+        ],
+        "predicted": 0.8542198038122998,
+        "admitted_per_trial": 4,
+        "refused_per_trial": 0
+      },
+      {
+        "filing": 5,
+        "correct": 102,
+        "n": 128,
+        "rate": 0.796875,
+        "wilson_95": [
+          0.7190057513712909,
+          0.8574435635642075
+        ],
+        "predicted": 0.8542198038122998,
+        "admitted_per_trial": 4,
+        "refused_per_trial": 1
+      },
+      {
+        "filing": 6,
+        "correct": 102,
+        "n": 128,
+        "rate": 0.796875,
+        "wilson_95": [
+          0.7190057513712909,
+          0.8574435635642075
+        ],
+        "predicted": 0.8542198038122998,
+        "admitted_per_trial": 4,
+        "refused_per_trial": 2
+      },
+      {
+        "filing": 7,
+        "correct": 102,
+        "n": 128,
+        "rate": 0.796875,
+        "wilson_95": [
+          0.7190057513712909,
+          0.8574435635642075
+        ],
+        "predicted": 0.8542198038122998,
+        "admitted_per_trial": 4,
+        "refused_per_trial": 3
+      },
+      {
+        "filing": 8,
+        "correct": 102,
+        "n": 128,
+        "rate": 0.796875,
+        "wilson_95": [
+          0.7190057513712909,
+          0.8574435635642075
+        ],
+        "predicted": 0.8542198038122998,
+        "admitted_per_trial": 4,
+        "refused_per_trial": 4
+      }
+    ]
+  },
+  "normal": {
+    "order_zero_buckets": {
+      "(0, 3)": 50,
+      "(3, 3)": 78
+    },
+    "passes": 78,
+    "signature_matches": 128,
+    "n": 128,
+    "control_errors": [
+      0,
+      0
+    ],
+    "order_disagreements": 0,
+    "differing_score_axes": {
+      "1": 50,
+      "2": 78
+    },
+    "decoder_side_information": "All public order-zero normal-score controls, not private labels. Missing control scores are treated as zero and retained."
+  },
+  "ledger_files": [
+    "uncapped-filing-01.jsonl",
+    "uncapped-filing-02.jsonl",
+    "uncapped-filing-03.jsonl",
+    "uncapped-filing-04.jsonl",
+    "uncapped-filing-05.jsonl",
+    "uncapped-filing-06.jsonl",
+    "uncapped-filing-07.jsonl",
+    "uncapped-filing-08.jsonl",
+    "artt-filing-01.jsonl",
+    "artt-filing-02.jsonl",
+    "artt-filing-03.jsonl",
+    "artt-filing-04.jsonl",
+    "artt-filing-05.jsonl",
+    "artt-filing-06.jsonl",
+    "artt-filing-07.jsonl",
+    "artt-filing-08.jsonl"
+  ],
+  "unsafe_ledger_files": [
+    "naive-normal-order-0.jsonl",
+    "naive-normal-order-1.jsonl",
+    "naive-useful-crash-exact.jsonl"
+  ],
+  "checkpoints": {
+    "uncapped-filing-01.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "eec7578832e4c1e9b5d48ed3344a958b3f93efaeafb4b512e3b98e5d1c9db87b",
+      "last_entry_hash": "9b2f394e64d4a758354b70dbf12037e93bf5814a00da91d7db19fa1e3ddf104e"
+    },
+    "uncapped-filing-02.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "68dd6e696a713cd98a5626547d21e6d49d6b5ac8a5120a8eb1aff7cbfae06a12",
+      "last_entry_hash": "2e4e107b8cc2398f26b42b814b1bbe11d67804d7118b36a1d6e208f1005d971c"
+    },
+    "uncapped-filing-03.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "a3dfe556269299dce8e06c776c9a3879f7b1ff48531a388dfb7c5eaba38eeb42",
+      "last_entry_hash": "e01d2089e95fae7c90145018149c8a4e59c002536bf9b1dbabb5327cf7ac7555"
+    },
+    "uncapped-filing-04.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "0e156afab3a0d970d324989bc8ed470a38c04d3793a72e8e5a66d8371ccff885",
+      "last_entry_hash": "2d585cc9732b2d0436e6355d2844f0819d684557de20ee242fab40d7ca7ef0f3"
+    },
+    "uncapped-filing-05.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "88c9f897e1bf656615709c486fc0840ae03f03f529501cdf913716c79457f1d9",
+      "last_entry_hash": "cd7ac9b5fcee4bf74554d6723f1e4fdb6db89e0839a205e52da57f1320dd7a55"
+    },
+    "uncapped-filing-06.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "a843ae34ab92392e34f06ec15ce3e2f58699714998e2ebb03c685a4c8ee26859",
+      "last_entry_hash": "89e6b4d5454555ff64bb679643847dde4e58b3398c52737326d5845ab3004d9d"
+    },
+    "uncapped-filing-07.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "e968b658417250e5d77ea0dfeb3493638065cc1c2a2b87c6957ace7606d3e91b",
+      "last_entry_hash": "250d1edd9424ca6df83e04dc9c0548996e0e429d1a196a8857a882c8f6fc0723"
+    },
+    "uncapped-filing-08.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "5abd0e253e42c5ba2cd6f36b77c94ec25fa90aafee0015ddb0fc4ad5b1bfd92d",
+      "last_entry_hash": "9790965ae384061ee7d16fa678dd032f7a875fda511ba9b71a6cf470b2dad806"
+    },
+    "artt-filing-01.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "840918d2eb527ed8d8a22b78107025f73b91affc625136c74d130c3406d959c7",
+      "last_entry_hash": "b542c886d97a261f04b8e7de3ad66840a3add0f66b698258b9f08c33034fa5a1"
+    },
+    "artt-filing-02.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "63eb36f18bab35dc7154b74ceb13b881166b57d516fea796e1bf7bc90c5cff2c",
+      "last_entry_hash": "ccaa8d097351ff03739afc6321ca057dd1f58a828fb25e038b6d677544623df4"
+    },
+    "artt-filing-03.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "a85a1d5b21860ac942d6d664da6a220fa1df1a8036f9adfb12c6a95a22137bfb",
+      "last_entry_hash": "f92a26031a35da316b19028943ca7cc388e5616981cf5a010cfa8f29d1f8d85a"
+    },
+    "artt-filing-04.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "9c558fcbf01410df50789038aa8e3f32fd1f8c5236c94a3454ed0e4ce06e34a8",
+      "last_entry_hash": "d2fe5b9b5cbb747815b0326c8694d364d71c03db8ba19e07e3d67a4a6131761c"
+    },
+    "artt-filing-05.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "a8dad2703f8b42e7e8182ecfd3be4ce0543d0fc53b5e5c6a872e01ba12058e3b",
+      "last_entry_hash": "e1aad3895a55a89609ffcb74fdacee8e5084114fbb265b21e147ce62c17def6c"
+    },
+    "artt-filing-06.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "cba01950df6150ddef89005e19a32c4835b88dad3cdb304b0b828ce5e527aa6e",
+      "last_entry_hash": "1d2553cce9fe3ce01f31d21f6f9023d2ab13b8a908731c78cfb2add2d33dbd3a"
+    },
+    "artt-filing-07.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "6eedc2dccf7ba5d7834abcd76bbf2bd9a5d1877ff312834e61fc2bebf6a45735",
+      "last_entry_hash": "c7985baf25c3b7bfda482caf28282058997ad65426bd9b310fbf2b8b4ff49d55"
+    },
+    "artt-filing-08.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "47da18fde4c961d1c2531bc37be78fb6fffef50832c9cccdaffe2a30c692702a",
+      "last_entry_hash": "3a8a0497decf0e0e9c55b62b29318f4dfe7950a9ab1aaef1d534b8ab0eb82bab"
+    },
+    "naive-normal-order-0.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "78e0404a190b952f15ab4a426a73ff4adf4eb09ea8d1ce6e0bcc1f5355518464",
+      "last_entry_hash": "a3d3ff30d380285d74a5684061ef10c05232d9817cdb030fa1fadc934040e528"
+    },
+    "naive-normal-order-1.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "596e6df0908539d21e86603d7bb5110f00d72c8141f992c9f28961a5c2a288f5",
+      "last_entry_hash": "6c106f0b8b0b77f0f3065b1dfaece5969405f08bfae382774383e162b25bb28e"
+    },
+    "naive-useful-crash-exact.jsonl": {
+      "entries": 128,
+      "head_line_sha256": "1b700ad2c18d0c8e4af939ec629caad67affb100ba9c65088c6a392df3da8449",
+      "last_entry_hash": "c91fc1b4d625acbd04ab274507e84d3aa80ece9bacda0f0d20e9d035667ed528"
+    }
+  },
+  "verification": {
+    "uncapped-filing-01.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-02.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-03.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-04.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-05.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-06.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-07.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "uncapped-filing-08.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-01.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-02.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-03.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-04.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-05.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-06.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-07.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "artt-filing-08.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "naive-normal-order-0.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "naive-normal-order-1.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    },
+    "naive-useful-crash-exact.jsonl": {
+      "exit_code": 0,
+      "output": "VERIFIED 128 entries (chain integrity only; no hardware attestation)",
+      "stderr": ""
+    }
+  },
+  "tamper": {
+    "source": "artt-filing-01.jsonl",
+    "saved_checkpoint": {
+      "entries": 128,
+      "head_line_sha256": "840918d2eb527ed8d8a22b78107025f73b91affc625136c74d130c3406d959c7",
+      "last_entry_hash": "b542c886d97a261f04b8e7de3ad66840a3add0f66b698258b9f08c33034fa5a1"
+    },
+    "variants": {
+      "edited": {
+        "exit_code": 1,
+        "output": "INVALID log",
+        "stderr": "",
+        "checkpoint_matches": true,
+        "file": "tampered/edited.jsonl"
+      },
+      "middle_deleted": {
+        "exit_code": 1,
+        "output": "INVALID log",
+        "stderr": "",
+        "checkpoint_matches": false,
+        "file": "tampered/middle_deleted.jsonl"
+      },
+      "suffix_deleted": {
+        "exit_code": 0,
+        "output": "VERIFIED 127 entries (chain integrity only; no hardware attestation)",
+        "stderr": "",
+        "checkpoint_matches": false,
+        "file": "tampered/suffix_deleted.jsonl"
+      }
+    },
+    "caveat": "A hash chain alone cannot detect a deleted tail. A retained checkpoint detects this copy's tail deletion. CT-style witnessing is future work."
+  },
+  "diagnostics": {
+    "uncapped": [
+      {
+        "filing": 1,
+        "admitted": true,
+        "frames_before_cutoff": 128,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 128,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.0015648919943487272,
+        "live_public_endpoint": "/dev/shm/rt-public-release-5678c48234984a5ba0c60507b2b457c1.jsonl"
+      },
+      {
+        "filing": 2,
+        "admitted": true,
+        "frames_before_cutoff": 128,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 256,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.0009659220013418235,
+        "live_public_endpoint": "/dev/shm/rt-public-release-0fec56f97ac140a6b30d5d884e36db2e.jsonl"
+      },
+      {
+        "filing": 3,
+        "admitted": true,
+        "frames_before_cutoff": 128,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 384,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.0008084689907263964,
+        "live_public_endpoint": "/dev/shm/rt-public-release-0b73f3cb26eb42e4b8eca1968618a4bb.jsonl"
+      },
+      {
+        "filing": 4,
+        "admitted": true,
+        "frames_before_cutoff": 128,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 512,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.001119947999541182,
+        "live_public_endpoint": "/dev/shm/rt-public-release-249cd367a812449a80550f4f6ec98385.jsonl"
+      },
+      {
+        "filing": 5,
+        "admitted": true,
+        "frames_before_cutoff": 128,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 640,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.0011936399969272316,
+        "live_public_endpoint": "/dev/shm/rt-public-release-c91ac910f51a4528935a935095c3e21c.jsonl"
+      },
+      {
+        "filing": 6,
+        "admitted": true,
+        "frames_before_cutoff": 128,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 768,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.001128721996792592,
+        "live_public_endpoint": "/dev/shm/rt-public-release-528c44faa29b45439aa02317cf37e3ac.jsonl"
+      },
+      {
+        "filing": 7,
+        "admitted": true,
+        "frames_before_cutoff": 128,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 896,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.0004979680015821941,
+        "live_public_endpoint": "/dev/shm/rt-public-release-efb2bf6a1b774242bf34778f501ee3fa.jsonl"
+      },
+      {
+        "filing": 8,
+        "admitted": true,
+        "frames_before_cutoff": 128,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 1024,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.0005218689984758385,
+        "live_public_endpoint": "/dev/shm/rt-public-release-65324348a82740db943909a4ef0fe572.jsonl"
+      }
+    ],
+    "artt": [
+      {
+        "filing": 1,
+        "admitted": true,
+        "frames_before_cutoff": 127,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 128,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.47350005699991016,
+        "live_public_endpoint": "/dev/shm/rt-public-release-03435b5d94c04fda826f131204b4ee90.jsonl"
+      },
+      {
+        "filing": 2,
+        "admitted": true,
+        "frames_before_cutoff": 128,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 256,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.004058585996972397,
+        "live_public_endpoint": "/dev/shm/rt-public-release-ea817b68e0ff48a1810fe870e5574ac3.jsonl"
+      },
+      {
+        "filing": 3,
+        "admitted": true,
+        "frames_before_cutoff": 128,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 384,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.0010140279919141904,
+        "live_public_endpoint": "/dev/shm/rt-public-release-9186c50c0d90449380f314607dd0171b.jsonl"
+      },
+      {
+        "filing": 4,
+        "admitted": true,
+        "frames_before_cutoff": 128,
+        "worker_errors": {
+          "none": 64,
+          "runtime_exception": 64
+        },
+        "replay_calls": 512,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.0021549629964283668,
+        "live_public_endpoint": "/dev/shm/rt-public-release-8adb09fcc2114af6bf1e16b9d182cebd.jsonl"
+      },
+      {
+        "filing": 5,
+        "admitted": false,
+        "frames_before_cutoff": 0,
+        "worker_errors": {
+          "none": 128
+        },
+        "replay_calls": 512,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.009455667997826822,
+        "live_public_endpoint": "/dev/shm/rt-public-release-93e7a9a5ad604c7c979d82a4cefa35c6.jsonl"
+      },
+      {
+        "filing": 6,
+        "admitted": false,
+        "frames_before_cutoff": 0,
+        "worker_errors": {
+          "none": 128
+        },
+        "replay_calls": 512,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.000844121997943148,
+        "live_public_endpoint": "/dev/shm/rt-public-release-723cdb5342b042239efbaf819526f9f1.jsonl"
+      },
+      {
+        "filing": 7,
+        "admitted": false,
+        "frames_before_cutoff": 0,
+        "worker_errors": {
+          "none": 128
+        },
+        "replay_calls": 512,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.0007975699991220608,
+        "live_public_endpoint": "/dev/shm/rt-public-release-57814962af8c418ea435f9f285283cc9.jsonl"
+      },
+      {
+        "filing": 8,
+        "admitted": false,
+        "frames_before_cutoff": 0,
+        "worker_errors": {
+          "none": 128
+        },
+        "replay_calls": 512,
+        "attack_outcome_deviations": 0,
+        "max_publication_jitter_seconds": 0.06073338699206943,
+        "live_public_endpoint": "/dev/shm/rt-public-release-672b26c86531456181657356b68b92e3.jsonl"
+      }
+    ]
+  },
+  "exact_diagnostics": {
+    "error_codes": {
+      "none": 64,
+      "runtime_exception": 64
+    },
+    "attack_outcome_deviations": 0,
+    "normal_controls_calls": 256,
+    "exact_attack_calls": 128
+  },
+  "budget": {
+    "scope": "coding-demo-corpus",
+    "cap": 5008,
+    "used_before": 3472,
+    "used": 5008,
+    "admitted": 1536,
+    "noisy_control_admitted": 1024,
+    "capped_admitted": 512,
+    "refused": 512,
+    "epsilon_per_record": 2.1972245773362196,
+    "epsilon_new": 3374.936950788433,
+    "epsilon_composed": 11003.700683299787,
+    "capped_calls_at_cap": 512,
+    "capped_calls_after_refusals": 512,
+    "all_backend_calls": 1920,
+    "expected_backend_calls": 1920,
+    "unsafe_charged": 384,
+    "item_consumption": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "entire_experimental_transcript_has_finite_privacy_guarantee": false
+  },
+  "invariants_passed": true,
+  "wall_seconds": 691.062234214005,
+  "scope": [
+    "Hand-written malicious judge reads real executable assertions",
+    "Synthetic private assertion order, not a production incident",
+    "All 128 retained public Qwen patches, not fresh inference",
+    "Trusted custodian and software sandbox",
+    "No proof of timing noninterference",
+    "No autonomous discovery or extraction of whole tests",
+    "No theorem of chance-level recovery for arbitrary judges"
+  ]
+}

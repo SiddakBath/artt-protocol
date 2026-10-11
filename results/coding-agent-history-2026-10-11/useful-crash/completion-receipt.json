@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "source_freeze_verified": true,
+  "prior_evidence_preserved_byte_for_byte": true,
+  "all_backend_accesses_after_charge": true,
+  "fresh_gpu_generations": 0,
+  "backend_accesses": 1920,
+  "private_assignments_persisted": false
+}

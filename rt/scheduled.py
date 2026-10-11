@@ -133,10 +133,11 @@ def run_batch(sources,models,budget,log_path,*,item_ids=None,item_budgets=None,p
                 base.update(bundle_hash=manifest["bundle_id"],method_card_hash=manifest["method_card_hash"])
                 if manifest["verdict_schema_id"]!="rt.verdict.v1b" or manifest["resources"]["max_seconds"]>window:
                     raise bundle.Rejected("resource_rejected")
-                slot=budget.reserve_slot()
+                joint=item_budgets is not None and Path(budget.path).resolve()==Path(item_budgets[index].path).resolve()
+                slot=budget.reserve_slot_with(item_budgets[index]) if joint else budget.reserve_slot()
                 if slot is None:
                     raise bundle.Rejected("release_budget_exhausted")
-                if item_budgets is not None and not item_budgets[index].reserve():
+                if item_budgets is not None and not joint and not item_budgets[index].reserve():
                     raise bundle.Rejected("release_budget_exhausted")
                 private[index]["charged"]=True
             except bundle.Rejected as exc:

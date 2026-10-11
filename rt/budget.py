@@ -42,3 +42,26 @@ class AdmissionBudget:
     def consumed(self):
         with sqlite3.connect(self.path,timeout=30) as connection:
             return connection.execute("SELECT used FROM budgets WHERE scope=?",(self.scope,)).fetchone()[0]
+
+    def reserve_slot_with(self, item):
+        """Atomically charge asset and item limits in the same durable database.
+
+        A refused item must not consume the asset allowance. Separate databases
+        cannot use this operation; callers must explicitly choose one shared DB.
+        """
+        if Path(self.path).resolve()!=Path(item.path).resolve() or self.scope==item.scope:
+            raise ValueError("joint_budget_requires_same_database_and_distinct_scopes")
+        with sqlite3.connect(self.path,timeout=30) as connection:
+            connection.execute("PRAGMA synchronous=FULL")
+            connection.execute("BEGIN IMMEDIATE")
+            records=[]
+            for budget in (self,item):
+                cap,used=connection.execute("SELECT cap,used FROM budgets WHERE scope=?",(budget.scope,)).fetchone()
+                if cap!=budget.cap or not 0<=used<=cap:
+                    raise ValueError("invalid_budget_state")
+                records.append((cap,used))
+            if any(cap==used for cap,used in records):
+                return None
+            for budget in (self,item):
+                connection.execute("UPDATE budgets SET used=used+1 WHERE scope=?",(budget.scope,))
+            return records[0][1]

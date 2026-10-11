@@ -10,9 +10,11 @@ if ($Output -notmatch '^[A-Za-z0-9_./-]+$') {
 }
 $repository = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 if ($Backend -eq 'local-qwen') {
-    if (-not $ModelPath) { $ModelPath = Join-Path $repository '../research/adversarial-auditor-independence/models/Qwen3-0.6B' }
-    if (-not $ModelPython) { $ModelPython = Join-Path $repository '../.venv/Scripts/python.exe' }
-    if (-not (Test-Path -LiteralPath $ModelPython)) { throw 'Set -ModelPython to a Windows Python with the documented CUDA runtime.' }
+    if (-not $ModelPath) { $ModelPath = $env:ARTT_MODEL_PATH }
+    if (-not $ModelPath) { throw 'Set -ModelPath or ARTT_MODEL_PATH to an offline Qwen3-0.6B checkpoint.' }
+    if (-not $ModelPython) { $ModelPython = $env:ARTT_MODEL_PYTHON }
+    if (-not $ModelPython) { $ModelPython = 'python' }
+    if (-not (Get-Command $ModelPython -ErrorAction SilentlyContinue)) { throw 'Set -ModelPython to a Windows Python with the documented CUDA runtime.' }
     Push-Location -LiteralPath $repository
     try {
         & $ModelPython -u -m demos.coding_agent.run --backend local-qwen --model-path $ModelPath --output $Output

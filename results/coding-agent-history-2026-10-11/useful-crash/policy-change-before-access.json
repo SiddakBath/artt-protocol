@@ -1,0 +1,12 @@
+{
+  "kind": "cap_raise",
+  "scope": "coding-demo-corpus",
+  "cap_before": 3472,
+  "cap_after": 5008,
+  "charges_carried_forward": 3472,
+  "protocol_commit": "02f8e3009d4cc99d6645127961ad5fba446ae451",
+  "protocol_sha256": "1971cf2b2c6a94d35270815365e1eb06fb5e366296a2bbd572d6dde3809f7218",
+  "noisy_uncapped_control_allowance": 1024,
+  "capped_arm_allowance": 512,
+  "private_accesses_so_far": 0
+}
