@@ -173,3 +173,29 @@ The reported live cohort executed once after two startup failures that made
 zero private admissions or inferences; both failed directories are retained.
 The corrected Windows launcher uses literal paths through `wsl --exec`.
 The live results and receipt are in `scratch/coding-demo-qwen-report/`.
+## Exact-score baseline and repeated filings
+
+`filings-protocol.json` separately predeclares an unnoised score baseline with
+128 fresh Qwen generations. It does not replace the old noisy control or rerun
+the retained ARTT cohort. The live ARTT result is 96/128; 88/128 belongs to the
+first fixture experiment.
+
+The repeated-release experiment fixes each of 128 retained public Qwen patches
+and a new private bit across 16 filings. Both paths use fresh p=0.5 score noise;
+one path is uncapped and the scheduled ARTT path has four admissions per secret.
+It invokes a protected replay backend, not GPU generation, for each admitted
+filing. Durable per-item caps and a shared predeclared cohort allowance are both
+enforced; prior corpus charges are copied read-only and carried forward. The
+chart shows all observed prefixes and pointwise intervals, including refusals.
+It does not select a seed or force the observed curve to rise monotonically.
+
+Execute the committed protocol once on the pinned host, with the latest retained
+live evidence (the shipped protocol pins those exact evidence hashes):
+
+```powershell
+& ../.venv/Scripts/python.exe -u -m demos.coding_agent.real_model_host --filings --model-path ../research/adversarial-auditor-independence/models/Qwen3-0.6B --prior-run scratch/coding-demo-qwen-02 --output scratch/coding-demo-filings
+& ../.venv/Scripts/python.exe -m demos.coding_agent.filings_report --input scratch/coding-demo-filings --output scratch/coding-demo-filings-report
+```
+
+A later experiment must predeclare a new protocol and carry the newest budget
+forward. Replaying an older allowance is outside the claimed accounting.

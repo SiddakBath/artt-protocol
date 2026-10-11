@@ -23,7 +23,10 @@ def frozen_sources():
 
 def validate_request(request, protocol, seen):
     arm, index, task_id = request["arm"], request["index"], request["task_id"]
-    limit = protocol["attack_trials"] if arm in {"naive_status_attack", "artt_status_attack", "naive_score_attack", "artt_score_attack"} else len(TASKS) if arm in {"naive_honest", "artt_honest"} else 0
+    if "inference_limits" in protocol:
+        limit = protocol["inference_limits"].get(arm, 0)
+    else:
+        limit = protocol["attack_trials"] if arm in {"naive_status_attack", "artt_status_attack", "naive_score_attack", "artt_score_attack"} else len(TASKS) if arm in {"naive_honest", "artt_honest"} else 0
     if (type(index) is not int or not 0 <= index < limit or task_id != TASKS[index % len(TASKS)].id
             or request.get("admission_charged") is not True or (arm, index) in seen):
         raise ValueError("invalid_or_repeated_inference_request")
@@ -31,9 +34,9 @@ def validate_request(request, protocol, seen):
     return BY_ID[task_id]
 
 
-def guest_command(output, prior_run, platform=None):
+def guest_command(output, prior_run, platform=None, filings=False):
     platform = platform or sys.platform
-    args = ["-u", "-m", "demos.coding_agent.real_run", "--output", str(output), "--prior-run", str(prior_run)]
+    args = ["-u", "-m", "demos.coding_agent.filings_run" if filings else "demos.coding_agent.real_run", "--output", str(output), "--prior-run", str(prior_run)]
     if platform == "win32":
         def linux_path(path):
             # --exec avoids WSL's default shell stripping Windows backslashes.
@@ -45,19 +48,21 @@ def guest_command(output, prior_run, platform=None):
     raise RuntimeError("Linux or Windows via WSL required")
 
 
-def run(model_path, output, first_run, prior_run):
+def run(model_path, output, first_run, prior_run, filings=False):
     started = time.monotonic()
-    raw = (ROOT / "real-model-protocol.json").read_bytes()
-    if raw != subprocess.check_output(["git", "show", "HEAD:demos/coding_agent/real-model-protocol.json"], cwd=REPO):
+    protocol_name = "filings-protocol.json" if filings else "real-model-protocol.json"
+    raw = (ROOT / protocol_name).read_bytes()
+    if raw != subprocess.check_output(["git", "show", "HEAD:demos/coding_agent/"+protocol_name], cwd=REPO):
         raise ValueError("real model protocol must be committed unchanged before access")
     protocol = json.loads(raw)
-    if len(TASKS) != protocol["task_count"] or 2*protocol["attack_trials"]+len(TASKS) != protocol["additional_admissions"]:
+    if len(TASKS) != protocol["task_count"] or (not filings and 2*protocol["attack_trials"]+len(TASKS) != protocol["additional_admissions"]):
         raise ValueError("protocol cohort size mismatch")
     first_run, prior_run = Path(first_run).resolve(), Path(prior_run).resolve()
     prior = json.loads((prior_run / "summary.json").read_text())
     if sha((first_run / "summary.json").read_bytes()) != protocol["first_summary_sha256"] or sha((prior_run / "summary.json").read_bytes()) != protocol["prior_summary_sha256"]:
         raise ValueError("wrong retained evidence")
-    if prior["budget"]["used_after"] != protocol["original_cap_and_used"] or prior["runner_version"] != version():
+    prior_used = prior["budget"]["used"] if filings else prior["budget"]["used_after"]
+    if prior_used != protocol["original_cap_and_used"] or prior["runner_version"] != version():
         raise ValueError("prior allowance or runtime mismatch")
     original_hashes = {"first": evidence_hashes(first_run), "utility": evidence_hashes(prior_run)}
     sources = frozen_sources()
@@ -67,13 +72,13 @@ def run(model_path, output, first_run, prior_run):
     output.mkdir(parents=True, exist_ok=False)
     (output / "protocol.json").write_bytes(raw)
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip()
-    predeclared = subprocess.check_output(["git", "log", "--diff-filter=A", "--format=%H", "--", "demos/coding_agent/real-model-protocol.json"], cwd=REPO, text=True).strip()
+    predeclared = subprocess.check_output(["git", "log", "--diff-filter=A", "--format=%H", "--", "demos/coding_agent/"+protocol_name], cwd=REPO, text=True).strip()
     write_json(output / "start.json", {"git_commit": commit, "protocol_commit": predeclared, "protocol_sha256": sha(raw),
         "runner_version": version(), "source_sha256": sources, "prior_evidence_sha256": original_hashes})
     proc = None
     calls, seen, batches = 0, set(), []
     try:
-        command = guest_command(output, prior_run)
+        command = guest_command(output, prior_run, filings=filings)
         print("Loading offline Qwen3-0.6B on CUDA; no fixture fallback", flush=True)
         model = LocalQwen(model_path, protocol["generation"]["max_new_tokens"])
         if model.receipt["gpu"] != protocol["gpu"] or model.receipt["generation"] != protocol["generation"]:
@@ -127,7 +132,8 @@ def run(model_path, output, first_run, prior_run):
                             **{key: item[key] for key in ("arm", "index", "task_id")}, "patch_sha256": sha(generated["patch"].encode()), **generated})+"\n")
                         patches.flush()
                         reply(item, generated["patch"])
-                    print(f"Live Qwen patches: {calls}/{protocol['naive_admissions']+protocol['additional_admissions']}", flush=True)
+                    expected = protocol.get("expected_live_inferences", protocol['naive_admissions']+protocol['additional_admissions'])
+                    print(f"Live Qwen patches: {calls}/{expected}", flush=True)
                 else:
                     raise ValueError("invalid_bridge_operation")
             if proc.wait() != 0:
@@ -136,7 +142,7 @@ def run(model_path, output, first_run, prior_run):
             raise RuntimeError("source_or_checkpoint_changed_during_run")
         if {"first": evidence_hashes(first_run), "utility": evidence_hashes(prior_run)} != original_hashes:
             raise RuntimeError("retained_evidence_changed")
-        expected = protocol["naive_admissions"]+protocol["additional_admissions"]
+        expected = protocol.get("expected_live_inferences", protocol["naive_admissions"]+protocol["additional_admissions"])
         if calls != expected:
             raise RuntimeError("live_call_count_mismatch")
         write_json(output / "inference-receipt.json", {"model_inferences": calls, "expected_inferences": expected,
@@ -160,8 +166,9 @@ def main(argv=None):
     parser.add_argument("--output", required=True)
     parser.add_argument("--first-run", default="scratch/coding-demo")
     parser.add_argument("--prior-run", default="scratch/coding-demo-utility")
+    parser.add_argument("--filings", action="store_true", help="Execute the separately predeclared exact baseline and repeated-release supplement")
     args = parser.parse_args(argv)
-    run(args.model_path, args.output, args.first_run, args.prior_run)
+    run(args.model_path, args.output, args.first_run, args.prior_run, filings=args.filings)
 
 
 if __name__ == "__main__":
