@@ -48,7 +48,6 @@ python -m tools.research_audit --output "$REPO/results/research-audit-2026-10-05
 ```
 
 Set `--model-path /path/to/Qwen3-0.6B` or `ARTT_MODEL_PATH` to also recheck
-retained model asset hashes; otherwise their status is explicitly unavailable.
-A remote reader
+retained model asset hashes; otherwise their status is explicitly unavailable. A remote reader
 without those assets can verify public chains and archived-source hashes, but
 cannot independently recover discarded private labels or certify inference.

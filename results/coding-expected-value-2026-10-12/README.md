@@ -8,6 +8,8 @@ The protected fact is which of two genuine hidden assertions with different expe
 
 Exact recovery: 128/128. First ARTT release: 90/128 (70.3%; Wilson 95%: 61.9%–77.5%). At four admissions: 101/128 (78.9%). All attempt prefixes are 59, 90, 96, 98, 101, 101, 101, 101, 101. There are 512 later refusals, with attack charges and calls fixed at 512 while honest capacity remains.
 
+At four admissions the declared prediction is 85.4%; observed recovery is 78.9% (Wilson 95%: 71.0%–85.1%), so the prediction lies just above the interval. The assertion-order cohort was also below prediction at its cap (102/128 against 85.4%). We report this as observed and have not adjusted the decoder or prediction.
+
 Honest utility: 29/48 patches pass their hidden suites, and 48/48 match the signature. The 192 noisy observations estimate pass fraction as 0.510 (Hoeffding 95%: 0.216–0.804), versus exact truth 0.604. Signature estimate: 1.010 (0.716–1.304), versus truth 1.000. Estimates and intervals are untruncated and concern noise on this fixed corpus.
 
 The new allowance is 704/704, with four admissions per independently assigned private suite and no cap raises. Four two-score releases at p = 0.5 cost ε = 8.7889 per secret, conditional on isolated per-item contexts, the defined noisy interface and a trusted publisher. The conservative experiment sum is ε = 1,546.8461. Historical charges remain 5,008/5,008, ε = 11,003.7007. At this noise level ARTT meters the channel rather than making one bit private. Shared secrets would require composition. Timing leakage is not measured.
