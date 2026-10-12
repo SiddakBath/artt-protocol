@@ -1,0 +1,13 @@
+{
+  "change": "Add protocol contributions and prospective public impact to the results page.",
+  "previous_report_html_sha256": "28322ca6ec46f4f6fd4e353d1edd74c776e41f78b0647e1b9ec768d877946d2a",
+  "previous_artifact_checks_sha256": "6792c61ee5cae4b53530af00d40943d9780b8fcbb0cec8d1a5a1cc3c0911ecf1",
+  "report_html_sha256": "f36800df577ebce4d914113c1845fa911cfde7e91f24b870ffb92838eb8ab9a3",
+  "reporting_source_sha256": "38db9409141128d7fddfa378bf30a9ac5ea9bbacf65a91452d219ecefea34efa",
+  "experiment_protocol_commit": "7bffc274cc46043d0fdb6d5cf6bd09e6643bba62",
+  "raw_experiment_files_preserved_byte_for_byte": true,
+  "unchanged_raw_files": 516,
+  "private_accesses": 0,
+  "model_generations": 0,
+  "ledger_budget_source_and_utility_checks": "passed before the presentation edit"
+}

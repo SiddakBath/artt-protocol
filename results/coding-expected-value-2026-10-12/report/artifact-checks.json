@@ -7,5 +7,7 @@
   "historical_publication_hashes": true,
   "private_accesses": 0,
   "model_generations": 0,
-  "recovery": "trusted custodian aggregates; private choices discarded"
+  "recovery": "trusted custodian aggregates; private choices discarded",
+  "report_html_sha256": "f36800df577ebce4d914113c1845fa911cfde7e91f24b870ffb92838eb8ab9a3",
+  "reporting_source_sha256": "38db9409141128d7fddfa378bf30a9ac5ea9bbacf65a91452d219ecefea34efa"
 }
