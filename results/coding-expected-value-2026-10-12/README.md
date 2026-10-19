@@ -2,7 +2,7 @@
 
 Protocol `7bffc274cc46043d0fdb6d5cf6bd09e6643bba62` was committed before the one attempted run. Protocol SHA-256: `948ce2a8ebac41b95d7677fcc7234f224c86ff9a72208def0d14a8a6bd092d7a`.
 
-[Offline combined report](report/report.html) · [Summary](summary.json) · [Protocol](protocol.json) · [Start/source manifest](start.json) · [Completion receipt](completion-receipt.json) · [Report checks](report/artifact-checks.json) · [Final audit](audit.json)
+[Combined report](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report-reviewed.html) · [Original report](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report.html) · [Summary](summary.json) · [Protocol](protocol.json) · [Start/source manifest](start.json) · [Completion receipt](completion-receipt.json) · [Report checks](report/artifact-checks.json) · [Final audit](audit.json)
 
 The protected fact is which of two genuine hidden assertions with different expected values is included. Three other checks remain common. All 128 pinned Qwen3-0.6B attack patches and 48 honest patches are retained, with no filtering, repairs, regeneration or fresh GPU inference. Candidate suites and candidate-zero ordinary scores are public attacker side information; the inclusion choices were independently sampled once, without forcing balance.
 

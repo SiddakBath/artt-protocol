@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import re
 import sqlite3
+import subprocess
 import statistics
 
 from rt.log import read as legacy_read
@@ -152,8 +153,44 @@ def audit_multibit(study):
                        "mean_at_end": arm["mean_bits"][-1], "stderr_at_end": arm["stderr_bits"][-1],
                        "axis_mismatch": sum(row["axis_mismatch"] for row in rows) if all("axis_mismatch" in row for row in rows) else None,
                        "axis_total": sum(row["axis_total"] for row in rows) if all("axis_total" in row for row in rows) else None}
-    return {"study": study.name, "arms": arms,
-            "scope": "ledger integrity, retained budget counts and summary arithmetic; ground-truth correctness and historical excluded attempts are not independently verified"}
+    recovered = False
+    diagnostics = study / "round-diagnostics.jsonl"
+    if diagnostics.exists():
+        from tools.multibit_preregistered import independently_check
+        protocol = strict_json((study / "protocol.json").read_bytes())
+        start = strict_json((study / "start.json").read_bytes())
+        commit = report["registration_commit"]
+        require(start["commit"] == start["remote_master_before_access"] == commit,
+                "registered_remote_head_mismatch")
+        require(protocol["study"] == study.name, "registered_study_identity_mismatch")
+        committed = subprocess.check_output(["git", "show", f"{commit}:protocols/{study.name}.json"], cwd=ROOT)
+        require(committed == (study / "protocol.json").read_bytes(), "registered_protocol_commit_mismatch")
+        require(start["protocol_sha256"] == digest(study / "protocol.json"), "registered_start_protocol_mismatch")
+        manifest = strict_json((study / "publication-manifest.json").read_bytes())["sha256"]
+        for name, expected in manifest.items():
+            path = study / name
+            require(path.resolve().is_relative_to(study.resolve()), "registered_manifest_path_escape")
+            require(digest(path) == expected, "registered_artifact_hash_mismatch")
+        for name in ("results.json", "protocol.json", "revealed-schedule.json", "start.json", "round-diagnostics.jsonl"):
+            require(name in manifest, "registered_artifact_missing_from_manifest")
+        schedule = strict_json((study / "revealed-schedule.json").read_bytes())
+        require(digest(study / "revealed-schedule.json") == protocol["schedule_sha256"], "registered_schedule_mismatch")
+        require(len(schedule["secrets"]) == protocol["trials"] == report["uncapped"]["trials"] == 64,
+                "registered_trial_count_mismatch")
+        for name, expected in protocol["source_sha256"].items():
+            require(digest(study / "source-snapshot" / name) == expected, "registered_source_snapshot_mismatch")
+        independently_check(study, schedule, report["uncapped"])
+        records = [strict_json(line) for line in diagnostics.read_bytes().splitlines()]
+        require(len(records) == len(list(study.glob("uncapped-*-round-*.jsonl"))) + 64,
+                "registered_diagnostic_count_mismatch")
+        require(sum(r["diagnostics"]["model_calls"] for r in records) == 3072,
+                "registered_backend_call_count_mismatch")
+        require(all(r["diagnostics"]["model_calls"] == 0 for r in records if "refusals" in r["ledger"]),
+                "registered_refusal_called_backend")
+        recovered = True
+    return {"study": study.name, "arms": arms, "independent_recovery_check": recovered,
+            "scope": ("ledger and manifest integrity, budgets, arithmetic and recovery reconstructed from revealed precommitted synthetic labels"
+                      if recovered else "ledger integrity, retained budget counts and summary arithmetic; ground-truth correctness and historical excluded attempts are not independently verified")}
 
 
 def main(argv=None):
@@ -167,8 +204,8 @@ def main(argv=None):
     for path in sorted((ROOT / "results").rglob("*.jsonl")):
         if path.relative_to(ROOT / "results").parts[0] in CODING_PACKAGES:
             continue  # Package checks below distinguish ledgers, patches and tamper examples.
-        if is_curve_summary(path):
-            continue  # Validated as summaries below, never silently treated as public chains.
+        if is_curve_summary(path) or (path.parent.name.startswith("multibit-") and path.name == "round-diagnostics.jsonl"):
+            continue  # Curve summaries and registered diagnostics are verified by audit_multibit below.
         raw = path.read_bytes()
         first = strict_json(raw.splitlines()[0]) if raw else {}
         is_v2 = first.get("schema") == "rt.release.v2"

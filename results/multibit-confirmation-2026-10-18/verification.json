@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "scope": "ledger and manifest integrity, budgets, arithmetic and recovery reconstructed from revealed precommitted synthetic labels",
+  "registration_commit": "2c6d05e78860b20387d3737ec62ac01e1bf909b9",
+  "cohort": {
+    "study": "multibit-confirmation-2026-10-18",
+    "arms": {
+      "uncapped": {
+        "trials": 64,
+        "admissions": 48,
+        "mean_at_end": 14.625,
+        "stderr_at_end": 0.13638618139749523,
+        "axis_mismatch": 3055,
+        "axis_total": 6144
+      }
+    },
+    "independent_recovery_check": true,
+    "scope": "ledger and manifest integrity, budgets, arithmetic and recovery reconstructed from revealed precommitted synthetic labels"
+  },
+  "auditor_sha256": "30623adfd357b7f17dbe6284042e20427787f323a3d7881a4388479daa7ccbc0",
+  "execution_manifest_sha256": "1e285e60a35d1793421d064322c51a8ee2d371eb1194c302592a678e710e882a",
+  "model_generations": 0,
+  "verification_private_accesses": 0
+}

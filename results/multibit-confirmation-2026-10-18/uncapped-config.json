@@ -1,0 +1,12 @@
+{
+  "format_version": 1,
+  "trials": 64,
+  "admissions": 48,
+  "cap": 48,
+  "bits": 16,
+  "flip_probability": 0.5,
+  "tie_seed": 7631,
+  "tool_sha256": "417652f677dcad70cf850f83fce80169b58ef421eafda62bafd37a3efbdb7439",
+  "runner_version": "ddcf2ebf047eb776a6d271ddd253971e3ebee4d84fc54d6a71ecc4dd74fb958f",
+  "failure_policy": "include_noisy_fallbacks; preserve_and_stop_on_incomplete_attempt"
+}

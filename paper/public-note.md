@@ -34,7 +34,7 @@ Honest patches pass **29/48 suites**. Across 192 noisy observations, the pass es
 
 At this setting four two-score releases cost **ε = 8.7889 per secret**, conditional on the experiment's isolated private contexts and trusted publisher. **ARTT meters the channel here; it does not make one bit private.** The fresh-secret experiment has its own fixed allowance, and all historical charges remain intact. Exact comparisons and research diagnostics make the full published research transcript non-private. Discarded private labels leave recovery totals as trusted custodian aggregates.
 
-[Combined report](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report.html) · [Protocol and detailed results](../demos/coding_agent/README.md#expected-value-secret-and-honest-utility) · [Evidence index](../results/README.md)
+[Combined report](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report-reviewed.html) · [Protocol and detailed results](../demos/coding_agent/README.md#expected-value-secret-and-honest-utility) · [Evidence index](../results/README.md)
 
 ## How to position the research
 

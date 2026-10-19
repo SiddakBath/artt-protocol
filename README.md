@@ -21,7 +21,7 @@ The predeclared expected-value experiment protects **which valid expected value 
 
 The optimal equal-score control falls from **128/128 to 64/128** when successful and fallback scores have identical distributions. The earlier assertion-order case falls from **128/128 to 98/128**; each experiment has its own cohort and decoder.
 
-[Combined report](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report.html) · [Detailed results and honest utility](demos/coding_agent/README.md#expected-value-secret-and-honest-utility)
+[Combined report](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report-reviewed.html) · [Detailed results and honest utility](demos/coding_agent/README.md#expected-value-secret-and-honest-utility)
 
 ## Quick start: coding demo
 
@@ -48,7 +48,7 @@ At the current noise level, **ARTT meters the channel rather than making one bit
 
 **Can two accounts split a secret?** Their observations compose. Accounts, program aliases and models that access the same protected secret need shared asset accounting.
 
-**What confidential information could this expose?** A hidden assertion's expected value or inclusion can reveal a benchmark's boundary cases. See the [expected-value study](demos/coding_agent/README.md#expected-value-secret-and-honest-utility) and [results report](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report.html).
+**What confidential information could this expose?** A hidden assertion's expected value or inclusion can reveal a benchmark's boundary cases. See the [expected-value study](demos/coding_agent/README.md#expected-value-secret-and-honest-utility) and [results report](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report-reviewed.html).
 
 Run regression checks with `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q -p no:cacheprovider` and the read-only evidence audit with `.venv/bin/python -m tools.research_audit --output scratch/recheck.json`. The [evidence index](results/README.md) covers the earlier studies and their limitations.
 

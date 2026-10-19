@@ -8,7 +8,8 @@ authenticated measurements. Hash verification proves integrity, not truth.
 
 | Directory | Evidence and interpretation |
 |---|---|
-| [coding-expected-value-2026-10-12](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report.html) | Committed expected-value suite choice; one Qwen3-0.6B model, 128 attacks, 48 honest patches, 704 noisy admissions, ε = 8.7889 per secret at four releases, all 16 merged chains verified. Exact 128/128, first release 90/128, at cap 101/128. |
+| [multibit-confirmation-2026-10-18](multibit-confirmation-2026-10-18/README.md) | Pushed preregistration, all 64 initiated trials retained, revealed synthetic labels and independently reconstructed recovery. At 48 admissions: 14.625 bits versus frozen prediction 14.481, a difference of 1.06 standard errors. No late proposals or worker errors. |
+| [coding-expected-value-2026-10-12](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report-reviewed.html) | Committed expected-value suite choice; one Qwen3-0.6B model, 128 attacks, 48 honest patches, 704 noisy admissions, ε = 8.7889 per secret at four releases, all 16 merged chains verified. Exact 128/128, first release 90/128, at cap 101/128. |
 | [coding-agent-history-2026-10-11](coding-agent-history-2026-10-11/README.md) | All five original coding cohorts, durable budgets, raw ledgers, source archives and a hash manifest. Original bytes and the 5,008 historical charges are preserved. |
 | `run-2026-10-05` | Original fixture schema, byte payload, honest stability and 20-filing completeness study. Its 52-test receipt is historical. |
 | `upgrade-analysis-2026-10-05` | Program-hash aliases and historical kernel analysis. |

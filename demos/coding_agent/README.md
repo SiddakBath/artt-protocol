@@ -1,6 +1,6 @@
 # ARTT on a coding-agent evaluation
 
-[Paper](https://doi.org/10.5281/zenodo.23180546) · [Quick start](../../README.md#quick-start-coding-demo) · [Combined results](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report.html)
+[Paper](https://doi.org/10.5281/zenodo.23180546) · [Quick start](../../README.md#quick-start-coding-demo) · [Combined results](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report-reviewed.html)
 
 The protected asset is the **hidden test suite**: which of two valid assertions
 with different expected values is included. Recovery is **128/128 → 90/128 (70.3%)**
@@ -36,7 +36,7 @@ records, honest estimates, budgets and tamper checks.
 
 ## Expected-value secret and honest utility
 
-[Predeclared protocol](expected-value-protocol.json) · [Report](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report.html)
+[Predeclared protocol](expected-value-protocol.json) · [Report](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report-reviewed.html)
 
 The protocol was committed before private sampling. Each independent choice
 selects one of two valid assertions with different expected values; three
