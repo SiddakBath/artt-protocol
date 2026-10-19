@@ -1,4 +1,4 @@
-# ARTT on a coding-agent evaluation
+# ARTT on a coding evaluation
 
 [Paper](https://doi.org/10.5281/zenodo.23180546) · [Quick start](../../README.md#quick-start-coding-demo) · [Combined results](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report-reviewed.html)
 

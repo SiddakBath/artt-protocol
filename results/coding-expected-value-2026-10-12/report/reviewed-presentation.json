@@ -3,8 +3,8 @@
   "original_report": "report.html",
   "original_report_sha256": "f36800df577ebce4d914113c1845fa911cfde7e91f24b870ffb92838eb8ab9a3",
   "reviewed_report": "report-reviewed.html",
-  "reviewed_report_sha256": "c6108c0d1ad76630c2be202ae07d3de6d8b94850cffb49734321901dc5da33e6",
-  "reporting_source_sha256": "f0a6d88f8b3edd527651861b0c038038f659b1a90c70a3227cf6464326318681",
+  "reviewed_report_sha256": "1f32ef5c7c443a5a358075b8ba8fb78ecea956e933e4823b9930bd40c65519ad",
+  "reporting_source_sha256": "4632342d78ceebdfaef66ef65369d59789f0032d1c84efd3ef6514919eb6c915",
   "checks": {
     "raw_ledgers_and_checkpoints": true,
     "source_snapshots": true,
@@ -17,6 +17,12 @@
   "presentation_changes": [
     "State the cap-point prediction gap in text",
     "Link archived source through GitHub",
-    "Distinguish original report checks from reviewed presentation provenance"
-  ]
+    "Distinguish original report checks from reviewed presentation provenance",
+    "Keep sentence-ending punctuation adjacent to the private-queries link text"
+  ],
+  "previous_presentation": {
+    "commit": "e497b4647cd73c181bd610d3f15b9d72f1e4fb1c",
+    "reviewed_report_sha256": "c6108c0d1ad76630c2be202ae07d3de6d8b94850cffb49734321901dc5da33e6",
+    "reporting_source_sha256": "f0a6d88f8b3edd527651861b0c038038f659b1a90c70a3227cf6464326318681"
+  }
 }

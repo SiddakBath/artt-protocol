@@ -32,7 +32,7 @@ Recovery is **128/128 from exposed exact outcomes, 90/128 after one noisy releas
 
 Honest patches pass **29/48 suites**. Across 192 noisy observations, the pass estimate is **0.510**, compared with exact truth **0.604**, with a conservative 95% interval of **0.216–0.804**. This measures noise on the fixed corpus, not performance on unseen tasks.
 
-At this setting four two-score releases cost **ε = 8.7889 per secret**, conditional on the experiment's isolated private contexts and trusted publisher. **ARTT meters the channel here; it does not make one bit private.** The fresh-secret experiment has its own fixed allowance, and all historical charges remain intact. Exact comparisons and research diagnostics make the full published research transcript non-private. Discarded private labels leave recovery totals as trusted custodian aggregates.
+At this setting four two-score releases cost **ε = 8.7889 per secret**, only for secrets confined to one item, with no cross-item interference and a trusted publisher. Model-wide secrets require the whole-snapshot cap. **ARTT meters the channel here; it does not make one bit private.** The fresh-secret experiment has its own fixed allowance, and all historical charges remain intact. Exact comparisons and research diagnostics make the full published research transcript non-private. Discarded private labels leave recovery totals as trusted custodian aggregates.
 
 [Combined report](https://siddakbath.github.io/artt-protocol/results/coding-expected-value-2026-10-12/report/report-reviewed.html) · [Protocol and detailed results](../demos/coding_agent/README.md#expected-value-secret-and-honest-utility) · [Evidence index](../results/README.md)
 

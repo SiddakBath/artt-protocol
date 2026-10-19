@@ -8,7 +8,7 @@ The protocol, runner and tests were pushed at commit `2c6d05e78860b20387d3737ec6
 | 16 | 11.8438 | 0.2150 | 11.5556 | +1.34 |
 | 48, primary endpoint | 14.6250 | 0.1364 | 14.4811 | +1.06 |
 
-There were zero late proposals and zero worker errors. Of 6,144 released axes, 3,055 differed from the planted bit, against an expected rate of one half (z = -0.43). The roughly three-standard-error excess in the preliminary historical study did not recur here. This does not explain that earlier excess or reconstruct its missing attempt. The new cohort is separate from the historical Appendix E evidence and from the externally reported incomplete run; their counts are not pooled.
+There were zero late proposals and zero worker errors. Of 6,144 released axes, 3,055 differed from the planted bit, against an expected rate of one half (z = -0.43). The preliminary cap-48 arm's 15.00 bits (3.3 standard errors above prediction, sixteen trials) does not recur here, as it did not in the historical follow-up. The historical follow-up recovered 14.3125 bits at 48 admissions (1.07 standard errors below prediction); its replaced interrupted attempt remains a separate evidence limitation. The new cohort is separate from the historical Appendix E evidence; their counts are not pooled.
 
 The allocation rule, decoder, public tie seed, noise and timing are unchanged. The primary comparator is the historical frozen 100,000-trial Monte Carlo value, not an exact analytic expectation beyond sixteen admissions. All prefix values and pointwise deviations are retained in `results.json`; the 48-admission primary endpoint was fixed before execution. Secondary endpoints are descriptive and have no multiplicity adjustment.
 

@@ -40,7 +40,7 @@ Open `scratch/coding-demo/report.html`. The default uses deterministic fixtures 
 
 ## What the result means
 
-At the current noise level, **ARTT meters the channel rather than making one bit private**. The expected-value experiment has a fixed 704-admission allowance and a four-release cap costing **ε = 8.7889 per secret**, conditional on isolated private contexts and the defined score/status interface; timing is excluded. Historical charges are retained, and the full research transcript is non-private. See the [demo README](demos/coding_agent/README.md) for honest utility, repeated-access results, privacy accounting and scope.
+At the current noise level, **ARTT meters the channel rather than making one bit private**. The expected-value experiment has a fixed 704-admission allowance and a four-release cap costing **ε = 8.7889 per secret**, only for secrets confined to one item, with no cross-item interference, under the defined score/status interface; timing is excluded. Model-wide secrets require the whole-snapshot cap. Historical charges are retained, and the full research transcript is non-private. See the [demo README](demos/coding_agent/README.md) for honest utility, repeated-access results, privacy accounting and scope.
 
 ## FAQ
 
